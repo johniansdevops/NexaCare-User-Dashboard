@@ -1,7 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
+// Use environment variables with hardcoded fallbacks for development
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zorrkhnussfbfhzyioxi.supabase.co';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvcnJraG51c3NmYmZoenlpb3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUwOTkwNTAsImV4cCI6MjA3MDY3NTA1MH0.pwnpRXp9fuUGVbkM9JpqGBgd4DnmCmEHL-a9K_jTVX0';
+
+// Validate that we have the required environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing required Supabase environment variables');
+}
 
 // Client-side Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
