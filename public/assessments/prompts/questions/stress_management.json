@@ -1,0 +1,212 @@
+{
+  "assessment_id": "stress_management",
+  "name": "Stress Management Assessment",
+  "description": "Identifies stress levels, sources, and provides personalized coping strategies",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "How would you rate your current stress level?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very low stress", "10": "Extremely high stress"},
+      "weight": 5,
+      "category": "stress_level"
+    },
+    {
+      "id": 8,
+      "question": "What are your primary sources of stress?",
+      "type": "checkbox",
+      "options": ["Work/career", "Finances", "Relationships", "Health concerns", "Family responsibilities", "School/education", "Major life changes", "Social situations"],
+      "weight": 4,
+      "category": "stress_sources"
+    },
+    {
+      "id": 9,
+      "question": "How often do you feel overwhelmed by daily tasks?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      "weight": 4,
+      "category": "overwhelm_frequency"
+    },
+    {
+      "id": 10,
+      "question": "How has your stress level changed in the past 6 months?",
+      "type": "multiple_choice",
+      "options": ["Significantly decreased", "Somewhat decreased", "Stayed the same", "Somewhat increased", "Significantly increased"],
+      "weight": 3,
+      "category": "stress_trend"
+    },
+    {
+      "id": 11,
+      "question": "How well do you currently manage stress?",
+      "type": "multiple_choice",
+      "options": ["Very well", "Fairly well", "Okay", "Not well", "Very poorly"],
+      "weight": 4,
+      "category": "stress_management_ability"
+    },
+    {
+      "id": 12,
+      "question": "What physical symptoms do you experience when stressed?",
+      "type": "checkbox",
+      "options": ["No physical symptoms", "Headaches", "Muscle tension", "Fatigue", "Sleep problems", "Digestive issues", "Heart palpitations", "Sweating"],
+      "weight": 4,
+      "category": "physical_symptoms"
+    },
+    {
+      "id": 13,
+      "question": "What emotional symptoms do you experience when stressed?",
+      "type": "checkbox",
+      "options": ["No emotional symptoms", "Anxiety", "Irritability", "Mood swings", "Feeling overwhelmed", "Depression", "Restlessness", "Low motivation"],
+      "weight": 4,
+      "category": "emotional_symptoms"
+    },
+    {
+      "id": 14,
+      "question": "How does stress affect your behavior?",
+      "type": "checkbox",
+      "options": ["No behavioral changes", "Overeating", "Undereating", "Procrastination", "Social withdrawal", "Increased alcohol/substance use", "Aggressive behavior", "Compulsive behaviors"],
+      "weight": 4,
+      "category": "behavioral_impact"
+    },
+    {
+      "id": 15,
+      "question": "How often do you practice relaxation techniques?",
+      "type": "multiple_choice",
+      "options": ["Daily", "Several times a week", "Weekly", "Occasionally", "Never"],
+      "weight": 3,
+      "category": "relaxation_practice"
+    },
+    {
+      "id": 16,
+      "question": "Which stress management techniques have you tried?",
+      "type": "checkbox",
+      "options": ["None", "Deep breathing", "Meditation", "Exercise", "Yoga", "Journaling", "Talking to others", "Professional counseling"],
+      "weight": 3,
+      "category": "coping_techniques_tried"
+    },
+    {
+      "id": 17,
+      "question": "How effective are your current coping strategies?",
+      "type": "multiple_choice",
+      "options": ["Very effective", "Somewhat effective", "Marginally effective", "Not effective", "Don't have strategies"],
+      "weight": 4,
+      "category": "coping_effectiveness"
+    },
+    {
+      "id": 18,
+      "question": "How much support do you have from family and friends?",
+      "type": "multiple_choice",
+      "options": ["Strong support system", "Good support", "Some support", "Limited support", "No support"],
+      "weight": 3,
+      "category": "social_support"
+    },
+    {
+      "id": 19,
+      "question": "How often do you feel you have control over stressful situations?",
+      "type": "multiple_choice",
+      "options": ["Always", "Usually", "Sometimes", "Rarely", "Never"],
+      "weight": 3,
+      "category": "sense_of_control"
+    },
+    {
+      "id": 20,
+      "question": "How does stress affect your sleep?",
+      "type": "multiple_choice",
+      "options": ["No effect", "Slight difficulty falling asleep", "Frequent sleep disruption", "Severe insomnia", "Sleeping too much"],
+      "weight": 4,
+      "category": "sleep_impact"
+    },
+    {
+      "id": 21,
+      "question": "How does stress affect your eating habits?",
+      "type": "multiple_choice",
+      "options": ["No effect", "Eat more than usual", "Eat less than usual", "Crave unhealthy foods", "Lose appetite completely"],
+      "weight": 3,
+      "category": "eating_impact"
+    },
+    {
+      "id": 22,
+      "question": "How does stress impact your work or school performance?",
+      "type": "multiple_choice",
+      "options": ["No impact", "Minor impact", "Moderate impact", "Significant impact", "Severe impact"],
+      "weight": 3,
+      "category": "performance_impact"
+    },
+    {
+      "id": 23,
+      "question": "How often do you take breaks during stressful periods?",
+      "type": "multiple_choice",
+      "options": ["Regularly scheduled breaks", "When I remember", "Only when overwhelmed", "Rarely", "Never"],
+      "weight": 2,
+      "category": "break_frequency"
+    },
+    {
+      "id": 24,
+      "question": "How comfortable are you expressing your feelings about stress?",
+      "type": "multiple_choice",
+      "options": ["Very comfortable", "Somewhat comfortable", "Neutral", "Somewhat uncomfortable", "Very uncomfortable"],
+      "weight": 2,
+      "category": "emotional_expression"
+    },
+    {
+      "id": 25,
+      "question": "How often do you engage in activities you enjoy for stress relief?",
+      "type": "multiple_choice",
+      "options": ["Daily", "Several times a week", "Weekly", "Occasionally", "Never"],
+      "weight": 3,
+      "category": "enjoyable_activities"
+    },
+    {
+      "id": 26,
+      "question": "How well do you set boundaries to manage stress?",
+      "type": "multiple_choice",
+      "options": ["Very good at boundaries", "Good at boundaries", "Sometimes set boundaries", "Poor at boundaries", "No boundaries"],
+      "weight": 3,
+      "category": "boundary_setting"
+    },
+    {
+      "id": 27,
+      "question": "How often do you feel guilty about taking time for yourself?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      "weight": 2,
+      "category": "self_care_guilt"
+    },
+    {
+      "id": 28,
+      "question": "What time of day is your stress typically highest?",
+      "type": "multiple_choice",
+      "options": ["Morning", "Midday", "Afternoon", "Evening", "Night", "Consistent throughout day"],
+      "weight": 2,
+      "category": "stress_timing"
+    },
+    {
+      "id": 29,
+      "question": "How often do you use unhealthy coping mechanisms (alcohol, drugs, overeating)?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Daily"],
+      "weight": 4,
+      "category": "unhealthy_coping"
+    },
+    {
+      "id": 30,
+      "question": "How motivated are you to learn new stress management techniques?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not motivated", "10": "Very motivated"},
+      "weight": 3,
+      "category": "motivation_to_change"
+    },
+    {
+      "id": 31,
+      "question": "What type of stress management approach interests you most?",
+      "type": "multiple_choice",
+      "options": ["Mindfulness/meditation", "Physical exercise", "Creative activities", "Social support", "Professional therapy", "Self-help resources", "Lifestyle changes"],
+      "weight": 2,
+      "category": "preferred_approach"
+    }
+  ]
+}

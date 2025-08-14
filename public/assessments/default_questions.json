@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "question": "Full Name",
+    "type": "text",
+    "required": true
+  },
+  {
+    "id": 2,
+    "question": "Age",
+    "type": "number",
+    "required": true,
+    "min": 0,
+    "max": 120
+  },
+  {
+    "id": 3,
+    "question": "Gender",
+    "type": "multiple_choice",
+    "options": ["Male", "Female", "Other", "Prefer not to say"],
+    "required": true
+  },
+  {
+    "id": 4,
+    "question": "Phone Number",
+    "type": "text",
+    "required": true,
+    "placeholder": "+1-555-123-4567"
+  },
+  {
+    "id": 5,
+    "question": "Email Address",
+    "type": "email",
+    "required": true,
+    "placeholder": "your.email@example.com"
+  },
+  {
+    "id": 6,
+    "question": "Place of Residence",
+    "type": "text",
+    "required": true,
+    "placeholder": "City, State/Province, Country"
+  }
+]

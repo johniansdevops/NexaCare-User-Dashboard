@@ -1,0 +1,212 @@
+{
+  "assessment_id": "fitness_readiness",
+  "name": "Fitness Readiness Evaluation",
+  "description": "Measures baseline fitness level and readiness for starting a workout program",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "What is your current fitness level?",
+      "type": "multiple_choice",
+      "options": ["Beginner (no regular exercise)", "Novice (some exercise)", "Intermediate (regular exercise)", "Advanced (intense training)", "Athlete level"],
+      "weight": 5,
+      "category": "current_fitness"
+    },
+    {
+      "id": 8,
+      "question": "How many days per week do you currently exercise?",
+      "type": "multiple_choice",
+      "options": ["0 days", "1-2 days", "3-4 days", "5-6 days", "7 days"],
+      "weight": 4,
+      "category": "exercise_frequency"
+    },
+    {
+      "id": 9,
+      "question": "What types of exercise do you currently do?",
+      "type": "checkbox",
+      "options": ["No current exercise", "Walking", "Running/Jogging", "Cycling", "Swimming", "Weight training", "Group fitness classes", "Sports"],
+      "weight": 3,
+      "category": "exercise_types"
+    },
+    {
+      "id": 10,
+      "question": "How long can you walk briskly without getting winded?",
+      "type": "multiple_choice",
+      "options": ["Less than 5 minutes", "5-10 minutes", "10-20 minutes", "20-30 minutes", "30+ minutes"],
+      "weight": 4,
+      "category": "cardio_endurance"
+    },
+    {
+      "id": 11,
+      "question": "Can you climb 2 flights of stairs without significant breathlessness?",
+      "type": "multiple_choice",
+      "options": ["Very difficult", "Difficult", "Manageable", "Easy", "Very easy"],
+      "weight": 4,
+      "category": "functional_fitness"
+    },
+    {
+      "id": 12,
+      "question": "How many push-ups can you do in a row?",
+      "type": "multiple_choice",
+      "options": ["0", "1-5", "6-15", "16-25", "25+"],
+      "weight": 3,
+      "category": "upper_body_strength"
+    },
+    {
+      "id": 13,
+      "question": "How flexible are you? (Can you touch your toes?)",
+      "type": "multiple_choice",
+      "options": ["Very stiff, can't reach past knees", "Can reach mid-shin", "Can reach ankles", "Can touch toes", "Very flexible, palms on floor"],
+      "weight": 2,
+      "category": "flexibility"
+    },
+    {
+      "id": 14,
+      "question": "Do you have any injuries or physical limitations?",
+      "type": "checkbox",
+      "options": ["No limitations", "Back problems", "Knee problems", "Shoulder/arm issues", "Hip problems", "Ankle/foot issues", "Heart conditions", "Other chronic conditions"],
+      "weight": 5,
+      "category": "physical_limitations"
+    },
+    {
+      "id": 15,
+      "question": "Have you been cleared by a doctor for exercise?",
+      "type": "multiple_choice",
+      "options": ["Yes, recently cleared", "Cleared in the past", "Need to check with doctor", "Have medical concerns", "Not applicable"],
+      "weight": 4,
+      "category": "medical_clearance"
+    },
+    {
+      "id": 16,
+      "question": "What is your primary fitness goal?",
+      "type": "multiple_choice",
+      "options": ["Lose weight", "Build muscle", "Improve cardio health", "Increase strength", "General fitness", "Sport performance"],
+      "weight": 3,
+      "category": "fitness_goals"
+    },
+    {
+      "id": 17,
+      "question": "How much time can you dedicate to exercise per day?",
+      "type": "multiple_choice",
+      "options": ["15-20 minutes", "20-30 minutes", "30-45 minutes", "45-60 minutes", "More than 1 hour"],
+      "weight": 3,
+      "category": "time_availability"
+    },
+    {
+      "id": 18,
+      "question": "Where do you prefer to exercise?",
+      "type": "multiple_choice",
+      "options": ["At home", "Gym/fitness center", "Outdoors", "Group classes", "Personal training", "No preference"],
+      "weight": 2,
+      "category": "exercise_location"
+    },
+    {
+      "id": 19,
+      "question": "How motivated are you to start/continue exercising?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not motivated", "10": "Very motivated"},
+      "weight": 4,
+      "category": "motivation_level"
+    },
+    {
+      "id": 20,
+      "question": "What has prevented you from exercising regularly in the past?",
+      "type": "checkbox",
+      "options": ["Nothing has prevented me", "Lack of time", "Lack of motivation", "Don't know what to do", "Past injuries", "Cost", "Self-consciousness", "Lack of energy"],
+      "weight": 3,
+      "category": "exercise_barriers"
+    },
+    {
+      "id": 21,
+      "question": "How is your balance? (Can you stand on one foot for 30 seconds?)",
+      "type": "multiple_choice",
+      "options": ["Very poor balance", "Poor balance", "Fair balance", "Good balance", "Excellent balance"],
+      "weight": 2,
+      "category": "balance"
+    },
+    {
+      "id": 22,
+      "question": "How often do you experience muscle soreness or fatigue?",
+      "type": "multiple_choice",
+      "options": ["Never", "After intense activity only", "After moderate activity", "After light activity", "Frequently, even at rest"],
+      "weight": 3,
+      "category": "recovery_ability"
+    },
+    {
+      "id": 23,
+      "question": "What is your resting heart rate (if known)?",
+      "type": "multiple_choice",
+      "options": ["Don't know", "Under 60 bpm", "60-70 bpm", "70-80 bpm", "Over 80 bpm"],
+      "weight": 2,
+      "category": "resting_heart_rate"
+    },
+    {
+      "id": 24,
+      "question": "How quickly does your heart rate return to normal after exercise?",
+      "type": "multiple_choice",
+      "options": ["Very quickly (1-2 minutes)", "Fairly quickly (2-5 minutes)", "Moderately (5-10 minutes)", "Slowly (10+ minutes)", "Don't know/Don't exercise"],
+      "weight": 3,
+      "category": "heart_rate_recovery"
+    },
+    {
+      "id": 25,
+      "question": "Do you have access to fitness equipment or facilities?",
+      "type": "checkbox",
+      "options": ["No equipment/facilities", "Home equipment (basic)", "Home gym setup", "Gym membership", "Outdoor spaces", "Sports facilities", "Personal trainer access"],
+      "weight": 2,
+      "category": "equipment_access"
+    },
+    {
+      "id": 26,
+      "question": "How comfortable are you with learning new exercises?",
+      "type": "multiple_choice",
+      "options": ["Very comfortable", "Somewhat comfortable", "Neutral", "Somewhat uncomfortable", "Very uncomfortable"],
+      "weight": 2,
+      "category": "learning_comfort"
+    },
+    {
+      "id": 27,
+      "question": "Do you prefer structured workouts or flexible routines?",
+      "type": "multiple_choice",
+      "options": ["Highly structured", "Somewhat structured", "Flexible with guidelines", "Very flexible", "No preference"],
+      "weight": 2,
+      "category": "structure_preference"
+    },
+    {
+      "id": 28,
+      "question": "How important is tracking your fitness progress?",
+      "type": "multiple_choice",
+      "options": ["Very important", "Somewhat important", "Not important", "Would consider it", "Find it discouraging"],
+      "weight": 2,
+      "category": "tracking_preference"
+    },
+    {
+      "id": 29,
+      "question": "What is your experience with strength training?",
+      "type": "multiple_choice",
+      "options": ["No experience", "Very limited", "Some experience", "Regular strength training", "Advanced lifter"],
+      "weight": 3,
+      "category": "strength_experience"
+    },
+    {
+      "id": 30,
+      "question": "How well do you sleep after physical activity?",
+      "type": "multiple_choice",
+      "options": ["Sleep much better", "Sleep slightly better", "No difference", "Sleep slightly worse", "Sleep much worse/Don't exercise"],
+      "weight": 2,
+      "category": "sleep_response"
+    },
+    {
+      "id": 31,
+      "question": "On a scale of 1-10, how ready are you to commit to a fitness program?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not ready", "10": "Fully committed"},
+      "weight": 4,
+      "category": "commitment_level"
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "assessment_id": "medication_suggestions",
+  "name": "Medication Suggestions",
+  "description": "AI-guided recommendations for over-the-counter options and prescription consultation guidance",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "What is your primary symptom or condition you need medication help with?",
+      "type": "multiple_choice",
+      "options": ["Pain/Inflammation", "Cold/Flu symptoms", "Allergies", "Digestive issues", "Sleep problems", "Headaches/Migraines", "Other"],
+      "weight": 5,
+      "category": "primary_concern"
+    },
+    {
+      "id": 8,
+      "question": "How severe is your current symptom on a scale of 1-10?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very mild", "10": "Severe"},
+      "weight": 4,
+      "category": "severity"
+    },
+    {
+      "id": 9,
+      "question": "How long have you been experiencing this symptom?",
+      "type": "multiple_choice",
+      "options": ["Less than 24 hours", "1-3 days", "4-7 days", "1-2 weeks", "More than 2 weeks"],
+      "weight": 3,
+      "category": "duration"
+    },
+    {
+      "id": 10,
+      "question": "Are you currently taking any prescription medications?",
+      "type": "multiple_choice",
+      "options": ["No prescription medications", "1-2 medications", "3-4 medications", "5+ medications", "Prefer not to say"],
+      "weight": 4,
+      "category": "current_prescriptions"
+    },
+    {
+      "id": 11,
+      "question": "Do you have any known drug allergies?",
+      "type": "checkbox",
+      "options": ["No known allergies", "Penicillin", "Sulfa drugs", "NSAIDs (Aspirin, Ibuprofen)", "Codeine/Opioids", "Other antibiotics", "Other allergies"],
+      "weight": 5,
+      "category": "drug_allergies"
+    },
+    {
+      "id": 12,
+      "question": "Have you tried any over-the-counter medications for this issue?",
+      "type": "checkbox",
+      "options": ["Haven't tried anything", "Acetaminophen/Tylenol", "Ibuprofen/Advil", "Aspirin", "Antihistamines", "Decongestants", "Other"],
+      "weight": 3,
+      "category": "otc_tried"
+    },
+    {
+      "id": 13,
+      "question": "If you tried medications, how effective were they?",
+      "type": "multiple_choice",
+      "options": ["Haven't tried any", "Very effective", "Somewhat effective", "Minimally effective", "Not effective at all"],
+      "weight": 3,
+      "category": "medication_effectiveness"
+    },
+    {
+      "id": 14,
+      "question": "Do you have any chronic health conditions?",
+      "type": "checkbox",
+      "options": ["No chronic conditions", "High blood pressure", "Diabetes", "Heart disease", "Kidney disease", "Liver disease", "Asthma", "Other"],
+      "weight": 4,
+      "category": "chronic_conditions"
+    },
+    {
+      "id": 15,
+      "question": "Are you pregnant or breastfeeding?",
+      "type": "multiple_choice",
+      "options": ["No", "Pregnant", "Breastfeeding", "Trying to conceive", "Not applicable"],
+      "weight": 5,
+      "category": "pregnancy_status"
+    },
+    {
+      "id": 16,
+      "question": "What is your preferred form of medication?",
+      "type": "multiple_choice",
+      "options": ["Pills/Tablets", "Liquid/Syrup", "Chewable tablets", "Topical creams/gels", "Nasal sprays", "No preference"],
+      "weight": 2,
+      "category": "medication_form"
+    },
+    {
+      "id": 17,
+      "question": "Do you have trouble swallowing pills?",
+      "type": "multiple_choice",
+      "options": ["No difficulty", "Some difficulty", "Significant difficulty", "Cannot swallow pills", "Haven't tried"],
+      "weight": 2,
+      "category": "swallowing_difficulty"
+    },
+    {
+      "id": 18,
+      "question": "How often do you typically forget to take medications?",
+      "type": "multiple_choice",
+      "options": ["Never forget", "Rarely forget", "Sometimes forget", "Often forget", "Always forget"],
+      "weight": 2,
+      "category": "medication_compliance"
+    },
+    {
+      "id": 19,
+      "question": "Are you sensitive to caffeine or stimulants?",
+      "type": "multiple_choice",
+      "options": ["Not sensitive", "Mildly sensitive", "Moderately sensitive", "Very sensitive", "Unknown"],
+      "weight": 3,
+      "category": "stimulant_sensitivity"
+    },
+    {
+      "id": 20,
+      "question": "Do you have any stomach or digestive issues?",
+      "type": "checkbox",
+      "options": ["No digestive issues", "Frequent heartburn", "Stomach ulcers", "GERD", "Sensitive stomach", "IBS", "Other"],
+      "weight": 3,
+      "category": "digestive_issues"
+    },
+    {
+      "id": 21,
+      "question": "How do you typically respond to pain medications?",
+      "type": "multiple_choice",
+      "options": ["Work well for me", "Work somewhat", "Don't work well", "Cause side effects", "Never used them"],
+      "weight": 3,
+      "category": "pain_med_response"
+    },
+    {
+      "id": 22,
+      "question": "Are you looking for immediate relief or long-term management?",
+      "type": "multiple_choice",
+      "options": ["Immediate relief", "Long-term management", "Both", "Prevention", "Unsure"],
+      "weight": 3,
+      "category": "treatment_goal"
+    },
+    {
+      "id": 23,
+      "question": "What time of day are your symptoms worst?",
+      "type": "multiple_choice",
+      "options": ["Morning", "Afternoon", "Evening", "Night", "No specific pattern", "Constant throughout day"],
+      "weight": 2,
+      "category": "symptom_timing"
+    },
+    {
+      "id": 24,
+      "question": "Have you consulted with a doctor about this issue?",
+      "type": "multiple_choice",
+      "options": ["Not yet", "Planning to", "Consulted recently", "Ongoing treatment", "Doctor said no prescription needed"],
+      "weight": 3,
+      "category": "doctor_consultation"
+    },
+    {
+      "id": 25,
+      "question": "Are you interested in natural/herbal alternatives?",
+      "type": "multiple_choice",
+      "options": ["Prefer traditional medication", "Open to herbal options", "Prefer natural alternatives", "Want both options", "No preference"],
+      "weight": 2,
+      "category": "natural_alternatives"
+    },
+    {
+      "id": 26,
+      "question": "How important is cost when choosing medications?",
+      "type": "multiple_choice",
+      "options": ["Very important", "Somewhat important", "Not important", "Insurance covers most", "Prefer generic brands"],
+      "weight": 2,
+      "category": "cost_consideration"
+    },
+    {
+      "id": 27,
+      "question": "Do you drive or operate machinery regularly?",
+      "type": "multiple_choice",
+      "options": ["Yes, frequently", "Occasionally", "Rarely", "No", "Work requires alertness"],
+      "weight": 3,
+      "category": "alertness_needs"
+    },
+    {
+      "id": 28,
+      "question": "Have you experienced side effects from medications before?",
+      "type": "multiple_choice",
+      "options": ["No side effects", "Mild side effects", "Moderate side effects", "Severe side effects", "Haven't taken many medications"],
+      "weight": 3,
+      "category": "side_effect_history"
+    },
+    {
+      "id": 29,
+      "question": "Do you consume alcohol regularly?",
+      "type": "multiple_choice",
+      "options": ["No alcohol", "Occasionally", "Moderate consumption", "Daily consumption", "Prefer not to say"],
+      "weight": 3,
+      "category": "alcohol_consumption"
+    },
+    {
+      "id": 30,
+      "question": "Are there any medications you specifically want to avoid?",
+      "type": "text",
+      "placeholder": "List any medications or types you want to avoid",
+      "weight": 4,
+      "category": "medication_avoidance"
+    },
+    {
+      "id": 31,
+      "question": "How urgently do you need medication recommendations?",
+      "type": "multiple_choice",
+      "options": ["Emergency - need now", "Today", "Within a few days", "Within a week", "No rush"],
+      "weight": 3,
+      "category": "urgency"
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "assessment_id": "mental_health",
+  "name": "Mental Health Check",
+  "description": "Comprehensive mental health screening for anxiety, depression, and mood disorders",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "Over the past 2 weeks, how often have you felt down, depressed, or hopeless?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 4,
+      "category": "depression"
+    },
+    {
+      "id": 8,
+      "question": "Over the past 2 weeks, how often have you had little interest or pleasure in doing things?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 4,
+      "category": "depression"
+    },
+    {
+      "id": 9,
+      "question": "How often do you feel nervous, anxious, or on edge?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 4,
+      "category": "anxiety"
+    },
+    {
+      "id": 10,
+      "question": "How often do you have trouble relaxing or being unable to stop worrying?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 4,
+      "category": "anxiety"
+    },
+    {
+      "id": 11,
+      "question": "How would you rate your overall mood in the past month?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very poor", "10": "Excellent"},
+      "weight": 3,
+      "category": "mood"
+    },
+    {
+      "id": 12,
+      "question": "How has your sleep been lately?",
+      "type": "multiple_choice",
+      "options": ["Sleeping well", "Occasional trouble sleeping", "Frequent sleep problems", "Severe insomnia", "Sleeping too much"],
+      "weight": 3,
+      "category": "sleep"
+    },
+    {
+      "id": 13,
+      "question": "How has your appetite been recently?",
+      "type": "multiple_choice",
+      "options": ["Normal appetite", "Slightly decreased", "Significantly decreased", "No appetite", "Increased appetite"],
+      "weight": 3,
+      "category": "appetite"
+    },
+    {
+      "id": 14,
+      "question": "How often do you feel tired or have little energy?",
+      "type": "multiple_choice",
+      "options": ["Rarely", "Sometimes", "Often", "Most of the time", "Always"],
+      "weight": 3,
+      "category": "energy"
+    },
+    {
+      "id": 15,
+      "question": "How often do you have trouble concentrating on things?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 3,
+      "category": "concentration"
+    },
+    {
+      "id": 16,
+      "question": "How do you feel about yourself lately?",
+      "type": "multiple_choice",
+      "options": ["Good about myself", "Neutral", "Somewhat negative", "Poor about myself", "Very negative self-image"],
+      "weight": 4,
+      "category": "self_esteem"
+    },
+    {
+      "id": 17,
+      "question": "How often do you worry about things beyond your control?",
+      "type": "multiple_choice",
+      "options": ["Never", "Occasionally", "Frequently", "Most of the time", "Constantly"],
+      "weight": 3,
+      "category": "worry"
+    },
+    {
+      "id": 18,
+      "question": "Have you experienced any panic attacks in the past month?",
+      "type": "multiple_choice",
+      "options": ["No panic attacks", "1 panic attack", "2-3 panic attacks", "4-6 panic attacks", "More than 6 panic attacks"],
+      "weight": 4,
+      "category": "panic"
+    },
+    {
+      "id": 19,
+      "question": "How often do you avoid social situations?",
+      "type": "multiple_choice",
+      "options": ["Never avoid", "Rarely avoid", "Sometimes avoid", "Often avoid", "Always avoid"],
+      "weight": 3,
+      "category": "social_anxiety"
+    },
+    {
+      "id": 20,
+      "question": "How satisfied are you with your relationships?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very unsatisfied", "10": "Very satisfied"},
+      "weight": 3,
+      "category": "relationships"
+    },
+    {
+      "id": 21,
+      "question": "How often do you feel overwhelmed by daily tasks?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      "weight": 3,
+      "category": "overwhelm"
+    },
+    {
+      "id": 22,
+      "question": "Have you had thoughts that you would be better off dead?",
+      "type": "multiple_choice",
+      "options": ["Not at all", "Several days", "More than half the days", "Nearly every day"],
+      "weight": 5,
+      "category": "suicidal_thoughts"
+    },
+    {
+      "id": 23,
+      "question": "How often do you experience physical symptoms of stress (headaches, muscle tension, etc.)?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Daily"],
+      "weight": 3,
+      "category": "physical_symptoms"
+    },
+    {
+      "id": 24,
+      "question": "How well are you able to cope with stress?",
+      "type": "multiple_choice",
+      "options": ["Very well", "Pretty well", "Okay", "Not well", "Very poorly"],
+      "weight": 3,
+      "category": "coping"
+    },
+    {
+      "id": 25,
+      "question": "Do you have a support system you can rely on?",
+      "type": "multiple_choice",
+      "options": ["Strong support system", "Some support", "Limited support", "Little support", "No support"],
+      "weight": 3,
+      "category": "support"
+    },
+    {
+      "id": 26,
+      "question": "How often do you engage in activities you enjoy?",
+      "type": "multiple_choice",
+      "options": ["Daily", "Several times a week", "Weekly", "Rarely", "Never"],
+      "weight": 2,
+      "category": "activities"
+    },
+    {
+      "id": 27,
+      "question": "How would you rate your work-life balance?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very poor", "10": "Excellent"},
+      "weight": 2,
+      "category": "work_life_balance"
+    },
+    {
+      "id": 28,
+      "question": "Have you used alcohol or substances to cope with stress or emotions?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Daily"],
+      "weight": 4,
+      "category": "substance_use"
+    },
+    {
+      "id": 29,
+      "question": "How often do you practice self-care activities?",
+      "type": "multiple_choice",
+      "options": ["Daily", "Several times a week", "Weekly", "Monthly", "Rarely"],
+      "weight": 2,
+      "category": "self_care"
+    },
+    {
+      "id": 30,
+      "question": "Have you ever received mental health treatment before?",
+      "type": "multiple_choice",
+      "options": ["Never", "Long ago", "Within the past year", "Currently in treatment", "Multiple times"],
+      "weight": 2,
+      "category": "treatment_history"
+    },
+    {
+      "id": 31,
+      "question": "How motivated do you feel to seek help for mental health concerns?",
+      "type": "multiple_choice",
+      "options": ["Not motivated", "Somewhat motivated", "Moderately motivated", "Very motivated", "Already seeking help"],
+      "weight": 2,
+      "category": "motivation"
+    }
+  ]
+}

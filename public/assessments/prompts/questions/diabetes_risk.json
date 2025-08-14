@@ -1,0 +1,210 @@
+{
+  "assessment_id": "diabetes_risk",
+  "name": "Diabetes Risk Assessment",
+  "description": "Predictive assessment for Type 2 diabetes risk factors and prevention strategies",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "Do you have a family history of diabetes?",
+      "type": "multiple_choice",
+      "options": ["No family history", "Grandparents", "Parents", "Siblings", "Multiple family members"],
+      "weight": 5,
+      "category": "family_history"
+    },
+    {
+      "id": 8,
+      "question": "What is your current age range?",
+      "type": "multiple_choice",
+      "options": ["Under 30", "30-39", "40-49", "50-59", "60 and above"],
+      "weight": 4,
+      "category": "age_factor"
+    },
+    {
+      "id": 9,
+      "question": "What is your current BMI category?",
+      "type": "multiple_choice",
+      "options": ["Underweight (BMI < 18.5)", "Normal weight (BMI 18.5-24.9)", "Overweight (BMI 25-29.9)", "Obese (BMI 30-34.9)", "Severely obese (BMI 35+)"],
+      "weight": 5,
+      "category": "bmi_status"
+    },
+    {
+      "id": 10,
+      "question": "Where do you tend to carry excess weight?",
+      "type": "multiple_choice",
+      "options": ["No excess weight", "Evenly distributed", "Mostly in hips/thighs", "Mostly in waist/abdomen", "Don't know"],
+      "weight": 3,
+      "category": "weight_distribution"
+    },
+    {
+      "id": 11,
+      "question": "How physically active are you?",
+      "type": "multiple_choice",
+      "options": ["Very active (exercise daily)", "Moderately active (3-4 times/week)", "Lightly active (1-2 times/week)", "Sedentary (little to no exercise)", "Completely inactive"],
+      "weight": 4,
+      "category": "physical_activity"
+    },
+    {
+      "id": 12,
+      "question": "How would you describe your typical diet?",
+      "type": "multiple_choice",
+      "options": ["Very healthy (lots of vegetables, whole grains)", "Mostly healthy", "Average", "Poor (processed foods, sugar)", "Very poor (fast food, sweets daily)"],
+      "weight": 4,
+      "category": "diet_quality"
+    },
+    {
+      "id": 13,
+      "question": "How often do you eat sugary foods or drinks?",
+      "type": "multiple_choice",
+      "options": ["Rarely or never", "Occasionally", "Several times per week", "Daily", "Multiple times daily"],
+      "weight": 4,
+      "category": "sugar_intake"
+    },
+    {
+      "id": 14,
+      "question": "Have you ever had elevated blood sugar levels?",
+      "type": "multiple_choice",
+      "options": ["Never tested", "Always normal", "Occasionally elevated", "Frequently elevated", "Diagnosed pre-diabetes"],
+      "weight": 5,
+      "category": "blood_sugar_history"
+    },
+    {
+      "id": 15,
+      "question": "When was your last blood glucose test?",
+      "type": "multiple_choice",
+      "options": ["Within the last year", "1-2 years ago", "3-5 years ago", "More than 5 years ago", "Never tested"],
+      "weight": 3,
+      "category": "glucose_testing"
+    },
+    {
+      "id": 16,
+      "question": "Do you have high blood pressure?",
+      "type": "multiple_choice",
+      "options": ["No", "Borderline high", "High blood pressure", "Taking BP medication", "Don't know"],
+      "weight": 4,
+      "category": "blood_pressure"
+    },
+    {
+      "id": 17,
+      "question": "Do you have high cholesterol?",
+      "type": "multiple_choice",
+      "options": ["No", "Borderline high", "High cholesterol", "Taking cholesterol medication", "Don't know"],
+      "weight": 3,
+      "category": "cholesterol"
+    },
+    {
+      "id": 18,
+      "question": "How many hours do you sleep per night on average?",
+      "type": "multiple_choice",
+      "options": ["7-9 hours", "6-7 hours", "5-6 hours", "Less than 5 hours", "More than 9 hours"],
+      "weight": 3,
+      "category": "sleep_duration"
+    },
+    {
+      "id": 19,
+      "question": "How would you rate your stress level?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very low", "10": "Very high"},
+      "weight": 3,
+      "category": "stress_level"
+    },
+    {
+      "id": 20,
+      "question": "Do you smoke or use tobacco products?",
+      "type": "multiple_choice",
+      "options": ["Never smoked", "Former smoker", "Occasional smoker", "Daily smoker", "Heavy smoker"],
+      "weight": 3,
+      "category": "smoking_status"
+    },
+    {
+      "id": 21,
+      "question": "How much water do you drink daily?",
+      "type": "multiple_choice",
+      "options": ["8+ glasses", "6-7 glasses", "4-5 glasses", "2-3 glasses", "Less than 2 glasses"],
+      "weight": 2,
+      "category": "water_intake"
+    },
+    {
+      "id": 22,
+      "question": "Have you experienced unexplained weight changes recently?",
+      "type": "multiple_choice",
+      "options": ["No weight changes", "Gradual weight gain", "Rapid weight gain", "Unexplained weight loss", "Weight fluctuations"],
+      "weight": 3,
+      "category": "weight_changes"
+    },
+    {
+      "id": 23,
+      "question": "Do you experience excessive thirst or frequent urination?",
+      "type": "multiple_choice",
+      "options": ["No", "Occasionally", "Sometimes", "Often", "Daily"],
+      "weight": 4,
+      "category": "diabetes_symptoms"
+    },
+    {
+      "id": 24,
+      "question": "Do you experience unusual fatigue or tiredness?",
+      "type": "multiple_choice",
+      "options": ["No unusual fatigue", "Occasionally tired", "Often tired", "Constantly tired", "Extreme fatigue"],
+      "weight": 3,
+      "category": "fatigue_levels"
+    },
+    {
+      "id": 25,
+      "question": "Have you noticed any slow-healing cuts or wounds?",
+      "type": "multiple_choice",
+      "options": ["Wounds heal normally", "Slightly slower healing", "Noticeably slow healing", "Very slow healing", "Haven't had any wounds"],
+      "weight": 3,
+      "category": "wound_healing"
+    },
+    {
+      "id": 26,
+      "question": "Do you experience blurred vision episodes?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Occasionally", "Frequently", "Constantly"],
+      "weight": 3,
+      "category": "vision_changes"
+    },
+    {
+      "id": 27,
+      "question": "For women: Have you ever had gestational diabetes?",
+      "type": "multiple_choice",
+      "options": ["Not applicable/Male", "Never pregnant", "No gestational diabetes", "Had gestational diabetes", "Multiple pregnancies with diabetes"],
+      "weight": 4,
+      "category": "gestational_diabetes"
+    },
+    {
+      "id": 28,
+      "question": "What is your ethnic background?",
+      "type": "multiple_choice",
+      "options": ["Caucasian", "African American", "Hispanic/Latino", "Asian American", "Native American", "Other/Mixed"],
+      "weight": 3,
+      "category": "ethnicity"
+    },
+    {
+      "id": 29,
+      "question": "Do you have polycystic ovary syndrome (PCOS)?",
+      "type": "multiple_choice",
+      "options": ["Not applicable/Male", "No PCOS", "Diagnosed with PCOS", "Suspected PCOS", "Don't know"],
+      "weight": 3,
+      "category": "pcos_status"
+    },
+    {
+      "id": 30,
+      "question": "How often do you have regular medical checkups?",
+      "type": "multiple_choice",
+      "options": ["Annually", "Every 2 years", "Every 3+ years", "Only when sick", "Never"],
+      "weight": 2,
+      "category": "checkup_frequency"
+    },
+    {
+      "id": 31,
+      "question": "How concerned are you about developing diabetes?",
+      "type": "multiple_choice",
+      "options": ["Not concerned", "Mildly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"],
+      "weight": 2,
+      "category": "health_concern"
+    }
+  ]
+}

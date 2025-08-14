@@ -1,0 +1,209 @@
+{
+  "assessment_id": "symptom_checker",
+  "name": "Symptom Checker",
+  "description": "Comprehensive symptom analysis to help identify possible conditions",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "Are you currently experiencing fever or chills?",
+      "type": "multiple_choice",
+      "options": ["No fever", "Low-grade fever (99-100°F)", "Moderate fever (101-102°F)", "High fever (103°F+)", "Chills without fever"],
+      "weight": 4,
+      "category": "constitutional"
+    },
+    {
+      "id": 8,
+      "question": "How long have you been experiencing your main symptoms?",
+      "type": "multiple_choice",
+      "options": ["Less than 24 hours", "1-3 days", "4-7 days", "1-2 weeks", "More than 2 weeks"],
+      "weight": 3,
+      "category": "duration"
+    },
+    {
+      "id": 9,
+      "question": "Rate your current pain level (if any)",
+      "type": "scale",
+      "min": 0,
+      "max": 10,
+      "weight": 4,
+      "category": "pain"
+    },
+    {
+      "id": 10,
+      "question": "Where is your pain located? (Select all that apply)",
+      "type": "checkbox",
+      "options": ["Head/Headache", "Neck", "Chest", "Abdomen", "Back", "Arms", "Legs", "Joints", "No pain"],
+      "weight": 3,
+      "category": "pain_location"
+    },
+    {
+      "id": 11,
+      "question": "Are you experiencing any respiratory symptoms?",
+      "type": "checkbox",
+      "options": ["Cough", "Shortness of breath", "Chest tightness", "Wheezing", "Runny nose", "Congestion", "Sore throat", "None"],
+      "weight": 4,
+      "category": "respiratory"
+    },
+    {
+      "id": 12,
+      "question": "Do you have any gastrointestinal symptoms?",
+      "type": "checkbox",
+      "options": ["Nausea", "Vomiting", "Diarrhea", "Constipation", "Stomach pain", "Loss of appetite", "Heartburn", "None"],
+      "weight": 4,
+      "category": "gastrointestinal"
+    },
+    {
+      "id": 13,
+      "question": "Have you noticed any skin changes or rashes?",
+      "type": "multiple_choice",
+      "options": ["No skin changes", "New rash", "Itchy skin", "Bruising", "Color changes", "Swelling"],
+      "weight": 3,
+      "category": "dermatological"
+    },
+    {
+      "id": 14,
+      "question": "Are you experiencing fatigue or weakness?",
+      "type": "multiple_choice",
+      "options": ["No fatigue", "Mild tiredness", "Moderate fatigue", "Severe exhaustion", "Muscle weakness"],
+      "weight": 3,
+      "category": "constitutional"
+    },
+    {
+      "id": 15,
+      "question": "Have you had any changes in your vision or hearing?",
+      "type": "checkbox",
+      "options": ["Blurred vision", "Double vision", "Eye pain", "Hearing loss", "Ear pain", "Dizziness", "None"],
+      "weight": 3,
+      "category": "sensory"
+    },
+    {
+      "id": 16,
+      "question": "Are you experiencing any neurological symptoms?",
+      "type": "checkbox",
+      "options": ["Headache", "Confusion", "Memory problems", "Numbness/tingling", "Balance issues", "Seizures", "None"],
+      "weight": 4,
+      "category": "neurological"
+    },
+    {
+      "id": 17,
+      "question": "Have you noticed any swelling in your body?",
+      "type": "multiple_choice",
+      "options": ["No swelling", "Face/eyes", "Hands/arms", "Feet/legs", "Abdomen", "Multiple areas"],
+      "weight": 3,
+      "category": "cardiovascular"
+    },
+    {
+      "id": 18,
+      "question": "Are you experiencing any urinary symptoms?",
+      "type": "checkbox",
+      "options": ["Frequent urination", "Painful urination", "Blood in urine", "Difficulty urinating", "Urgency", "None"],
+      "weight": 3,
+      "category": "genitourinary"
+    },
+    {
+      "id": 19,
+      "question": "Have you been exposed to anyone with infectious illness recently?",
+      "type": "multiple_choice",
+      "options": ["No known exposure", "Cold/flu exposure", "COVID-19 exposure", "Other infectious disease", "Unsure"],
+      "weight": 3,
+      "category": "exposure"
+    },
+    {
+      "id": 20,
+      "question": "Have you traveled recently or been in crowded places?",
+      "type": "multiple_choice",
+      "options": ["No recent travel", "Domestic travel", "International travel", "Crowded events", "Healthcare settings"],
+      "weight": 2,
+      "category": "exposure"
+    },
+    {
+      "id": 21,
+      "question": "Are you taking any medications currently?",
+      "type": "multiple_choice",
+      "options": ["No medications", "Prescription medications", "Over-the-counter medications", "Supplements only", "Multiple types"],
+      "weight": 2,
+      "category": "medications"
+    },
+    {
+      "id": 22,
+      "question": "Have you started any new medications or supplements recently?",
+      "type": "multiple_choice",
+      "options": ["No new medications", "New prescription", "New over-the-counter", "New supplements", "Changed dosage"],
+      "weight": 3,
+      "category": "medications"
+    },
+    {
+      "id": 23,
+      "question": "Do you have any known allergies?",
+      "type": "multiple_choice",
+      "options": ["No known allergies", "Food allergies", "Drug allergies", "Environmental allergies", "Multiple allergies"],
+      "weight": 2,
+      "category": "allergies"
+    },
+    {
+      "id": 24,
+      "question": "Have your symptoms gotten worse, better, or stayed the same?",
+      "type": "multiple_choice",
+      "options": ["Much worse", "Somewhat worse", "About the same", "Somewhat better", "Much better"],
+      "weight": 3,
+      "category": "progression"
+    },
+    {
+      "id": 25,
+      "question": "What triggers or worsens your symptoms?",
+      "type": "checkbox",
+      "options": ["Physical activity", "Stress", "Certain foods", "Weather changes", "Time of day", "Nothing specific", "Unknown"],
+      "weight": 2,
+      "category": "triggers"
+    },
+    {
+      "id": 26,
+      "question": "What helps relieve your symptoms?",
+      "type": "checkbox",
+      "options": ["Rest", "Over-the-counter medication", "Heat/cold therapy", "Nothing helps", "Home remedies", "Unknown"],
+      "weight": 2,
+      "category": "relief"
+    },
+    {
+      "id": 27,
+      "question": "Have you had similar symptoms before?",
+      "type": "multiple_choice",
+      "options": ["Never before", "Once before", "Occasionally", "Frequently", "Chronic condition"],
+      "weight": 2,
+      "category": "history"
+    },
+    {
+      "id": 28,
+      "question": "Are your symptoms affecting your daily activities?",
+      "type": "multiple_choice",
+      "options": ["No impact", "Minimal impact", "Moderate impact", "Significant impact", "Unable to function normally"],
+      "weight": 3,
+      "category": "functional_impact"
+    },
+    {
+      "id": 29,
+      "question": "Are you concerned about your symptoms?",
+      "type": "multiple_choice",
+      "options": ["Not concerned", "Mildly concerned", "Moderately concerned", "Very concerned", "Extremely worried"],
+      "weight": 2,
+      "category": "concern_level"
+    },
+    {
+      "id": 30,
+      "question": "Have you tried any treatments for your symptoms?",
+      "type": "checkbox",
+      "options": ["No treatment tried", "Over-the-counter medication", "Home remedies", "Prescription medication", "Alternative therapies", "Consulted healthcare provider"],
+      "weight": 2,
+      "category": "treatment_attempts"
+    },
+    {
+      "id": 31,
+      "question": "Do you have any chronic health conditions?",
+      "type": "checkbox",
+      "options": ["No chronic conditions", "Diabetes", "High blood pressure", "Heart disease", "Lung disease", "Autoimmune conditions", "Other"],
+      "weight": 3,
+      "category": "medical_history"
+    }
+  ]
+}

@@ -1,0 +1,212 @@
+{
+  "assessment_id": "weight_plan",
+  "name": "Weight Management Plan",
+  "description": "Personalized strategies for healthy weight loss, gain, or maintenance",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "What is your weight management goal?",
+      "type": "multiple_choice",
+      "options": ["Lose weight", "Gain weight", "Maintain current weight", "Build muscle mass", "Lose fat while maintaining muscle", "Body recomposition"],
+      "weight": 5,
+      "category": "weight_goal"
+    },
+    {
+      "id": 8,
+      "question": "How much weight do you want to lose or gain?",
+      "type": "multiple_choice",
+      "options": ["5-10 pounds", "10-20 pounds", "20-30 pounds", "30-50 pounds", "More than 50 pounds", "Just want to tone up"],
+      "weight": 4,
+      "category": "weight_target"
+    },
+    {
+      "id": 9,
+      "question": "What is your target timeframe for achieving your goal?",
+      "type": "multiple_choice",
+      "options": ["1-3 months", "3-6 months", "6-12 months", "More than 1 year", "No specific timeline"],
+      "weight": 3,
+      "category": "timeframe"
+    },
+    {
+      "id": 10,
+      "question": "What is your current BMI category? (if known)",
+      "type": "multiple_choice",
+      "options": ["Underweight (BMI < 18.5)", "Normal weight (BMI 18.5-24.9)", "Overweight (BMI 25-29.9)", "Obese (BMI 30+)", "Don't know my BMI"],
+      "weight": 3,
+      "category": "bmi_status"
+    },
+    {
+      "id": 11,
+      "question": "How would you describe your body type?",
+      "type": "multiple_choice",
+      "options": ["Ectomorph (naturally thin, hard to gain weight)", "Mesomorph (athletic build, gains/loses weight easily)", "Endomorph (rounder build, gains weight easily)", "Mixed body type", "Unsure"],
+      "weight": 2,
+      "category": "body_type"
+    },
+    {
+      "id": 12,
+      "question": "What is your current exercise routine?",
+      "type": "multiple_choice",
+      "options": ["No regular exercise", "1-2 days per week", "3-4 days per week", "5-6 days per week", "Daily exercise"],
+      "weight": 4,
+      "category": "exercise_frequency"
+    },
+    {
+      "id": 13,
+      "question": "What types of exercise do you prefer or currently do?",
+      "type": "checkbox",
+      "options": ["Cardio (running, cycling)", "Strength training", "HIIT workouts", "Yoga/Pilates", "Swimming", "Sports activities", "Walking", "None currently"],
+      "weight": 3,
+      "category": "exercise_preferences"
+    },
+    {
+      "id": 14,
+      "question": "How many hours do you sleep per night on average?",
+      "type": "multiple_choice",
+      "options": ["Less than 5 hours", "5-6 hours", "7-8 hours", "8-9 hours", "More than 9 hours"],
+      "weight": 3,
+      "category": "sleep_hours"
+    },
+    {
+      "id": 15,
+      "question": "How would you rate your sleep quality?",
+      "type": "multiple_choice",
+      "options": ["Very poor", "Poor", "Fair", "Good", "Excellent"],
+      "weight": 2,
+      "category": "sleep_quality"
+    },
+    {
+      "id": 16,
+      "question": "How often do you eat emotional/stress eating?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Very frequently"],
+      "weight": 4,
+      "category": "emotional_eating"
+    },
+    {
+      "id": 17,
+      "question": "What is your relationship with food like?",
+      "type": "multiple_choice",
+      "options": ["Healthy relationship", "Occasional struggles", "Frequent food obsession", "Restrictive eating patterns", "Binge eating episodes"],
+      "weight": 4,
+      "category": "food_relationship"
+    },
+    {
+      "id": 18,
+      "question": "How often do you weigh yourself?",
+      "type": "multiple_choice",
+      "options": ["Never", "Monthly", "Weekly", "Daily", "Multiple times per day"],
+      "weight": 2,
+      "category": "weighing_frequency"
+    },
+    {
+      "id": 19,
+      "question": "What has been your biggest challenge in previous weight management attempts?",
+      "type": "multiple_choice",
+      "options": ["Lack of motivation", "Time constraints", "Plateau periods", "Social eating situations", "Emotional eating", "Lack of knowledge", "Never tried before"],
+      "weight": 3,
+      "category": "previous_challenges"
+    },
+    {
+      "id": 20,
+      "question": "Do you have any injuries or physical limitations?",
+      "type": "checkbox",
+      "options": ["No limitations", "Back problems", "Knee problems", "Joint issues", "Heart conditions", "Mobility issues", "Other injuries"],
+      "weight": 4,
+      "category": "physical_limitations"
+    },
+    {
+      "id": 21,
+      "question": "What is your current stress level?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very low", "10": "Very high"},
+      "weight": 3,
+      "category": "stress_level"
+    },
+    {
+      "id": 22,
+      "question": "How do you typically handle stress?",
+      "type": "checkbox",
+      "options": ["Exercise", "Eating", "Sleeping", "Talking to others", "Meditation/relaxation", "Alcohol", "Avoiding situations"],
+      "weight": 2,
+      "category": "stress_management"
+    },
+    {
+      "id": 23,
+      "question": "Do you have support from family/friends for your weight goals?",
+      "type": "multiple_choice",
+      "options": ["Very supportive", "Somewhat supportive", "Neutral", "Not supportive", "Actively discouraging"],
+      "weight": 3,
+      "category": "social_support"
+    },
+    {
+      "id": 24,
+      "question": "What motivates you most to achieve your weight goals?",
+      "type": "checkbox",
+      "options": ["Health improvements", "Appearance", "Energy levels", "Athletic performance", "Medical necessity", "Confidence", "Fitting into clothes"],
+      "weight": 3,
+      "category": "motivation_factors"
+    },
+    {
+      "id": 25,
+      "question": "How much time can you realistically dedicate to exercise per week?",
+      "type": "multiple_choice",
+      "options": ["Less than 1 hour", "1-2 hours", "3-4 hours", "5-6 hours", "7+ hours"],
+      "weight": 3,
+      "category": "exercise_time"
+    },
+    {
+      "id": 26,
+      "question": "Do you prefer working out at home or at a gym?",
+      "type": "multiple_choice",
+      "options": ["Home workouts", "Gym/fitness center", "Outdoor activities", "Group classes", "Personal training", "No preference"],
+      "weight": 2,
+      "category": "workout_location"
+    },
+    {
+      "id": 27,
+      "question": "How important is tracking your progress (food, exercise, weight)?",
+      "type": "multiple_choice",
+      "options": ["Very important", "Somewhat important", "Not important", "Would consider it", "Find it stressful"],
+      "weight": 2,
+      "category": "tracking_preference"
+    },
+    {
+      "id": 28,
+      "question": "What is your budget for weight management tools/programs?",
+      "type": "multiple_choice",
+      "options": ["Minimal budget", "$50-100 per month", "$100-200 per month", "$200+ per month", "No budget constraints"],
+      "weight": 2,
+      "category": "budget"
+    },
+    {
+      "id": 29,
+      "question": "Have you tried weight management programs before?",
+      "type": "checkbox",
+      "options": ["Never tried", "Diet programs", "Exercise programs", "Weight loss medications", "Professional coaching", "Surgery considerations", "Multiple attempts"],
+      "weight": 3,
+      "category": "previous_attempts"
+    },
+    {
+      "id": 30,
+      "question": "What type of accountability works best for you?",
+      "type": "multiple_choice",
+      "options": ["Self-accountability", "Friend/family check-ins", "Professional coaching", "Group support", "App/technology tracking", "Public commitment"],
+      "weight": 2,
+      "category": "accountability"
+    },
+    {
+      "id": 31,
+      "question": "On a scale of 1-10, how committed are you to making lifestyle changes?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not committed", "10": "Fully committed"},
+      "weight": 4,
+      "category": "commitment_level"
+    }
+  ]
+}

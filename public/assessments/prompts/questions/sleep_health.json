@@ -1,0 +1,212 @@
+{
+  "assessment_id": "sleep_health",
+  "name": "Sleep Health Analysis",
+  "description": "Comprehensive evaluation for insomnia, sleep apnea risk, and overall sleep quality",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "How many hours of sleep do you typically get per night?",
+      "type": "multiple_choice",
+      "options": ["Less than 5 hours", "5-6 hours", "6-7 hours", "7-8 hours", "8-9 hours", "More than 9 hours"],
+      "weight": 4,
+      "category": "sleep_duration"
+    },
+    {
+      "id": 8,
+      "question": "How long does it typically take you to fall asleep?",
+      "type": "multiple_choice",
+      "options": ["Less than 15 minutes", "15-30 minutes", "30-60 minutes", "1-2 hours", "More than 2 hours"],
+      "weight": 4,
+      "category": "sleep_onset"
+    },
+    {
+      "id": 9,
+      "question": "How often do you wake up during the night?",
+      "type": "multiple_choice",
+      "options": ["Never", "Once per night", "2-3 times per night", "4-5 times per night", "More than 5 times"],
+      "weight": 4,
+      "category": "night_wakings"
+    },
+    {
+      "id": 10,
+      "question": "How do you feel when you wake up in the morning?",
+      "type": "multiple_choice",
+      "options": ["Very refreshed", "Somewhat refreshed", "Neutral", "Somewhat tired", "Very tired"],
+      "weight": 4,
+      "category": "morning_feeling"
+    },
+    {
+      "id": 11,
+      "question": "How would you rate your overall sleep quality?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Very poor", "10": "Excellent"},
+      "weight": 5,
+      "category": "sleep_quality"
+    },
+    {
+      "id": 12,
+      "question": "Do you snore regularly?",
+      "type": "multiple_choice",
+      "options": ["Never snore", "Light snoring occasionally", "Moderate snoring regularly", "Heavy snoring nightly", "Don't know"],
+      "weight": 4,
+      "category": "snoring"
+    },
+    {
+      "id": 13,
+      "question": "Has anyone observed you stopping breathing during sleep?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Occasionally", "Frequently", "Sleep alone/Don't know"],
+      "weight": 5,
+      "category": "breathing_interruptions"
+    },
+    {
+      "id": 14,
+      "question": "How often do you feel sleepy during the day?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Daily"],
+      "weight": 4,
+      "category": "daytime_sleepiness"
+    },
+    {
+      "id": 15,
+      "question": "What time do you typically go to bed?",
+      "type": "multiple_choice",
+      "options": ["Before 9 PM", "9-10 PM", "10-11 PM", "11-12 AM", "After midnight"],
+      "weight": 2,
+      "category": "bedtime"
+    },
+    {
+      "id": 16,
+      "question": "What time do you typically wake up?",
+      "type": "multiple_choice",
+      "options": ["Before 6 AM", "6-7 AM", "7-8 AM", "8-9 AM", "After 9 AM"],
+      "weight": 2,
+      "category": "wake_time"
+    },
+    {
+      "id": 17,
+      "question": "How consistent is your sleep schedule?",
+      "type": "multiple_choice",
+      "options": ["Very consistent", "Mostly consistent", "Somewhat variable", "Very variable", "No set schedule"],
+      "weight": 3,
+      "category": "schedule_consistency"
+    },
+    {
+      "id": 18,
+      "question": "Do you have trouble staying asleep?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Nightly"],
+      "weight": 4,
+      "category": "sleep_maintenance"
+    },
+    {
+      "id": 19,
+      "question": "How often do you take naps during the day?",
+      "type": "multiple_choice",
+      "options": ["Never", "Occasionally", "A few times per week", "Daily", "Multiple times daily"],
+      "weight": 3,
+      "category": "napping_frequency"
+    },
+    {
+      "id": 20,
+      "question": "What keeps you awake at night most often?",
+      "type": "checkbox",
+      "options": ["Nothing specific", "Racing thoughts", "Worry/anxiety", "Physical discomfort", "Noise", "Light", "Bathroom trips", "Partner's snoring"],
+      "weight": 3,
+      "category": "sleep_disruptions"
+    },
+    {
+      "id": 21,
+      "question": "Do you use electronic devices (phone, TV, tablet) before bed?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Right until bedtime"],
+      "weight": 3,
+      "category": "screen_time"
+    },
+    {
+      "id": 22,
+      "question": "How is your sleep environment?",
+      "type": "checkbox",
+      "options": ["Cool temperature", "Warm temperature", "Dark room", "Some light", "Quiet", "Some noise", "Comfortable mattress", "Uncomfortable bed"],
+      "weight": 3,
+      "category": "sleep_environment"
+    },
+    {
+      "id": 23,
+      "question": "Do you consume caffeine, and if so, when?",
+      "type": "multiple_choice",
+      "options": ["No caffeine", "Morning only", "Before 2 PM", "Afternoon", "Evening", "Throughout the day"],
+      "weight": 3,
+      "category": "caffeine_timing"
+    },
+    {
+      "id": 24,
+      "question": "Do you drink alcohol, and how does it affect your sleep?",
+      "type": "multiple_choice",
+      "options": ["No alcohol", "Alcohol helps me sleep", "Alcohol disrupts my sleep", "Alcohol has no effect", "Only drink occasionally"],
+      "weight": 2,
+      "category": "alcohol_impact"
+    },
+    {
+      "id": 25,
+      "question": "Do you have a bedtime routine?",
+      "type": "multiple_choice",
+      "options": ["Consistent relaxing routine", "Some routine", "Minimal routine", "No routine", "Varies nightly"],
+      "weight": 2,
+      "category": "bedtime_routine"
+    },
+    {
+      "id": 26,
+      "question": "How often do you experience restless legs or leg movements during sleep?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Nightly"],
+      "weight": 3,
+      "category": "restless_legs"
+    },
+    {
+      "id": 27,
+      "question": "Do you sleepwalk, talk in your sleep, or have other sleep behaviors?",
+      "type": "checkbox",
+      "options": ["None", "Sleep talking", "Sleepwalking", "Night terrors", "Teeth grinding", "Frequent position changes", "Don't know"],
+      "weight": 2,
+      "category": "sleep_behaviors"
+    },
+    {
+      "id": 28,
+      "question": "How often do you wake up with headaches?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Daily"],
+      "weight": 3,
+      "category": "morning_headaches"
+    },
+    {
+      "id": 29,
+      "question": "Do you take any sleep medications or supplements?",
+      "type": "checkbox",
+      "options": ["None", "Melatonin", "Prescription sleep medication", "Over-the-counter sleep aids", "Herbal supplements", "Other"],
+      "weight": 3,
+      "category": "sleep_aids"
+    },
+    {
+      "id": 30,
+      "question": "How does poor sleep affect your daily life?",
+      "type": "checkbox",
+      "options": ["No significant impact", "Mood changes", "Concentration problems", "Fatigue", "Work performance issues", "Relationship issues", "Physical symptoms"],
+      "weight": 4,
+      "category": "sleep_impact"
+    },
+    {
+      "id": 31,
+      "question": "How motivated are you to improve your sleep?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not motivated", "10": "Very motivated"},
+      "weight": 2,
+      "category": "motivation"
+    }
+  ]
+}

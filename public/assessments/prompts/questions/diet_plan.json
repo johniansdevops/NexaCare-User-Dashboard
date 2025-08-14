@@ -1,0 +1,210 @@
+{
+  "assessment_id": "diet_plan",
+  "name": "Personalized Diet Plan",
+  "description": "Creates a nutrition plan based on your preferences, health goals, and dietary restrictions",
+  "version": "1.0",
+  "questions": [
+    {
+      "id": 7,
+      "question": "What is your primary health goal?",
+      "type": "multiple_choice",
+      "options": ["Weight loss", "Weight gain", "Maintain current weight", "Build muscle", "Improve overall health", "Manage medical condition"],
+      "weight": 5,
+      "category": "health_goals"
+    },
+    {
+      "id": 8,
+      "question": "What is your current height?",
+      "type": "text",
+      "placeholder": "e.g., 5'8\" or 173 cm",
+      "weight": 3,
+      "category": "physical_stats"
+    },
+    {
+      "id": 9,
+      "question": "What is your current weight?",
+      "type": "text",
+      "placeholder": "e.g., 150 lbs or 68 kg",
+      "weight": 3,
+      "category": "physical_stats"
+    },
+    {
+      "id": 10,
+      "question": "How active are you on a typical day?",
+      "type": "multiple_choice",
+      "options": ["Sedentary (desk job, no exercise)", "Lightly active (light exercise 1-3 days/week)", "Moderately active (moderate exercise 3-5 days/week)", "Very active (hard exercise 6-7 days/week)", "Extremely active (physical job + exercise)"],
+      "weight": 4,
+      "category": "activity_level"
+    },
+    {
+      "id": 11,
+      "question": "Do you have any dietary restrictions or allergies?",
+      "type": "checkbox",
+      "options": ["No restrictions", "Vegetarian", "Vegan", "Gluten-free", "Dairy-free", "Nut allergies", "Shellfish allergies", "Other food allergies"],
+      "weight": 5,
+      "category": "dietary_restrictions"
+    },
+    {
+      "id": 12,
+      "question": "Do you have any medical conditions that affect your diet?",
+      "type": "checkbox",
+      "options": ["No medical conditions", "Diabetes", "High blood pressure", "High cholesterol", "Heart disease", "IBS/Digestive issues", "Kidney disease", "Other"],
+      "weight": 4,
+      "category": "medical_conditions"
+    },
+    {
+      "id": 13,
+      "question": "How many meals do you typically eat per day?",
+      "type": "multiple_choice",
+      "options": ["1-2 meals", "3 meals", "4-5 small meals", "6+ small meals", "Irregular eating pattern"],
+      "weight": 3,
+      "category": "eating_pattern"
+    },
+    {
+      "id": 14,
+      "question": "How often do you snack between meals?",
+      "type": "multiple_choice",
+      "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"],
+      "weight": 2,
+      "category": "snacking_habits"
+    },
+    {
+      "id": 15,
+      "question": "What types of snacks do you typically choose?",
+      "type": "checkbox",
+      "options": ["Fruits", "Vegetables", "Nuts/seeds", "Chips/crackers", "Candy/sweets", "Protein bars", "Don't snack"],
+      "weight": 2,
+      "category": "snack_preferences"
+    },
+    {
+      "id": 16,
+      "question": "How much water do you drink daily?",
+      "type": "multiple_choice",
+      "options": ["Less than 4 glasses", "4-6 glasses", "7-8 glasses", "9-10 glasses", "More than 10 glasses"],
+      "weight": 3,
+      "category": "hydration"
+    },
+    {
+      "id": 17,
+      "question": "How often do you eat fast food or takeout?",
+      "type": "multiple_choice",
+      "options": ["Never", "1-2 times per month", "1-2 times per week", "3-4 times per week", "Daily"],
+      "weight": 3,
+      "category": "fast_food_habits"
+    },
+    {
+      "id": 18,
+      "question": "How often do you cook meals at home?",
+      "type": "multiple_choice",
+      "options": ["Never", "1-2 times per week", "3-4 times per week", "5-6 times per week", "Daily"],
+      "weight": 3,
+      "category": "cooking_habits"
+    },
+    {
+      "id": 19,
+      "question": "What is your cooking skill level?",
+      "type": "multiple_choice",
+      "options": ["Beginner", "Basic", "Intermediate", "Advanced", "Professional"],
+      "weight": 2,
+      "category": "cooking_skills"
+    },
+    {
+      "id": 20,
+      "question": "How much time can you dedicate to meal prep per week?",
+      "type": "multiple_choice",
+      "options": ["No time for meal prep", "30 minutes", "1-2 hours", "3-4 hours", "5+ hours"],
+      "weight": 3,
+      "category": "meal_prep_time"
+    },
+    {
+      "id": 21,
+      "question": "What foods do you absolutely dislike or won't eat?",
+      "type": "text",
+      "placeholder": "List foods you want to avoid in your meal plan",
+      "weight": 3,
+      "category": "food_dislikes"
+    },
+    {
+      "id": 22,
+      "question": "What are your favorite healthy foods?",
+      "type": "checkbox",
+      "options": ["Lean proteins (chicken, fish)", "Leafy greens", "Fruits", "Whole grains", "Nuts and seeds", "Legumes", "Healthy fats (avocado, olive oil)", "Dairy products"],
+      "weight": 2,
+      "category": "food_preferences"
+    },
+    {
+      "id": 23,
+      "question": "What is your biggest dietary challenge?",
+      "type": "multiple_choice",
+      "options": ["Portion control", "Sweet cravings", "Emotional eating", "Time constraints", "Budget constraints", "Lack of cooking skills", "Social eating situations"],
+      "weight": 3,
+      "category": "dietary_challenges"
+    },
+    {
+      "id": 24,
+      "question": "How important is organic/natural food to you?",
+      "type": "multiple_choice",
+      "options": ["Very important", "Somewhat important", "Not important", "Only for certain foods", "Budget dependent"],
+      "weight": 2,
+      "category": "organic_preference"
+    },
+    {
+      "id": 25,
+      "question": "Do you take any supplements currently?",
+      "type": "checkbox",
+      "options": ["No supplements", "Multivitamin", "Protein powder", "Omega-3", "Vitamin D", "B vitamins", "Other"],
+      "weight": 2,
+      "category": "supplement_use"
+    },
+    {
+      "id": 26,
+      "question": "What is your typical breakfast?",
+      "type": "multiple_choice",
+      "options": ["Skip breakfast", "Coffee/tea only", "Light breakfast (toast, cereal)", "Moderate breakfast (eggs, oatmeal)", "Large breakfast", "Varies daily"],
+      "weight": 2,
+      "category": "breakfast_habits"
+    },
+    {
+      "id": 27,
+      "question": "How late do you typically eat your last meal?",
+      "type": "multiple_choice",
+      "options": ["Before 6 PM", "6-7 PM", "7-8 PM", "8-9 PM", "After 9 PM"],
+      "weight": 2,
+      "category": "eating_timing"
+    },
+    {
+      "id": 28,
+      "question": "Do you eat differently on weekends vs weekdays?",
+      "type": "multiple_choice",
+      "options": ["Same eating pattern", "Slightly different", "Very different", "More indulgent on weekends", "Healthier on weekends"],
+      "weight": 2,
+      "category": "weekend_eating"
+    },
+    {
+      "id": 29,
+      "question": "What is your budget for groceries per week?",
+      "type": "multiple_choice",
+      "options": ["Under $50", "$50-$100", "$100-$150", "$150-$200", "Over $200", "No budget constraints"],
+      "weight": 2,
+      "category": "budget"
+    },
+    {
+      "id": 30,
+      "question": "How motivated are you to follow a structured meal plan?",
+      "type": "scale",
+      "min": 1,
+      "max": 10,
+      "labels": {"1": "Not motivated", "10": "Very motivated"},
+      "weight": 3,
+      "category": "motivation"
+    },
+    {
+      "id": 31,
+      "question": "What type of meal plan structure would work best for you?",
+      "type": "multiple_choice",
+      "options": ["Specific meals for each day", "Flexible options with guidelines", "Recipe suggestions only", "Macro-based targets", "Portion control focus"],
+      "weight": 3,
+      "category": "plan_structure"
+    }
+  ]
+}

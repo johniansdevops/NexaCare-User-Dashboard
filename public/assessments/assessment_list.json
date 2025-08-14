@@ -1,0 +1,92 @@
+[
+  {
+    "id": "symptom_checker",
+    "name": "Symptom Checker",
+    "description": "Helps identify possible conditions based on your current symptoms",
+    "icon": "🩺",
+    "category": "diagnostic",
+    "estimated_time": "5-7 minutes",
+    "questions_file": "symptom_checker.json"
+  },
+  {
+    "id": "mental_health",
+    "name": "Mental Health Check",
+    "description": "Screens for anxiety, depression, and mood disorders",
+    "icon": "🧠",
+    "category": "mental_health",
+    "estimated_time": "8-10 minutes",
+    "questions_file": "mental_health.json"
+  },
+  {
+    "id": "medication_suggestions",
+    "name": "Medication Suggestions",
+    "description": "AI-guided recommendations for over-the-counter options or doctor consultation",
+    "icon": "💊",
+    "category": "treatment",
+    "estimated_time": "6-8 minutes",
+    "questions_file": "medication_suggestions.json"
+  },
+  {
+    "id": "diet_plan",
+    "name": "Personalized Diet Plan",
+    "description": "Creates a nutrition plan based on your preferences, health goals, and restrictions",
+    "icon": "🥗",
+    "category": "nutrition",
+    "estimated_time": "10-12 minutes",
+    "questions_file": "diet_plan.json"
+  },
+  {
+    "id": "weight_plan",
+    "name": "Weight Management Plan",
+    "description": "Personalized strategies for healthy weight loss or gain",
+    "icon": "⚖️",
+    "category": "fitness",
+    "estimated_time": "8-10 minutes",
+    "questions_file": "weight_plan.json"
+  },
+  {
+    "id": "cardio_health",
+    "name": "Cardiovascular Health Assessment",
+    "description": "Evaluates heart health and cardiovascular risk factors",
+    "icon": "❤️",
+    "category": "preventive",
+    "estimated_time": "7-9 minutes",
+    "questions_file": "cardio_health.json"
+  },
+  {
+    "id": "sleep_health",
+    "name": "Sleep Health Analysis",
+    "description": "Checks for insomnia, sleep apnea risk, and overall sleep quality",
+    "icon": "😴",
+    "category": "lifestyle",
+    "estimated_time": "6-8 minutes",
+    "questions_file": "sleep_health.json"
+  },
+  {
+    "id": "diabetes_risk",
+    "name": "Diabetes Risk Assessment",
+    "description": "Predictive assessment for Type 2 diabetes risk factors",
+    "icon": "🩸",
+    "category": "preventive",
+    "estimated_time": "5-7 minutes",
+    "questions_file": "diabetes_risk.json"
+  },
+  {
+    "id": "fitness_readiness",
+    "name": "Fitness Readiness Evaluation",
+    "description": "Measures baseline fitness level for starting a workout program",
+    "icon": "🏃‍♂️",
+    "category": "fitness",
+    "estimated_time": "8-10 minutes",
+    "questions_file": "fitness_readiness.json"
+  },
+  {
+    "id": "stress_management",
+    "name": "Stress Management Assessment",
+    "description": "Identifies stress levels and provides coping strategies",
+    "icon": "🧘‍♀️",
+    "category": "mental_health",
+    "estimated_time": "7-9 minutes",
+    "questions_file": "stress_management.json"
+  }
+]
