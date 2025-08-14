@@ -77,15 +77,15 @@ export default function BookAppointment() {
 
       if (error) throw error;
 
-      const formattedProviders = data?.map(p => ({
+      const formattedProviders = data?.map((p: any) => ({
         id: p.id,
         full_name: p.full_name,
         avatar_url: p.avatar_url,
-        specialty: p.providers?.specialty,
-        consultation_fee: p.providers?.consultation_fee,
-        years_of_experience: p.providers?.years_of_experience,
-        languages: p.providers?.languages,
-        availability: p.providers?.availability,
+        specialty: p.providers?.specialty || p.providers?.[0]?.specialty,
+        consultation_fee: p.providers?.consultation_fee || p.providers?.[0]?.consultation_fee,
+        years_of_experience: p.providers?.years_of_experience || p.providers?.[0]?.years_of_experience,
+        languages: p.providers?.languages || p.providers?.[0]?.languages,
+        availability: p.providers?.availability || p.providers?.[0]?.availability,
       })) || [];
 
       setProviders(formattedProviders);

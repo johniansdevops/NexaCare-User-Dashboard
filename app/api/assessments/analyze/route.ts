@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     })
 
     // Parse the AI response
-    const aiAnalysis = response.choices?.[0]?.message?.content || 'Analysis not available'
+    const aiAnalysis = (response as any).choices?.[0]?.message?.content || 'Analysis not available'
     
     // Generate a unique report ID
     const reportId = `${body.assessment_id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { 
         error: 'Failed to analyze assessment',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        details: process.env.NODE_ENV === 'development' ? (error as Error).message : undefined
       },
       { status: 500 }
     )

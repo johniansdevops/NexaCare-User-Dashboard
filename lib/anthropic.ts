@@ -50,7 +50,7 @@ export async function generateChatCompletion({
     }
 
     // Extract text content from the response
-    const textContent = response.content.find(block => block.type === 'text');
+    const textContent = (response as any).content?.find((block: any) => block.type === 'text');
     return {
       choices: [{
         message: {
@@ -58,7 +58,7 @@ export async function generateChatCompletion({
           content: textContent?.text || 'I apologize, but I cannot provide a response at this time.',
         },
       }],
-      usage: response.usage,
+      usage: (response as any).usage,
     };
   } catch (error) {
     console.error('Anthropic API error:', error);

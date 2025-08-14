@@ -16,6 +16,12 @@ import {
   CogIcon,
   Bars3Icon,
   XMarkIcon,
+  BeakerIcon,
+  ClipboardDocumentCheckIcon,
+  CalendarDaysIcon,
+  DocumentTextIcon,
+  PlusCircleIcon,
+  SquaresPlusIcon,
 } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 
@@ -27,13 +33,13 @@ interface NavigationItem {
 }
 
 const userNavigation: NavigationItem[] = [
-  { name: 'Dashboard', href: '/patient', icon: HomeIcon },
-  { name: 'AI Chat', href: '/patient/ai-chat', icon: '✦', isAI: true },
+  { name: 'Dashboard', href: '/patient', icon: SquaresPlusIcon },
+  { name: 'AI Health Chat', href: '/patient/ai-chat', icon: '✦', isAI: true },
   { name: 'Appointments', href: '/patient/appointments', icon: CalendarIcon },
-  { name: 'Calendar', href: '/patient/calendar', icon: CalendarIcon },
-  { name: 'Medications', href: '/patient/medications', icon: HeartIcon },
-  { name: 'Assessments', href: '/patient/assessments', icon: ClipboardDocumentListIcon },
-  { name: 'Health Records', href: '/patient/records-chat', icon: DocumentMagnifyingGlassIcon },
+  { name: 'Calendar', href: '/patient/calendar', icon: CalendarDaysIcon },
+  { name: 'Medications', href: '/patient/medications', icon: BeakerIcon },
+  { name: 'Health Assessments', href: '/patient/assessments', icon: ClipboardDocumentCheckIcon },
+  { name: 'Medical Records', href: '/patient/records-chat', icon: DocumentTextIcon },
   { name: 'Profile', href: '/patient/profile', icon: UserIcon },
 ];
 

@@ -11,13 +11,13 @@ import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   EyeIcon,
-  DownloadIcon,
+  ArrowDownTrayIcon,
   ShareIcon,
   TrashIcon,
   PhotoIcon,
   BeakerIcon,
   HeartIcon,
-  XRayIcon,
+  FilmIcon,
   DocumentIcon,
   FolderIcon,
   ChatBubbleLeftRightIcon,
@@ -303,7 +303,7 @@ export default function PatientRecordsChat() {
   const getDocumentIcon = (type: string) => {
     switch (type) {
       case 'lab_result': return BeakerIcon;
-      case 'imaging': return XRayIcon;
+      case 'imaging': return FilmIcon;
       case 'prescription': return DocumentIcon;
       case 'visit_note': return DocumentTextIcon;
       case 'insurance': return FolderIcon;
@@ -669,7 +669,7 @@ export default function PatientRecordsChat() {
                 Share with Provider
               </button>
               <button className="w-full btn-outline text-sm p-3">
-                <DownloadIcon className="w-4 h-4 mr-2" />
+                <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
                 Export All Documents
               </button>
             </div>

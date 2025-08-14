@@ -13,6 +13,9 @@ import {
   ClockIcon,
   UserIcon,
   DocumentTextIcon,
+  Bars3Icon,
+  PlusIcon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { formatDateTime } from '@/lib/utils';
 
@@ -99,6 +102,11 @@ Please remember that I'm here to provide educational information and support, bu
   const [selectedMode, setSelectedMode] = useState('general');
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [chatHistory, setChatHistory] = useState([
+    { id: '1', title: 'Blood pressure questions', date: '2 days ago', messages: 5 },
+    { id: '2', title: 'Medication interactions', date: '1 week ago', messages: 8 },
+    { id: '3', title: 'Lab results review', date: '2 weeks ago', messages: 12 },
+  ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -231,80 +239,186 @@ Schedule annual wellness visits with your healthcare provider to stay on top of 
     }
   };
 
+  const startNewChat = () => {
+    setMessages([{
+      id: '1',
+      content: `Hello ${user?.full_name?.split(' ')[0]}! I'm your AI health assistant. I'm here to help answer your health questions and provide guidance. How can I assist you today?
+
+Please remember that I'm here to provide educational information and support, but I cannot replace professional medical advice. For urgent concerns, please contact your healthcare provider or call emergency services.`,
+      sender: 'ai',
+      timestamp: new Date().toISOString(),
+      confidence: 100,
+    }]);
+  };
+
   return (
-    <div className="h-[calc(100vh-4rem)] flex bg-white">
+    <div className="h-screen flex bg-white relative">
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
+        <div className="flex flex-col h-full">
+          {/* Sidebar header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center space-x-2">
+              <BoltIcon className="w-6 h-6 text-blue-600" />
+              <h2 className="text-lg font-semibold text-gray-900">AI Health Assistant</h2>
+            </div>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-1 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <XMarkIcon className="w-5 h-5 text-gray-400" />
+            </button>
+          </div>
+
+          {/* New Chat Button */}
+          <div className="p-4 border-b border-gray-200">
+            <button
+              onClick={startNewChat}
+              className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <PlusIcon className="w-4 h-4" />
+              <span>New Chat</span>
+            </button>
+          </div>
+
+          {/* Chat History */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">Recent Conversations</h3>
+            <div className="space-y-2">
+              {chatHistory.map((chat) => (
+                <button
+                  key={chat.id}
+                  className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                >
+                  <div className="text-sm text-gray-900 font-medium line-clamp-1">{chat.title}</div>
+                  <div className="text-xs text-gray-500 mt-1">{chat.date} • {chat.messages} messages</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* AI Modes */}
+          <div className="p-4 border-t border-gray-200">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">AI Modes</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {chatModes.slice(0, 4).map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={() => setSelectedMode(mode.id)}
+                  className={`flex flex-col items-center p-2 rounded-lg text-xs transition-colors ${
+                    selectedMode === mode.id
+                      ? 'bg-blue-50 text-blue-600 border border-blue-200'
+                      : 'hover:bg-gray-50 text-gray-600'
+                  }`}
+                >
+                  <mode.icon className="w-4 h-4 mb-1" />
+                  <span>{mode.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Main chat area */}
       <div className="flex-1 flex flex-col">
         {/* Chat header */}
-        <div className="bg-white border-b border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <BoltIcon className="w-8 h-8 text-purple-500" />
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-2 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <Bars3Icon className="w-5 h-5 text-gray-600" />
+            </button>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-medium">✦</span>
+              </div>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">AI Health Assistant</h2>
-                <p className="text-sm text-gray-600">
-                  Mode: {chatModes.find(m => m.id === selectedMode)?.name}
+                <p className="text-xs text-gray-500">
+                  {chatModes.find(m => m.id === selectedMode)?.name} Mode
                 </p>
               </div>
             </div>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="lg:hidden btn-outline px-3 py-2"
-            >
-              Settings
-            </button>
+          </div>
+          <div className="text-sm text-gray-500">
+            {messages.length - 1} messages
           </div>
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div
-                className={`max-w-[80%] ${
-                  message.sender === 'user'
-                    ? 'mediva-gradient text-white rounded-2xl rounded-br-md shadow-md'
-                    : 'bg-white text-gray-900 rounded-2xl rounded-bl-md shadow-md border border-gray-200'
-                } p-4`}
-              >
-                <div className="whitespace-pre-wrap">{message.content}</div>
-                
-                {message.sender === 'ai' && message.confidence && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>Confidence: {message.confidence}%</span>
-                      <span>{formatDateTime(message.timestamp)}</span>
-                    </div>
-                    {message.sources && (
-                      <div className="mt-1 text-xs text-gray-400">
-                        Sources: {message.sources.join(', ')}
-                      </div>
+              <div className={`flex items-start space-x-3 max-w-[85%] ${
+                message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+              }`}>
+                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                  message.sender === 'user' 
+                    ? 'bg-gray-200' 
+                    : 'bg-gradient-to-r from-blue-500 to-purple-600'
+                }`}>
+                  {message.sender === 'user' ? (
+                    <UserIcon className="w-4 h-4 text-gray-600" />
+                  ) : (
+                    <span className="text-white text-sm font-medium">✦</span>
+                  )}
+                </div>
+                <div className={`flex-1 ${
+                  message.sender === 'user' ? 'text-right' : 'text-left'
+                }`}>
+                  <div className={`inline-block p-4 rounded-2xl ${
+                    message.sender === 'user'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-50 text-gray-900 border border-gray-200'
+                  }`}>
+                    <div className="whitespace-pre-wrap">{message.content}</div>
+                  </div>
+                  <div className={`mt-1 text-xs text-gray-500 ${
+                    message.sender === 'user' ? 'text-right' : 'text-left'
+                  }`}>
+                    {formatDateTime(message.timestamp)}
+                    {message.sender === 'ai' && message.confidence && (
+                      <span className="ml-2">• {message.confidence}% confidence</span>
                     )}
                   </div>
-                )}
-                
-                {message.sender === 'user' && (
-                  <div className="mt-2 text-xs text-white/80 text-right">
-                    {formatDateTime(message.timestamp)}
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           ))}
           
           {isTyping && (
             <div className="flex justify-start">
-              <div className="bg-white text-gray-900 rounded-2xl rounded-bl-md p-4 shadow-md border border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="flex items-start space-x-3 max-w-[85%]">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                  <span className="text-white text-sm font-medium">✦</span>
+                </div>
+                <div className="flex-1">
+                  <div className="inline-block p-4 rounded-2xl bg-gray-50 border border-gray-200">
+                    <div className="flex items-center space-x-2">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-sm text-gray-600">AI is thinking...</span>
+                    </div>
                   </div>
-                  <span className="text-sm text-gray-600">AI is typing...</span>
                 </div>
               </div>
             </div>
@@ -312,146 +426,46 @@ Schedule annual wellness visits with your healthcare provider to stay on top of 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Quick prompts */}
-        <div className="border-t border-gray-200 p-4 bg-white">
-          <div className="flex flex-wrap gap-2 mb-4">
-            {quickPrompts.map((prompt, index) => (
-              <button
-                key={index}
-                onClick={() => handleQuickPrompt(prompt)}
-                className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors border border-gray-200"
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Message input */}
-        <div className="border-t border-gray-200 p-4 bg-white">
-          <div className="flex items-end space-x-3">
-            <div className="flex-1 relative">
-              <textarea
-                ref={inputRef}
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask about your health, symptoms, medications..."
-                className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 resize-none"
-                rows={2}
-              />
-            </div>
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputMessage.trim() || isTyping}
-              className="btn-primary p-3"
-            >
-              <PaperAirplaneIcon className="w-5 h-5" />
-            </button>
-          </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Press Enter to send, Shift+Enter for new line. This AI provides educational information only.
-          </p>
-        </div>
-      </div>
-
-      {/* Sidebar */}
-      <div className={`w-80 bg-white border-l border-gray-200 transition-transform lg:translate-x-0 ${
-        sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
-      }`}>
-        <div className="p-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Chat Modes</h3>
-          <div className="space-y-2">
-            {chatModes.map((mode) => (
-              <button
-                key={mode.id}
-                onClick={() => setSelectedMode(mode.id)}
-                className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                  selectedMode === mode.id
-                    ? 'bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200'
-                    : 'hover:bg-gray-50 border border-gray-100'
-                }`}
-              >
-                <mode.icon className={`w-6 h-6 ${
-                  selectedMode === mode.id 
-                    ? 'text-purple-600' 
-                    : mode.color
-                }`} />
-                <div className="text-left">
-                  <div className={`font-medium ${
-                    selectedMode === mode.id ? 'text-gray-900' : 'text-gray-700'
-                  }`}>{mode.name}</div>
-                  <div className="text-xs text-gray-500">{mode.description}</div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Patient context */}
-        <div className="p-4 border-b border-gray-200">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Your Health Context</h4>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-gray-600">
-              <span>Age:</span>
-              <span className="text-gray-900 font-medium">
-                {user?.date_of_birth ? 
-                  new Date().getFullYear() - new Date(user.date_of_birth).getFullYear() : 
-                  'Not provided'
-                }
-              </span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Last Check-up:</span>
-              <span className="text-gray-900 font-medium">2 months ago</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Health Score:</span>
-              <span className="text-green-600 font-medium">85/100</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Active Medications:</span>
-              <span className="text-gray-900 font-medium">3</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Conversation history */}
-        <div className="p-4">
-          <h4 className="text-sm font-medium text-gray-900 mb-3">Recent Conversations</h4>
-          <div className="space-y-2">
-            {[
-              { title: 'Blood pressure questions', date: '2 days ago', type: 'general' },
-              { title: 'Medication interactions', date: '1 week ago', type: 'medication' },
-              { title: 'Lab results review', date: '2 weeks ago', type: 'lab' },
-            ].map((conversation, index) => (
-              <button
-                key={index}
-                className="w-full text-left p-2 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100"
-              >
-                <div className="text-sm text-gray-900 font-medium">{conversation.title}</div>
-                <div className="text-xs text-gray-500">{conversation.date}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Disclaimer */}
-        <div className="p-4 border-t border-gray-200">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-            <div className="flex items-start space-x-2">
-              <ExclamationTriangleIcon className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <h5 className="text-sm font-medium text-yellow-800 mb-1">Important Notice</h5>
-                <p className="text-xs text-yellow-700">
-                  This AI provides educational information only and cannot replace professional medical advice. 
-                  For emergencies, call 911 immediately.
-                </p>
+        <div className="border-t border-gray-200 bg-white sticky bottom-0">
+          <div className="p-4">
+            <div className="flex items-end space-x-3 max-w-4xl mx-auto">
+              <div className="flex-1 relative">
+                <textarea
+                  ref={inputRef}
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Message AI Health Assistant..."
+                  className="w-full p-4 pr-12 bg-white border border-gray-300 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none shadow-sm"
+                  rows={1}
+                  style={{ minHeight: '52px', maxHeight: '120px' }}
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    target.style.height = 'auto';
+                    target.style.height = Math.min(target.scrollHeight, 120) + 'px';
+                  }}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!inputMessage.trim() || isTyping}
+                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 ${
+                    inputMessage.trim() && !isTyping
+                      ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  <PaperAirplaneIcon className="w-4 h-4" />
+                </button>
               </div>
             </div>
+            <p className="text-xs text-gray-500 mt-2 text-center max-w-4xl mx-auto">
+              AI can make mistakes. This AI provides educational information only and cannot replace professional medical advice.
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}

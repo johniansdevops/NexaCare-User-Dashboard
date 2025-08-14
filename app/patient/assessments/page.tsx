@@ -61,7 +61,7 @@ export default function AssessmentsPage() {
     }
   }
 
-  const categories = ['all', ...new Set(assessments.map(a => a.category))]
+  const categories = ['all', ...Array.from(new Set(assessments.map(a => a.category)))]
   
   const filteredAssessments = selectedCategory === 'all' 
     ? assessments 

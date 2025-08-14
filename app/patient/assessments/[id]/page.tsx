@@ -161,7 +161,10 @@ export default function AssessmentPage() {
               5: 'Email Address',
               6: 'Place of Residence'
             }
-            submissionData.user_info[fieldMap[question.id]] = answer
+            const fieldKey = fieldMap[question.id]
+            if (fieldKey) {
+              (submissionData.user_info as any)[fieldKey] = answer
+            }
           } else {
             // Assessment-specific questions
             submissionData.answers.push({
