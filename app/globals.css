@@ -555,4 +555,23 @@
   .icon-gradient-pink {
     background: linear-gradient(135deg, #ec4899, #a855f7, #3b82f6);
   }
+}
+
+/* Semantic Ash Color Tokens */
+:root {
+  --surface-1: #17181c; /* page canvas */
+  --surface-2: #1c1d22; /* cards, modals, boxes */
+  --border-subtle: #2a2b31; /* separators, outlines */
+  --text-primary: #e6eaf1;
+  --text-secondary: #b2b7c3;
+  --ring-focus: #3b82f6;
+}
+
+@layer utilities {
+  .bg-surface-1 { background-color: var(--surface-1); }
+  .bg-surface-2 { background-color: var(--surface-2); }
+  .text-primary { color: var(--text-primary); }
+  .text-secondary { color: var(--text-secondary); }
+  .border-subtle { border-color: var(--border-subtle); }
+  .ring-focus { --tw-ring-color: var(--ring-focus); }
 } 

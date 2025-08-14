@@ -78,7 +78,7 @@ export const DATABASE_SCHEMA = {
     patient_id: 'uuid REFERENCES patients(id)',
     provider_id: 'uuid REFERENCES providers(id)',
     type: "text CHECK (type IN ('in_person', 'telehealth', 'phone'))",
-    status: "text CHECK (status IN ('scheduled', 'confirmed', 'in_progress', 'completed', 'cancelled', 'no_show'))",
+    status: "text CHECK (status IN ('pending', 'scheduled', 'confirmed', 'in_progress', 'completed', 'cancelled', 'declined', 'no_show'))",
     date: 'date NOT NULL',
     start_time: 'time NOT NULL',
     end_time: 'time NOT NULL',

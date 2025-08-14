@@ -71,10 +71,12 @@ const appointmentTypes = [
 
 const appointmentStatuses = [
   { value: 'all', label: 'All Statuses', icon: '📋' },
-  { value: 'scheduled', label: 'Scheduled', icon: '⏳' },
+  { value: 'pending', label: 'Pending', icon: '⏳' },
+  { value: 'scheduled', label: 'Scheduled', icon: '📅' },
   { value: 'confirmed', label: 'Confirmed', icon: '✅' },
   { value: 'completed', label: 'Completed', icon: '✔️' },
   { value: 'cancelled', label: 'Cancelled', icon: '❌' },
+  { value: 'declined', label: 'Declined', icon: '⛔' },
 ];
 
 export default function PatientAppointments() {
@@ -422,7 +424,7 @@ export default function PatientAppointments() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-white min-h-screen animate-fade-in">
+      <div className="p-6 space-y-6 bg-surface-1 min-h-screen animate-fade-in">
         <div className="animate-pulse">
           <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -441,22 +443,22 @@ export default function PatientAppointments() {
   }
 
   return (
-    <div className="p-6 space-y-8 bg-white min-h-screen">
+    <div className="p-6 space-y-8 bg-surface-1 min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
         <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Appointments</h1>
-          <p className="text-lg text-gray-600">Manage your healthcare appointments and consultations</p>
-          <div className="mt-2 text-sm text-gray-500 font-mono">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-2">Appointments</h1>
+          <p className="text-lg text-secondary">Manage your healthcare appointments and consultations</p>
+          <div className="mt-2 text-sm text-secondary font-mono">
             Total: {appointments.length} appointments • Last updated: {new Date().toLocaleTimeString()}
           </div>
         </div>
         <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <Link href="/patient/ai-chat" className="btn-outline">
+          <Link href="/patient/ai-chat" className="btn-outline focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
             <SparklesIcon className="w-5 h-5 mr-2" />
             Ask AI
           </Link>
-          <Link href="/patient/appointments/book" className="btn-primary">
+          <Link href="/patient/appointments/book" className="btn-primary focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
             <PlusIcon className="w-5 h-5 mr-2" />
             Book Appointment
           </Link>
@@ -467,7 +469,7 @@ export default function PatientAppointments() {
       <div className="flex justify-center animate-slide-up">
         <button
           onClick={() => setShowProviders(!showProviders)}
-          className="btn-secondary px-6 py-3"
+          className="btn-secondary px-6 py-3 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
         >
           {showProviders ? (
             <>
@@ -485,54 +487,54 @@ export default function PatientAppointments() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-slide-up">
-        <div className="card-white p-6">
+        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
           <div className="flex items-center">
             <CalendarIcon className="w-8 h-8 text-blue-500 mr-4" />
             <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-gray-500">Upcoming</p>
-              <p className="text-3xl font-bold text-gray-900">{upcomingCount}</p>
-              <p className="text-xs text-gray-500 font-mono">Next 30 days</p>
+              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Upcoming</p>
+              <p className="text-3xl font-bold text-primary">{upcomingCount}</p>
+              <p className="text-xs text-secondary font-mono">Next 30 days</p>
             </div>
           </div>
         </div>
 
-        <div className="card-white p-6">
+        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
           <div className="flex items-center">
             <CheckCircleIcon className="w-8 h-8 text-green-500 mr-4" />
             <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-gray-500">Completed</p>
-              <p className="text-3xl font-bold text-gray-900">{completedCount}</p>
-              <p className="text-xs text-gray-500 font-mono">This year</p>
+              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Completed</p>
+              <p className="text-3xl font-bold text-primary">{completedCount}</p>
+              <p className="text-xs text-secondary font-mono">This year</p>
             </div>
           </div>
         </div>
 
-        <div className="card-white p-6">
+        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
           <div className="flex items-center">
             <ClockIcon className="w-8 h-8 text-purple-500 mr-4" />
             <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-gray-500">Today</p>
-              <p className="text-3xl font-bold text-gray-900">{todayCount}</p>
-              <p className="text-xs text-gray-500 font-mono">Scheduled</p>
+              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Today</p>
+              <p className="text-3xl font-bold text-primary">{todayCount}</p>
+              <p className="text-xs text-secondary font-mono">Scheduled</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Enhanced Filters */}
-      <div className="card-white p-6 animate-slide-up">
+      <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 animate-slide-up">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-6">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-              <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" />
+              <MagnifyingGlassIcon className="w-5 h-5 text-secondary" />
             </div>
             <input
               type="text"
               placeholder="Search appointments, doctors, specialties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input pl-10 pr-4 py-3 w-full"
+              className="input pl-10 pr-4 py-3 w-full focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
             />
           </div>
 
@@ -541,7 +543,7 @@ export default function PatientAppointments() {
             <select
               value={timeFilter}
               onChange={(e) => setTimeFilter(e.target.value)}
-              className="input px-4 py-2 min-w-[120px]"
+              className="input px-4 py-2 min-w-[120px] focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
             >
               <option value="upcoming">Upcoming</option>
               <option value="past">Past</option>
@@ -551,7 +553,7 @@ export default function PatientAppointments() {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="input px-4 py-2 min-w-[140px]"
+              className="input px-4 py-2 min-w-[140px] focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
             >
               {appointmentTypes.map((type) => (
                 <option key={type.value} value={type.value}>
@@ -563,7 +565,7 @@ export default function PatientAppointments() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="input px-4 py-2 min-w-[140px]"
+              className="input px-4 py-2 min-w-[140px] focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
             >
               {appointmentStatuses.map((status) => (
                 <option key={status.value} value={status.value}>
@@ -607,19 +609,19 @@ export default function PatientAppointments() {
       {/* Providers List or Appointments List */}
       {showProviders ? (
         <div className="animate-slide-up">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Available Healthcare Providers</h2>
+          <h2 className="text-2xl font-bold text-primary mb-6">Available Healthcare Providers</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {providers.map((provider) => (
-              <div key={provider.id} className="card-white p-6 hover:shadow-lg transition-all duration-300 group">
+              <div key={provider.id} className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 group">
                 {/* Provider Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center space-x-3">
                     <div className="text-4xl">{provider.avatar}</div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-lg font-semibold text-primary group-hover:text-blue-600 transition-colors duration-200">
                         {provider.name}
                       </h3>
-                      <p className="text-sm text-gray-600">{provider.specialty}</p>
+                      <p className="text-sm text-secondary">{provider.specialty}</p>
                     </div>
                   </div>
                 </div>
@@ -629,33 +631,33 @@ export default function PatientAppointments() {
                   <div className="flex items-center space-x-1">
                     <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
                     <span className="text-sm font-medium text-yellow-600">{provider.rating}</span>
-                    <span className="text-xs text-gray-500">({Math.floor(Math.random() * 200 + 50)} reviews)</span>
+                    <span className="text-xs text-secondary">({Math.floor(Math.random() * 200 + 50)} reviews)</span>
                   </div>
-                  <span className="text-xs text-gray-500 font-mono">{provider.experience}</span>
+                  <span className="text-xs text-secondary font-mono">{provider.experience}</span>
                 </div>
 
                 {/* Provider Details */}
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Next Available:</span>
+                    <span className="text-secondary">Next Available:</span>
                     <span className="font-medium text-green-600">{provider.nextAvailable}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Consultation Fee:</span>
+                    <span className="text-secondary">Consultation Fee:</span>
                     <span className="font-medium">${provider.consultationFee}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Availability:</span>
+                    <span className="text-secondary">Availability:</span>
                     <span className="font-medium">{provider.availability}</span>
                   </div>
                 </div>
 
                 {/* Languages */}
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-2">Languages:</p>
+                  <p className="text-xs text-secondary mb-2">Languages:</p>
                   <div className="flex flex-wrap gap-1">
                     {provider.languages.map((lang) => (
-                      <span key={lang} className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                      <span key={lang} className="px-2 py-1 bg-gray-100 text-secondary text-xs rounded-full">
                         {lang}
                       </span>
                     ))}
@@ -676,12 +678,12 @@ export default function PatientAppointments() {
                 <div className="flex space-x-2">
                   <Link 
                     href={`/patient/appointments/book?provider=${provider.id}`}
-                    className="btn-primary text-sm px-4 py-2 flex-1 text-center"
+                    className="btn-primary text-sm px-4 py-2 flex-1 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
                   >
                     <CalendarIcon className="w-4 h-4 mr-2 inline" />
                     Book Appointment
                   </Link>
-                  <button className="btn-outline text-sm px-4 py-2">
+                  <button className="btn-outline text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                     <UserIcon className="w-4 h-4" />
                   </button>
                 </div>
@@ -692,13 +694,13 @@ export default function PatientAppointments() {
       ) : (
       <div className="space-y-6 animate-slide-up">
         {filteredAppointments.length === 0 ? (
-          <div className="card-white p-12 text-center">
-            <CalendarIcon className="w-16 h-16 text-gray-400 mx-auto mb-6" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">No appointments found</h3>
-            <p className="text-gray-600 mb-6">
+          <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-12 text-center">
+            <CalendarIcon className="w-16 h-16 text-secondary mx-auto mb-6" />
+            <h3 className="text-xl font-semibold text-primary mb-4">No appointments found</h3>
+            <p className="text-secondary mb-6">
               {searchQuery ? 'Try adjusting your search criteria or filters.' : 'You don\'t have any appointments yet.'}
             </p>
-            <Link href="/patient/appointments/book" className="btn-primary">
+            <Link href="/patient/appointments/book" className="btn-primary focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
               <PlusIcon className="w-5 h-5 mr-2" />
               Book Your First Appointment
             </Link>
@@ -710,15 +712,15 @@ export default function PatientAppointments() {
             const isToday = appointment.date === new Date().toISOString().split('T')[0];
             
             return (
-              <div key={appointment.id} className="card-white p-6 hover:shadow-lg transition-all duration-300 group">
+              <div key={appointment.id} className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 group">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-6 flex-1">
                     {/* Date & Time Section */}
                     <div className="text-center min-w-[80px]">
-                      <div className={`text-3xl font-bold mb-1 ${isToday ? 'text-yellow-500' : 'text-gray-900'}`}>
+                      <div className={`text-3xl font-bold mb-1 ${isToday ? 'text-yellow-500' : 'text-primary'}`}>
                         {new Date(appointment.date).getDate()}
                       </div>
-                      <div className="text-sm text-gray-500 mb-1">
+                      <div className="text-sm text-secondary mb-1">
                         {new Date(appointment.date).toLocaleDateString('en', { month: 'short' })}
                       </div>
                       <div className={`text-sm font-semibold px-2 py-1 rounded-md ${
@@ -726,12 +728,12 @@ export default function PatientAppointments() {
                       }`}>
                         {formatTime(appointment.startTime)}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1 font-mono">
+                      <div className="text-xs text-secondary mt-1 font-mono">
                         {appointment.duration}min
                       </div>
                     </div>
 
-                    <div className="w-px h-24 bg-gray-300"></div>
+                    <div className="w-px h-24 divide-[#2a2b31]"></div>
 
                     {/* Appointment Details */}
                     <div className="flex-1">
@@ -739,10 +741,10 @@ export default function PatientAppointments() {
                         <div className="flex items-center space-x-3">
                           <div className="text-3xl">{appointment.provider.avatar}</div>
                           <div>
-                            <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                            <h3 className="text-lg font-semibold text-primary group-hover:text-blue-600 transition-colors duration-200">
                               {appointment.provider.name}
                             </h3>
-                            <p className="text-sm text-gray-600">{appointment.provider.specialty}</p>
+                            <p className="text-sm text-secondary">{appointment.provider.specialty}</p>
                             <div className="flex items-center space-x-3 mt-1">
                               <div className="flex items-center space-x-1">
                                 <StarIcon className="w-4 h-4 text-yellow-400 fill-current" />
@@ -750,7 +752,7 @@ export default function PatientAppointments() {
                                   {appointment.provider.rating}
                                 </span>
                               </div>
-                              <span className="text-xs text-gray-500 font-mono">
+                              <span className="text-xs text-secondary font-mono">
                                 {appointment.provider.experience} experience
                               </span>
                             </div>
@@ -779,9 +781,9 @@ export default function PatientAppointments() {
                         </div>
                       </div>
                       
-                      <h4 className="text-gray-900 font-semibold mb-3">{appointment.reason}</h4>
+                      <h4 className="text-primary font-semibold mb-3">{appointment.reason}</h4>
                       
-                      <div className="flex items-center space-x-6 text-sm text-gray-500 mb-3">
+                      <div className="flex items-center space-x-6 text-sm text-secondary mb-3">
                         <div className="flex items-center space-x-2">
                           <AppointmentIcon className="w-4 h-4" />
                           <span className="capitalize">{appointment.type.replace('_', ' ')}</span>
@@ -796,10 +798,10 @@ export default function PatientAppointments() {
                       </div>
 
                       {appointment.notes && (
-                        <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+                        <div className="mt-3 p-3 bg-surface-1 rounded-lg">
                           <div className="flex items-start space-x-2">
                             <DocumentTextIcon className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                            <p className="text-sm text-gray-700 leading-relaxed">{appointment.notes}</p>
+                            <p className="text-sm text-primary leading-relaxed">{appointment.notes}</p>
                           </div>
                         </div>
                       )}
@@ -813,7 +815,7 @@ export default function PatientAppointments() {
                         {appointment.type === 'telehealth' && appointment.meetingLink && (
                           <Link
                             href={appointment.meetingLink}
-                            className="btn-primary text-sm px-4 py-2"
+                            className="btn-primary text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
                           >
                             <VideoCameraIcon className="w-4 h-4 mr-2" />
                             Join Call
@@ -821,14 +823,14 @@ export default function PatientAppointments() {
                         )}
                         
                         {appointment.canReschedule && (
-                          <button className="btn-secondary text-sm px-4 py-2">
+                          <button className="btn-secondary text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                             <ClockIcon className="w-4 h-4 mr-2" />
                             Reschedule
                           </button>
                         )}
                         
                         {appointment.canCancel && (
-                          <button className="btn-outline text-sm px-4 py-2 text-red-500 border-red-300 hover:bg-red-50">
+                          <button className="btn-outline text-sm px-4 py-2 text-red-500 border-red-300 hover:bg-red-50 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                             <XCircleIcon className="w-4 h-4 mr-2" />
                             Cancel
                           </button>
@@ -838,18 +840,18 @@ export default function PatientAppointments() {
 
                     {appointment.status === 'completed' && (
                       <div className="flex flex-col space-y-2">
-                        <button className="btn-secondary text-sm px-4 py-2">
+                        <button className="btn-secondary text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                           <DocumentTextIcon className="w-4 h-4 mr-2" />
                           View Summary
                         </button>
-                        <button className="btn-outline text-sm px-4 py-2">
+                        <button className="btn-outline text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                           <CalendarIcon className="w-4 h-4 mr-2" />
                           Book Follow-up
                         </button>
                       </div>
                     )}
 
-                    <Link href={`/patient/appointments/${appointment.id}`} className="btn-ghost text-sm px-4 py-2">
+                    <Link href={`/patient/appointments/${appointment.id}`} className="btn-ghost text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
                       <ChevronRightIcon className="w-4 h-4 mr-2" />
                       Details
                     </Link>
@@ -863,27 +865,27 @@ export default function PatientAppointments() {
       )}
 
       {/* Quick Actions Panel */}
-      <div className="card-white p-6 animate-slide-up">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
+      <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 animate-slide-up">
+        <h3 className="text-xl font-semibold text-primary mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link href="/patient/appointments/book" className="card-white-interactive p-4 text-center">
+          <Link href="/patient/appointments/book" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
             <PlusIcon className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Book New Appointment</p>
+            <p className="text-sm font-medium text-primary">Book New Appointment</p>
           </Link>
           
-          <Link href="/patient/ai-chat" className="card-white-interactive p-4 text-center">
+          <Link href="/patient/ai-chat" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
             <BoltIcon className="w-8 h-8 text-purple-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Ask AI About Appointments</p>
+            <p className="text-sm font-medium text-primary">Ask AI About Appointments</p>
           </Link>
           
-          <Link href="/patient/appointments/history" className="card-white-interactive p-4 text-center">
+          <Link href="/patient/appointments/history" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
             <DocumentTextIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">View Appointment History</p>
+            <p className="text-sm font-medium text-primary">View Appointment History</p>
           </Link>
           
-          <Link href="/patient/providers" className="card-white-interactive p-4 text-center">
+          <Link href="/patient/providers" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
             <UserIcon className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Find New Providers</p>
+            <p className="text-sm font-medium text-primary">Find New Providers</p>
           </Link>
         </div>
       </div>
