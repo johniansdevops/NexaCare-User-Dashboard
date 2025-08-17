@@ -67,13 +67,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full dark">
-      <body className={`${inter.className} h-full bg-gray-950`}>
+    <html lang="en" className="h-full">
+      <body className={`${inter.className} h-full bg-white`}>
         <Providers>
-          <div className="min-h-screen bg-gray-950">
+          <div className="min-h-screen bg-gradient-light">
             <GlobalSidebar />
             <div className="lg:pl-20">
-              <main className="min-h-screen">
+              <main className="min-h-screen bg-white">
                 {children}
               </main>
             </div>
@@ -83,20 +83,20 @@ export default function RootLayout({
             toastOptions={{
               duration: 4000,
               style: {
-                background: '#1e293b',
-                color: '#f8fafc',
-                border: '1px solid #334155',
+                background: '#ffffff',
+                color: '#1f2937',
+                border: '1px solid #e5e7eb',
               },
               success: {
                 iconTheme: {
                   primary: '#22c55e',
-                  secondary: '#1e293b',
+                  secondary: '#ffffff',
                 },
               },
               error: {
                 iconTheme: {
                   primary: '#ef4444',
-                  secondary: '#1e293b',
+                  secondary: '#ffffff',
                 },
               },
             }}
