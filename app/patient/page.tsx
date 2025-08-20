@@ -51,10 +51,15 @@ interface Notification {
 }
 
 export default function PatientDashboard() {
-  // Mock user data for demo purposes
+  // Enhanced mock user data for demo purposes
   const user = {
-    full_name: 'John Doe',
-    date_of_birth: '1990-01-01'
+    full_name: 'Sarah Johnson',
+    date_of_birth: '1985-03-15',
+    email: 'sarah.johnson@email.com',
+    phone: '+1 (555) 123-4567',
+    address: '123 Health Street, Medical City, MC 12345',
+    insurance: 'BlueCross BlueShield - Premium Plan',
+    emergency_contact: 'Michael Johnson (Spouse) - +1 (555) 987-6543'
   };
 
   const [healthScore, setHealthScore] = useState(85);
@@ -208,6 +213,22 @@ export default function PatientDashboard() {
       type: 'assessment',
       confidence: 88
     },
+    {
+      id: '4',
+      title: 'Sleep Pattern Optimization',
+      message: 'Your sleep quality has increased by 15% this week! Going to bed 30 minutes earlier seems to be working. Consider maintaining this 10:30 PM bedtime routine.',
+      time: '6 hours ago',
+      type: 'positive',
+      confidence: 92
+    },
+    {
+      id: '5',
+      title: 'Hydration Goal Achievement',
+      message: 'Congratulations! You\'ve met your daily water intake goal for 5 consecutive days. This is contributing to your improved energy levels and skin health.',
+      time: '8 hours ago',
+      type: 'positive',
+      confidence: 87
+    },
   ];
 
   const notifications: Notification[] = [
@@ -233,6 +254,22 @@ export default function PatientDashboard() {
       message: 'Lisinopril prescription expires in 5 days. Order refill now to avoid interruption.',
       time: '1 day ago',
       type: 'medication',
+      urgent: false
+    },
+    {
+      id: '4',
+      title: 'Annual Physical Due',
+      message: 'Your annual wellness exam is due this month. Schedule with Dr. Rodriguez for comprehensive health screening.',
+      time: '3 days ago',
+      type: 'appointment',
+      urgent: false
+    },
+    {
+      id: '5',
+      title: 'Insurance Coverage Update',
+      message: 'Your insurance plan has been updated with new benefits. Review your updated coverage details.',
+      time: '1 week ago',
+      type: 'info',
       urgent: false
     },
   ];
