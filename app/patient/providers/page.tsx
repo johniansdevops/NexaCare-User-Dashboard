@@ -3,23 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  UserIcon,
   MagnifyingGlassIcon,
   FunnelIcon,
   CalendarIcon,
   StarIcon,
-  CheckCircleIcon,
   MapPinIcon,
-  PhoneIcon,
-  ChevronRightIcon,
-  ClockIcon,
   CurrencyDollarIcon,
-  AcademicCapIcon,
-  LanguageIcon,
-  SparklesIcon,
-  HeartIcon,
-  EyeIcon,
-  UserGroupIcon,
+  ClockIcon,
+  AdjustmentsHorizontalIcon,
+  VideoCameraIcon,
 } from '@heroicons/react/24/outline';
 import { sampleProviders } from '@/data/sample-data';
 
@@ -36,33 +28,34 @@ interface Provider {
   rating: number;
   total_patients: number;
   status: 'Available' | 'Busy' | 'Offline';
+  consultation_fee?: number;
+  next_available?: string;
 }
 
 const specialtyCategories = [
-  { value: 'all', label: 'All Specialties', icon: '🏥' },
-  { value: 'cardiology', label: 'Cardiology', icon: '❤️' },
-  { value: 'general practice', label: 'General Practice', icon: '👨‍⚕️' },
-  { value: 'dermatology', label: 'Dermatology', icon: '🧴' },
-  { value: 'orthopedics', label: 'Orthopedics', icon: '🦴' },
-  { value: 'endocrinology', label: 'Endocrinology', icon: '🔬' },
-  { value: 'neurology', label: 'Neurology', icon: '🧠' },
-  { value: 'pediatrics', label: 'Pediatrics', icon: '👶' },
-  { value: 'psychiatry', label: 'Psychiatry', icon: '🧘' },
-  { value: 'oncology', label: 'Oncology', icon: '🎗️' },
+  { value: 'all', label: 'All Specialties' },
+  { value: 'cardiology', label: 'Cardiology' },
+  { value: 'general practice', label: 'General Practice' },
+  { value: 'dermatology', label: 'Dermatology' },
+  { value: 'orthopedics', label: 'Orthopedics' },
+  { value: 'endocrinology', label: 'Endocrinology' },
+  { value: 'neurology', label: 'Neurology' },
+  { value: 'pediatrics', label: 'Pediatrics' },
+  { value: 'psychiatry', label: 'Psychiatry' },
+  { value: 'oncology', label: 'Oncology' },
 ];
 
 const statusFilters = [
-  { value: 'all', label: 'All Providers', icon: '👥' },
-  { value: 'Available', label: 'Available Now', icon: '🟢' },
-  { value: 'Busy', label: 'Busy', icon: '🟡' },
-  { value: 'Offline', label: 'Offline', icon: '🔴' },
+  { value: 'all', label: 'All Providers' },
+  { value: 'Available', label: 'Available Now' },
+  { value: 'Busy', label: 'Busy' },
 ];
 
 const sortOptions = [
+  { value: 'name', label: 'Name (A-Z)' },
   { value: 'rating', label: 'Highest Rated' },
   { value: 'experience', label: 'Most Experienced' },
-  { value: 'patients', label: 'Most Patients' },
-  { value: 'name', label: 'Alphabetical' },
+  { value: 'fee', label: 'Lowest Fee' },
 ];
 
 export default function ProvidersPage() {
@@ -72,12 +65,16 @@ export default function ProvidersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [specialtyFilter, setSpecialtyFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('rating');
+  const [sortBy, setSortBy] = useState('name');
   const [showFilters, setShowFilters] = useState(false);
 
-  // Enhanced mock data with additional providers for better showcase
+  // Enhanced mock data with consultation fees and next available times
   const enhancedProviders: Provider[] = [
-    ...sampleProviders,
+    ...sampleProviders.map(provider => ({
+      ...provider,
+      consultation_fee: Math.floor(Math.random() * 150) + 75, // $75-$225
+      next_available: provider.status === 'Available' ? 'Today' : 'Tomorrow'
+    })),
     {
       id: 'provider-004',
       full_name: 'Dr. James Wilson',
@@ -90,7 +87,9 @@ export default function ProvidersPage() {
       avatar: '👨‍⚕️',
       rating: 4.6,
       total_patients: 95,
-      status: 'Available'
+      status: 'Available',
+      consultation_fee: 180,
+      next_available: 'Today'
     },
     {
       id: 'provider-005',
@@ -101,10 +100,12 @@ export default function ProvidersPage() {
       license_number: 'MD567890',
       years_experience: 18,
       location: 'Endocrine Center - Room 201',
-      avatar: '👩‍⚕️',
+      avatar: '��‍⚕️',
       rating: 4.9,
       total_patients: 73,
-      status: 'Available'
+      status: 'Available',
+      consultation_fee: 165,
+      next_available: 'Today'
     },
     {
       id: 'provider-006',
@@ -118,7 +119,9 @@ export default function ProvidersPage() {
       avatar: '👨‍⚕️',
       rating: 4.8,
       total_patients: 88,
-      status: 'Available'
+      status: 'Available',
+      consultation_fee: 195,
+      next_available: 'Today'
     },
     {
       id: 'provider-007',
@@ -132,7 +135,9 @@ export default function ProvidersPage() {
       avatar: '👩‍⚕️',
       rating: 4.9,
       total_patients: 142,
-      status: 'Busy'
+      status: 'Busy',
+      consultation_fee: 135,
+      next_available: 'Tomorrow'
     },
     {
       id: 'provider-008',
@@ -146,7 +151,9 @@ export default function ProvidersPage() {
       avatar: '👨‍⚕️',
       rating: 4.7,
       total_patients: 67,
-      status: 'Available'
+      status: 'Available',
+      consultation_fee: 160,
+      next_available: 'Today'
     },
   ];
 
@@ -186,14 +193,14 @@ export default function ProvidersPage() {
     // Sort providers
     filtered.sort((a, b) => {
       switch (sortBy) {
+        case 'name':
+          return a.full_name.localeCompare(b.full_name);
         case 'rating':
           return b.rating - a.rating;
         case 'experience':
           return b.years_experience - a.years_experience;
-        case 'patients':
-          return b.total_patients - a.total_patients;
-        case 'name':
-          return a.full_name.localeCompare(b.full_name);
+        case 'fee':
+          return (a.consultation_fee || 0) - (b.consultation_fee || 0);
         default:
           return 0;
       }
@@ -205,47 +212,25 @@ export default function ProvidersPage() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Available':
-        return 'text-green-500';
+        return 'bg-green-100 text-green-800 border-green-200';
       case 'Busy':
-        return 'text-yellow-500';
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'Offline':
-        return 'text-red-500';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
       default:
-        return 'text-gray-500';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'Available':
-        return 'bg-green-100 text-green-700';
-      case 'Busy':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'Offline':
-        return 'bg-red-100 text-red-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
-
-  const availableCount = providers.filter(p => p.status === 'Available').length;
-  const busyCount = providers.filter(p => p.status === 'Busy').length;
-  const avgRating = providers.length > 0 ? 
-    (providers.reduce((sum, p) => sum + p.rating, 0) / providers.length).toFixed(1) : '0.0';
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-surface-1 min-h-screen animate-fade-in">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-32 bg-gray-200 rounded-xl"></div>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="p-6 space-y-6">
+        <div className="animate-pulse space-y-6">
+          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-16 bg-gray-200 rounded"></div>
+          <div className="space-y-4">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-80 bg-gray-200 rounded-xl"></div>
+              <div key={i} className="h-32 bg-gray-200 rounded"></div>
             ))}
           </div>
         </div>
@@ -254,131 +239,100 @@ export default function ProvidersPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8 bg-surface-1 min-h-screen">
+    <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-2">Healthcare Providers</h1>
-          <p className="text-lg text-secondary">Find and book appointments with qualified healthcare professionals</p>
-          <div className="mt-2 text-sm text-secondary font-mono">
-            {providers.length} providers available • Last updated: {new Date().toLocaleTimeString()}
-          </div>
+      <div className="border-b border-gray-200 pb-6">
+        <div className="flex items-center mb-2">
+          <VideoCameraIcon className="w-8 h-8 text-purple-600 mr-3" />
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            Telehealth Providers
+          </h1>
         </div>
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <Link href="/patient/ai-chat" className="btn-outline focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
-            <SparklesIcon className="w-5 h-5 mr-2" />
-            Ask AI
-          </Link>
-          <Link href="/patient/appointments" className="btn-secondary focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
-            <CalendarIcon className="w-5 h-5 mr-2" />
-            My Appointments
-          </Link>
+        <p className="text-gray-600">Book secure video consultations with qualified healthcare professionals</p>
+        <div className="mt-2 text-sm text-gray-500">
+          {providers.length} providers available for video consultations • {providers.filter(p => p.status === 'Available').length} available now
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-slide-up">
-        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
-          <div className="flex items-center">
-            <UserIcon className="w-8 h-8 text-green-500 mr-4" />
-            <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Available</p>
-              <p className="text-3xl font-bold text-primary">{availableCount}</p>
-              <p className="text-xs text-secondary font-mono">Ready to book</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
-          <div className="flex items-center">
-            <ClockIcon className="w-8 h-8 text-yellow-500 mr-4" />
-            <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Busy</p>
-              <p className="text-3xl font-bold text-primary">{busyCount}</p>
-              <p className="text-xs text-secondary font-mono">In appointments</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6">
-          <div className="flex items-center">
-            <StarIcon className="w-8 h-8 text-purple-500 mr-4" />
-            <div>
-              <p className="text-sm font-semibold tracking-wide uppercase text-secondary">Avg Rating</p>
-              <p className="text-3xl font-bold text-primary">{avgRating}</p>
-              <p className="text-xs text-secondary font-mono">Out of 5.0</p>
-            </div>
+      {/* Telehealth Info Banner */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="flex items-center">
+          <VideoCameraIcon className="w-6 h-6 text-blue-600 mr-3 flex-shrink-0" />
+          <div>
+            <h3 className="font-semibold text-blue-900">Video Consultations via Google Meet</h3>
+            <p className="text-blue-700 text-sm">All appointments are conducted through secure Google Meet video calls. You'll receive your meeting link after booking confirmation.</p>
           </div>
         </div>
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 animate-slide-up">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-6">
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           {/* Search */}
           <div className="relative flex-1 max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-              <MagnifyingGlassIcon className="w-5 h-5 text-secondary" />
-            </div>
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search providers, specialties, locations..."
+              placeholder="Search providers, specialties..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="input pl-10 pr-4 py-3 w-full focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
             />
           </div>
 
           {/* Filter Toggle */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="btn-secondary px-4 py-3 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+            className="flex items-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <FunnelIcon className="w-5 h-5 mr-2" />
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
+            <AdjustmentsHorizontalIcon className="w-5 h-5" />
+            Filters
+            {(specialtyFilter !== 'all' || statusFilter !== 'all' || sortBy !== 'name') && (
+              <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+            )}
           </button>
         </div>
 
         {/* Expandable Filters */}
         {showFilters && (
-          <div className="mt-6 pt-6 border-t border-subtle">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Specialty</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Specialty</label>
                 <select
                   value={specialtyFilter}
                   onChange={(e) => setSpecialtyFilter(e.target.value)}
-                  className="input w-full focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 >
                   {specialtyCategories.map((specialty) => (
                     <option key={specialty.value} value={specialty.value}>
-                      {specialty.icon} {specialty.label}
+                      {specialty.label}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Availability</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Availability</label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="input w-full focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 >
                   {statusFilters.map((status) => (
                     <option key={status.value} value={status.value}>
-                      {status.icon} {status.label}
+                      {status.label}
                     </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Sort By</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="input w-full focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -387,180 +341,117 @@ export default function ProvidersPage() {
                   ))}
                 </select>
               </div>
-
-              <div className="flex items-end">
+            </div>
+            
+            {(searchQuery || specialtyFilter !== 'all' || statusFilter !== 'all' || sortBy !== 'name') && (
+              <div className="mt-4 flex justify-end">
                 <button
                   onClick={() => {
                     setSearchQuery('');
                     setSpecialtyFilter('all');
                     setStatusFilter('all');
-                    setSortBy('rating');
+                    setSortBy('name');
                   }}
-                  className="btn-outline w-full px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+                  className="text-sm text-gray-600 hover:text-gray-800 underline"
                 >
-                  Clear Filters
+                  Clear all filters
                 </button>
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* Active Filters Display */}
-        {(searchQuery || specialtyFilter !== 'all' || statusFilter !== 'all' || sortBy !== 'rating') && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {searchQuery && (
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 text-xs rounded-full">Search: "{searchQuery}"</span>
-            )}
-            {specialtyFilter !== 'all' && (
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 text-xs rounded-full">
-                Specialty: {specialtyCategories.find(s => s.value === specialtyFilter)?.label}
-              </span>
-            )}
-            {statusFilter !== 'all' && (
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 text-xs rounded-full">
-                Status: {statusFilters.find(s => s.value === statusFilter)?.label}
-              </span>
-            )}
-            {sortBy !== 'rating' && (
-              <span className="bg-blue-100 text-blue-700 px-3 py-1 text-xs rounded-full">
-                Sort: {sortOptions.find(s => s.value === sortBy)?.label}
-              </span>
             )}
           </div>
         )}
       </div>
 
-      {/* Results Summary */}
-      <div className="flex items-center justify-between text-sm text-secondary animate-slide-up">
-        <span>Showing {filteredProviders.length} of {providers.length} providers</span>
-        <span className="font-mono">
-          {filteredProviders.filter(p => p.status === 'Available').length} available for booking
-        </span>
+      {/* Results Count */}
+      <div className="text-sm text-gray-600">
+        Showing {filteredProviders.length} of {providers.length} providers available for video consultations
       </div>
 
-      {/* Providers Grid */}
-      <div className="animate-slide-up">
+      {/* Providers List */}
+      <div className="space-y-4">
         {filteredProviders.length === 0 ? (
-          <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-12 text-center">
-            <UserIcon className="w-16 h-16 text-secondary mx-auto mb-6" />
-            <h3 className="text-xl font-semibold text-primary mb-4">No providers found</h3>
-            <p className="text-secondary mb-6">
-              Try adjusting your search criteria or filters to find more providers.
-            </p>
+          <div className="text-center py-12">
+            <p className="text-gray-500 mb-4">No providers found matching your criteria.</p>
             <button
               onClick={() => {
                 setSearchQuery('');
                 setSpecialtyFilter('all');
                 setStatusFilter('all');
-                setSortBy('rating');
+                setSortBy('name');
               }}
-              className="btn-primary focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200"
+              className="text-purple-600 hover:text-purple-800 underline"
             >
-              Clear All Filters
+              Clear all filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProviders.map((provider) => (
-              <div key={provider.id} className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 group">
-                {/* Provider Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="text-4xl">{provider.avatar}</div>
+          filteredProviders.map((provider) => (
+            <div
+              key={provider.id}
+              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-all duration-200"
+            >
+              <div className="flex items-start justify-between">
+                {/* Provider Info */}
+                <div className="flex-1">
+                  <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="text-lg font-semibold text-primary group-hover:text-blue-600 transition-colors duration-200">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-1">
                         {provider.full_name}
                       </h3>
-                      <p className="text-sm text-secondary">{provider.specialty}</p>
+                      <p className="text-purple-600 font-medium">{provider.specialty}</p>
+                    </div>
+                    <span className={`px-3 py-1 text-xs font-medium rounded-full border ${getStatusColor(provider.status)}`}>
+                      {provider.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <StarIcon className="w-4 h-4 mr-2 text-yellow-500" />
+                      <span className="font-medium text-yellow-600">{provider.rating}</span>
+                      <span className="ml-1">({Math.floor(Math.random() * 200 + 50)} reviews)</span>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-600">
+                      <ClockIcon className="w-4 h-4 mr-2" />
+                      <span>{provider.years_experience} years experience</span>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-600">
+                      <CurrencyDollarIcon className="w-4 h-4 mr-2" />
+                      <span>${provider.consultation_fee} video consultation</span>
+                    </div>
+                    
+                    <div className="flex items-center text-sm text-gray-600">
+                      <VideoCameraIcon className="w-4 h-4 mr-2" />
+                      <span>Next: {provider.next_available}</span>
                     </div>
                   </div>
-                  <span className={`px-2 py-1 text-xs rounded-full ${getStatusBadge(provider.status)}`}>
-                    {provider.status}
-                  </span>
-                </div>
 
-                {/* Rating and Experience */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-1">
-                    <StarIcon className="w-5 h-5 text-yellow-400 fill-current" />
-                    <span className="text-sm font-medium text-yellow-600">{provider.rating}</span>
-                    <span className="text-xs text-secondary">({Math.floor(Math.random() * 200 + 50)} reviews)</span>
-                  </div>
-                  <span className="text-xs text-secondary font-mono">{provider.years_experience} years</span>
-                </div>
-
-                {/* Provider Details */}
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center text-sm">
-                    <UserGroupIcon className="w-4 h-4 text-secondary mr-2" />
-                    <span className="text-secondary">{provider.total_patients} patients</span>
-                  </div>
-                  
-                  <div className="flex items-start text-sm">
-                    <MapPinIcon className="w-4 h-4 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                    <span className="text-secondary">{provider.location}</span>
-                  </div>
-                  
-                  <div className="flex items-center text-sm">
-                    <PhoneIcon className="w-4 h-4 text-secondary mr-2" />
-                    <span className="text-secondary">{provider.phone}</span>
+                  <div className="flex items-start text-sm text-gray-600 mb-4">
+                    <MapPinIcon className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>{provider.location} • Video consultations available</span>
                   </div>
                 </div>
 
-                {/* License Info */}
-                <div className="mb-4 p-3 bg-surface-1 rounded-lg">
-                  <div className="flex items-center text-xs text-secondary">
-                    <AcademicCapIcon className="w-4 h-4 mr-2" />
-                    <span>License: {provider.license_number}</span>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex space-x-2">
-                  <Link 
+                {/* Action Button */}
+                <div className="ml-6 flex-shrink-0">
+                  <Link
                     href={`/patient/appointments/book?provider=${provider.id}`}
-                    className={`btn-primary text-sm px-4 py-2 flex-1 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200 ${
-                      provider.status !== 'Available' ? 'opacity-50 cursor-not-allowed' : ''
+                    className={`inline-flex items-center px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      provider.status === 'Available'
+                        ? 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 shadow-md hover:shadow-lg transform hover:scale-105'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     }`}
                   >
-                    <CalendarIcon className="w-4 h-4 mr-2 inline" />
-                    {provider.status === 'Available' ? 'Book Appointment' : 'Not Available'}
+                    <VideoCameraIcon className="w-4 h-4 mr-2" />
+                    {provider.status === 'Available' ? 'Book Video Call' : 'Not Available'}
                   </Link>
-                  <button className="btn-outline text-sm px-4 py-2 focus-visible:ring-2 ring-focus focus-visible:outline-none transition-colors duration-200">
-                    <EyeIcon className="w-4 h-4" />
-                  </button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         )}
-      </div>
-
-      {/* Quick Actions Panel */}
-      <div className="bg-surface-2 border border-subtle rounded-xl shadow-sm hover:shadow-md transition-all p-6 animate-slide-up">
-        <h3 className="text-xl font-semibold text-primary mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link href="/patient/appointments/book" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
-            <CalendarIcon className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-primary">Book Appointment</p>
-          </Link>
-          
-          <Link href="/patient/ai-chat" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
-            <SparklesIcon className="w-8 h-8 text-purple-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-primary">Ask AI About Providers</p>
-          </Link>
-          
-          <Link href="/patient/appointments" className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center focus-visible:ring-2 ring-focus focus-visible:outline-none">
-            <ClockIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-primary">My Appointments</p>
-          </Link>
-          
-          <div className="bg-surface-1 border border-subtle rounded-lg hover:shadow-md transition-all p-4 text-center opacity-50">
-            <HeartIcon className="w-8 h-8 text-red-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-primary">Emergency Care</p>
-            <p className="text-xs text-secondary mt-1">Coming Soon</p>
-          </div>
-        </div>
       </div>
     </div>
   );

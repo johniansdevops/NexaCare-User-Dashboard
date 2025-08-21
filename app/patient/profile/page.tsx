@@ -1,599 +1,474 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import {
   UserIcon,
+  CogIcon,
+  QuestionMarkCircleIcon,
+  ArrowRightOnRectangleIcon,
+  PencilIcon,
+  BellIcon,
+  ShieldCheckIcon,
+  EyeIcon,
+  DevicePhoneMobileIcon,
+  ComputerDesktopIcon,
+  ChatBubbleLeftRightIcon,
+  DocumentTextIcon,
   PhoneIcon,
   EnvelopeIcon,
   MapPinIcon,
   CalendarIcon,
   IdentificationIcon,
   HeartIcon,
-  ShieldCheckIcon,
-  BellIcon,
-  CogIcon,
-  KeyIcon,
-  EyeIcon,
-  EyeSlashIcon,
   CheckCircleIcon,
-  ExclamationTriangleIcon,
-  PencilIcon,
-  PhotoIcon,
-  PlusIcon,
-  TrashIcon,
-  DevicePhoneMobileIcon,
-  ComputerDesktopIcon,
-  SparklesIcon,
-  DocumentTextIcon,
-  InformationCircleIcon,
-  ClockIcon,
 } from '@heroicons/react/24/outline';
 
-interface UserProfile {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-  gender: 'male' | 'female' | 'other' | 'prefer_not_to_say';
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  avatar?: string;
-  medicalId: string;
-  bloodType?: string;
-  allergies: string[];
-  medications: string[];
-  emergencyContact: {
-    name: string;
-    relationship: string;
-    phone: string;
-  };
-  insuranceInfo: {
-    provider: string;
-    policyNumber: string;
-    groupNumber: string;
-  };
-}
+type TabType = 'profile' | 'settings' | 'help' | 'signout';
 
-interface SecuritySettings {
-  twoFactorEnabled: boolean;
-  loginAlerts: boolean;
-  dataSharing: boolean;
-}
+export default function ProfilePage() {
+  const [activeTab, setActiveTab] = useState<TabType>('profile');
 
-interface NotificationSettings {
-  email: boolean;
-  sms: boolean;
-  push: boolean;
-  appointments: boolean;
-  medications: boolean;
-  healthInsights: boolean;
-}
-
-export default function PatientProfile() {
-  const [activeTab, setActiveTab] = useState('personal');
-  const [isEditing, setIsEditing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [securitySettings, setSecuritySettings] = useState<SecuritySettings>({
-    twoFactorEnabled: false,
-    loginAlerts: true,
-    dataSharing: false,
-  });
-  const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
-    email: true,
-    sms: true,
-    push: true,
-    appointments: true,
-    medications: true,
-    healthInsights: false,
-  });
+  // Mock user data - in real app this would come from auth context
+  const user = {
+    full_name: 'Benaiah Johnson',
+    email: 'benaiah.johnson@email.com',
+    phone: '+1 (555) 123-4567',
+    date_of_birth: '1990-01-15',
+    address: '123 Health Street, Medical City, MC 12345',
+    insurance: 'BlueCross BlueShield - Premium Plan',
+    emergency_contact: 'Sarah Johnson (Sister) - +1 (555) 987-6543',
+    health_score: 85,
+    last_checkup: '2025-01-05',
+    profile_picture: null,
+    member_since: '2023-06-15',
+  };
 
   const tabs = [
-    { id: 'personal', label: 'Personal Info', icon: UserIcon },
-    { id: 'emergency', label: 'Emergency Contact', icon: PhoneIcon },
-    { id: 'insurance', label: 'Insurance', icon: ShieldCheckIcon },
-    { id: 'notifications', label: 'Notifications', icon: BellIcon },
-    { id: 'security', label: 'Security', icon: KeyIcon },
+    { id: 'profile', label: 'Profile', icon: UserIcon },
+    { id: 'settings', label: 'Settings', icon: CogIcon },
+    { id: 'help', label: 'Help & Support', icon: QuestionMarkCircleIcon },
+    { id: 'signout', label: 'Sign Out', icon: ArrowRightOnRectangleIcon },
   ];
 
-  useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setProfile({
-        id: 'patient-001',
-        firstName: 'Benaiah',
-        lastName: 'Doe',
-        email: 'benaiah.doe@email.com',
-        phone: '+1 (555) 123-4567',
-        dateOfBirth: '1990-01-01',
-        gender: 'male',
-        address: {
-          street: '123 Main Street',
-          city: 'New York',
-          state: 'NY',
-          zipCode: '10001',
-          country: 'United States',
-        },
-        medicalId: 'MED-2024-001234',
-        bloodType: 'O+',
-        allergies: ['Penicillin', 'Shellfish'],
-        medications: ['Lisinopril 10mg', 'Vitamin D3'],
-        emergencyContact: {
-          name: 'Jane Doe',
-          relationship: 'Spouse',
-          phone: '+1 (555) 987-6543',
-        },
-        insuranceInfo: {
-          provider: 'Blue Cross Blue Shield',
-          policyNumber: 'ABC123456789',
-          groupNumber: 'GRP001',
-        },
-      });
-      setLoading(false);
-    }, 1000);
-  }, []);
-
-  const updateProfile = (updates: Partial<UserProfile>) => {
-    if (profile) {
-      setProfile({ ...profile, ...updates });
-    }
+  const handleSignOut = () => {
+    console.log('Sign out clicked');
+    // Add actual sign out logic here
   };
-
-  const calculateAge = (dateOfBirth: string) => {
-    const today = new Date();
-    const birthDate = new Date(dateOfBirth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  };
-
-  const renderPersonalInfo = () => (
-    <div className="space-y-6">
-      {/* Profile Header */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <div className="flex items-center space-x-6">
-          <div className="relative">
-            <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-              {profile?.avatar ? (
-                <img src={profile.avatar} alt="Profile" className="w-24 h-24 rounded-full object-cover" />
-              ) : (
-                <span className="text-white text-2xl font-bold">
-                  {profile?.firstName[0]}{profile?.lastName[0]}
-                </span>
-              )}
-            </div>
-            <button className="absolute bottom-0 right-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-              <PhotoIcon className="w-4 h-4 text-white" />
-            </button>
-          </div>
-          
-          <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900">{profile?.firstName} {profile?.lastName}</h2>
-            <p className="text-gray-600 mb-2">{profile && calculateAge(profile.dateOfBirth)} years old • {profile?.gender}</p>
-            <p className="text-sm text-gray-500 font-mono">Medical ID: {profile?.medicalId}</p>
-            {profile?.bloodType && (
-              <p className="text-sm text-red-600 font-medium mt-1">Blood Type: {profile.bloodType}</p>
-            )}
-          </div>
-          
-          <button
-            onClick={() => setIsEditing(!isEditing)}
-            className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
-          >
-            <PencilIcon className="w-4 h-4" />
-            <span>{isEditing ? 'Save' : 'Edit'}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Contact Information */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Contact Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-            <div className="flex items-center space-x-3">
-              <EnvelopeIcon className="w-5 h-5 text-gray-400" />
-              {isEditing ? (
-                <input
-                  type="email"
-                  value={profile?.email || ''}
-                  onChange={(e) => updateProfile({ email: e.target.value })}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                />
-              ) : (
-                <span className="text-gray-900">{profile?.email}</span>
-              )}
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-            <div className="flex items-center space-x-3">
-              <PhoneIcon className="w-5 h-5 text-gray-400" />
-              {isEditing ? (
-                <input
-                  type="tel"
-                  value={profile?.phone || ''}
-                  onChange={(e) => updateProfile({ phone: e.target.value })}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                />
-              ) : (
-                <span className="text-gray-900">{profile?.phone}</span>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Address */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Address</h3>
-        <div className="flex items-start space-x-3">
-          <MapPinIcon className="w-5 h-5 text-gray-400 mt-1" />
-          <div className="flex-1">
-            {isEditing ? (
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Street Address"
-                  value={profile?.address.street || ''}
-                  onChange={(e) => updateProfile({
-                    address: { ...profile!.address, street: e.target.value }
-                  })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="City"
-                    value={profile?.address.city || ''}
-                    onChange={(e) => updateProfile({
-                      address: { ...profile!.address, city: e.target.value }
-                    })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                  <input
-                    type="text"
-                    placeholder="State"
-                    value={profile?.address.state || ''}
-                    onChange={(e) => updateProfile({
-                      address: { ...profile!.address, state: e.target.value }
-                    })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="ZIP Code"
-                    value={profile?.address.zipCode || ''}
-                    onChange={(e) => updateProfile({
-                      address: { ...profile!.address, zipCode: e.target.value }
-                    })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Country"
-                    value={profile?.address.country || ''}
-                    onChange={(e) => updateProfile({
-                      address: { ...profile!.address, country: e.target.value }
-                    })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="text-gray-900">
-                <p>{profile?.address.street}</p>
-                <p>{profile?.address.city}, {profile?.address.state} {profile?.address.zipCode}</p>
-                <p>{profile?.address.country}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Health Information */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Health Information</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Allergies</label>
-            <div className="flex flex-wrap gap-2">
-              {profile?.allergies.map((allergy, index) => (
-                <span key={index} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm flex items-center">
-                  {allergy}
-                  {isEditing && (
-                    <button
-                      onClick={() => {
-                        const newAllergies = profile.allergies.filter((_, i) => i !== index);
-                        updateProfile({ allergies: newAllergies });
-                      }}
-                      className="ml-2 text-red-600 hover:text-red-800"
-                    >
-                      ×
-                    </button>
-                  )}
-                </span>
-              ))}
-              {isEditing && (
-                <button className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors">
-                  + Add Allergy
-                </button>
-              )}
-            </div>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current Medications</label>
-            <div className="flex flex-wrap gap-2">
-              {profile?.medications.map((medication, index) => (
-                <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center">
-                  {medication}
-                  {isEditing && (
-                    <button
-                      onClick={() => {
-                        const newMedications = profile.medications.filter((_, i) => i !== index);
-                        updateProfile({ medications: newMedications });
-                      }}
-                      className="ml-2 text-blue-600 hover:text-blue-800"
-                    >
-                      ×
-                    </button>
-                  )}
-                </span>
-              ))}
-              {isEditing && (
-                <button className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors">
-                  + Add Medication
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderEmergencyContact = () => (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Emergency Contact</h3>
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Contact Name</label>
-          <input
-            type="text"
-            value={profile?.emergencyContact.name || ''}
-            onChange={(e) => updateProfile({
-              emergencyContact: { ...profile!.emergencyContact, name: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Relationship</label>
-          <input
-            type="text"
-            value={profile?.emergencyContact.relationship || ''}
-            onChange={(e) => updateProfile({
-              emergencyContact: { ...profile!.emergencyContact, relationship: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-          <input
-            type="tel"
-            value={profile?.emergencyContact.phone || ''}
-            onChange={(e) => updateProfile({
-              emergencyContact: { ...profile!.emergencyContact, phone: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderInsurance = () => (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Insurance Information</h3>
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Insurance Provider</label>
-          <input
-            type="text"
-            value={profile?.insuranceInfo.provider || ''}
-            onChange={(e) => updateProfile({
-              insuranceInfo: { ...profile!.insuranceInfo, provider: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Policy Number</label>
-          <input
-            type="text"
-            value={profile?.insuranceInfo.policyNumber || ''}
-            onChange={(e) => updateProfile({
-              insuranceInfo: { ...profile!.insuranceInfo, policyNumber: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Group Number</label>
-          <input
-            type="text"
-            value={profile?.insuranceInfo.groupNumber || ''}
-            onChange={(e) => updateProfile({
-              insuranceInfo: { ...profile!.insuranceInfo, groupNumber: e.target.value }
-            })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderNotifications = () => (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Notification Preferences</h3>
-      <div className="space-y-6">
-        <div>
-          <h4 className="text-lg font-medium text-gray-900 mb-3">Delivery Methods</h4>
-          <div className="space-y-3">
-            {Object.entries(notificationSettings).slice(0, 3).map(([key, value]) => (
-              <label key={key} className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  checked={value}
-                  onChange={(e) => setNotificationSettings(prev => ({ ...prev, [key]: e.target.checked }))}
-                  className="w-4 h-4 text-purple-500 rounded focus:ring-purple-500"
-                />
-                <span className="text-gray-700 capitalize">{key}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        
-        <div>
-          <h4 className="text-lg font-medium text-gray-900 mb-3">Notification Types</h4>
-          <div className="space-y-3">
-            {Object.entries(notificationSettings).slice(3).map(([key, value]) => (
-              <label key={key} className="flex items-center space-x-3">
-                <input
-                  type="checkbox"
-                  checked={value}
-                  onChange={(e) => setNotificationSettings(prev => ({ ...prev, [key]: e.target.checked }))}
-                  className="w-4 h-4 text-purple-500 rounded focus:ring-purple-500"
-                />
-                <span className="text-gray-700 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderSecurity = () => (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Security Settings</h3>
-        <div className="space-y-4">
-          {Object.entries(securitySettings).map(([key, value]) => (
-            <label key={key} className="flex items-center justify-between">
-              <span className="text-gray-700 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-              <input
-                type="checkbox"
-                checked={value}
-                onChange={(e) => setSecuritySettings(prev => ({ ...prev, [key]: e.target.checked }))}
-                className="w-4 h-4 text-purple-500 rounded focus:ring-purple-500"
-              />
-            </label>
-          ))}
-        </div>
-      </div>
-      
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Password</h3>
-        <button className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors">
-          Change Password
-        </button>
-      </div>
-    </div>
-  );
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'emergency': return renderEmergencyContact();
-      case 'insurance': return renderInsurance();
-      case 'notifications': return renderNotifications();
-      case 'security': return renderSecurity();
-      default: return renderPersonalInfo();
+      case 'profile':
+        return (
+          <div className="space-y-6">
+            {/* Profile Header */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center space-x-6">
+                <div className="relative">
+                  <div className="w-24 h-24 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                    <span className="text-3xl font-bold text-white">
+                      {user.full_name.charAt(0)}
+                    </span>
+                  </div>
+                  <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-white rounded-full border-2 border-gray-200 flex items-center justify-center shadow-md hover:shadow-lg transition-shadow">
+                    <PencilIcon className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-2xl font-bold text-gray-900">{user.full_name}</h2>
+                  <p className="text-purple-600 font-medium">Premium Member</p>
+                  <div className="flex items-center mt-2">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-sm text-gray-600">Active since {new Date(user.member_since).toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold text-green-600">{user.health_score}</div>
+                  <p className="text-sm text-gray-600">Health Score</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Personal Information */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+                <button className="flex items-center text-purple-600 hover:text-purple-700 text-sm font-medium">
+                  <PencilIcon className="w-4 h-4 mr-1" />
+                  Edit
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <EnvelopeIcon className="w-5 h-5 text-gray-400 mr-3" />
+                    <div>
+                      <p className="text-sm text-gray-600">Email</p>
+                      <p className="font-medium">{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <PhoneIcon className="w-5 h-5 text-gray-400 mr-3" />
+                    <div>
+                      <p className="text-sm text-gray-600">Phone</p>
+                      <p className="font-medium">{user.phone}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <CalendarIcon className="w-5 h-5 text-gray-400 mr-3" />
+                    <div>
+                      <p className="text-sm text-gray-600">Date of Birth</p>
+                      <p className="font-medium">{new Date(user.date_of_birth).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-start">
+                    <MapPinIcon className="w-5 h-5 text-gray-400 mr-3 mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-600">Address</p>
+                      <p className="font-medium">{user.address}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <IdentificationIcon className="w-5 h-5 text-gray-400 mr-3" />
+                    <div>
+                      <p className="text-sm text-gray-600">Insurance</p>
+                      <p className="font-medium">{user.insurance}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <HeartIcon className="w-5 h-5 text-gray-400 mr-3" />
+                    <div>
+                      <p className="text-sm text-gray-600">Emergency Contact</p>
+                      <p className="font-medium">{user.emergency_contact}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Health Summary */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Health Summary</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+                  <div className="flex items-center">
+                    <CheckCircleIcon className="w-6 h-6 text-green-500 mr-3" />
+                    <div>
+                      <p className="text-sm text-green-600">Health Score</p>
+                      <p className="text-2xl font-bold text-green-700">{user.health_score}/100</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="flex items-center">
+                    <CalendarIcon className="w-6 h-6 text-blue-500 mr-3" />
+                    <div>
+                      <p className="text-sm text-blue-600">Last Checkup</p>
+                      <p className="text-lg font-semibold text-blue-700">
+                        {new Date(user.last_checkup).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                  <div className="flex items-center">
+                    <HeartIcon className="w-6 h-6 text-purple-500 mr-3" />
+                    <div>
+                      <p className="text-sm text-purple-600">Next Appointment</p>
+                      <p className="text-lg font-semibold text-purple-700">Jan 15, 2025</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'settings':
+        return (
+          <div className="space-y-6">
+            {/* Notification Settings */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <BellIcon className="w-6 h-6 text-purple-600 mr-3" />
+                <h3 className="text-lg font-semibold text-gray-900">Notification Preferences</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Appointment Reminders</p>
+                    <p className="text-sm text-gray-600">Get notified about upcoming appointments</p>
+                  </div>
+                  <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Health Insights</p>
+                    <p className="text-sm text-gray-600">Receive AI-powered health recommendations</p>
+                  </div>
+                  <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                  </button>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Marketing Communications</p>
+                    <p className="text-sm text-gray-600">Updates about new features and health tips</p>
+                  </div>
+                  <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Privacy Settings */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <ShieldCheckIcon className="w-6 h-6 text-purple-600 mr-3" />
+                <h3 className="text-lg font-semibold text-gray-900">Privacy & Security</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Profile Visibility</p>
+                    <p className="text-sm text-gray-600">Who can see your profile information</p>
+                  </div>
+                  <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>Healthcare Providers Only</option>
+                    <option>Private</option>
+                  </select>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Data Sharing</p>
+                    <p className="text-sm text-gray-600">Share anonymized data for research</p>
+                  </div>
+                  <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+                    <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* App Preferences */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <div className="flex items-center mb-4">
+                <ComputerDesktopIcon className="w-6 h-6 text-purple-600 mr-3" />
+                <h3 className="text-lg font-semibold text-gray-900">App Preferences</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Theme</p>
+                    <p className="text-sm text-gray-600">Choose your preferred theme</p>
+                  </div>
+                  <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>Light</option>
+                    <option>Dark</option>
+                    <option>System</option>
+                  </select>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-medium">Language</p>
+                    <p className="text-sm text-gray-600">Select your preferred language</p>
+                  </div>
+                  <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>English (US)</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'help':
+        return (
+          <div className="space-y-6">
+            {/* Quick Help */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Help</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button className="text-left p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-md transition-all duration-200">
+                  <ChatBubbleLeftRightIcon className="w-6 h-6 text-purple-600 mb-2" />
+                  <h4 className="font-medium mb-1">How to book an appointment</h4>
+                  <p className="text-sm text-gray-600">Learn how to schedule video consultations</p>
+                </button>
+                <button className="text-left p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-md transition-all duration-200">
+                  <HeartIcon className="w-6 h-6 text-purple-600 mb-2" />
+                  <h4 className="font-medium mb-1">Understanding your health score</h4>
+                  <p className="text-sm text-gray-600">What your health score means</p>
+                </button>
+                <button className="text-left p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-md transition-all duration-200">
+                  <DocumentTextIcon className="w-6 h-6 text-purple-600 mb-2" />
+                  <h4 className="font-medium mb-1">Accessing medical records</h4>
+                  <p className="text-sm text-gray-600">View and download your health records</p>
+                </button>
+                <button className="text-left p-4 border border-gray-200 rounded-lg hover:border-purple-300 hover:shadow-md transition-all duration-200">
+                  <DevicePhoneMobileIcon className="w-6 h-6 text-purple-600 mb-2" />
+                  <h4 className="font-medium mb-1">Video call setup</h4>
+                  <p className="text-sm text-gray-600">Prepare for your video consultation</p>
+                </button>
+              </div>
+            </div>
+
+            {/* Contact Support */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
+              <div className="space-y-4">
+                <div className="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <ChatBubbleLeftRightIcon className="w-6 h-6 text-blue-600 mr-3" />
+                  <div className="flex-1">
+                    <h4 className="font-medium text-blue-900">Live Chat</h4>
+                    <p className="text-sm text-blue-700">Chat with our support team</p>
+                  </div>
+                  <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                    Start Chat
+                  </button>
+                </div>
+                <div className="flex items-center p-4 bg-green-50 rounded-lg border border-green-200">
+                  <PhoneIcon className="w-6 h-6 text-green-600 mr-3" />
+                  <div className="flex-1">
+                    <h4 className="font-medium text-green-900">Phone Support</h4>
+                    <p className="text-sm text-green-700">Call us at +1 (888) NEXACARE</p>
+                  </div>
+                  <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
+                    Call Now
+                  </button>
+                </div>
+                <div className="flex items-center p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <EnvelopeIcon className="w-6 h-6 text-purple-600 mr-3" />
+                  <div className="flex-1">
+                    <h4 className="font-medium text-purple-900">Email Support</h4>
+                    <p className="text-sm text-purple-700">Send us an email for detailed help</p>
+                  </div>
+                  <button className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                    Send Email
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* FAQ */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Frequently Asked Questions</h3>
+              <div className="space-y-3">
+                <details className="group">
+                  <summary className="flex items-center justify-between cursor-pointer p-3 rounded-lg hover:bg-gray-50">
+                    <span className="font-medium">How do I prepare for a video consultation?</span>
+                    <svg className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div className="p-3 text-sm text-gray-600">
+                    Ensure you have a stable internet connection, test your camera and microphone, and have your medical information ready.
+                  </div>
+                </details>
+                <details className="group">
+                  <summary className="flex items-center justify-between cursor-pointer p-3 rounded-lg hover:bg-gray-50">
+                    <span className="font-medium">Can I reschedule my appointment?</span>
+                    <svg className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div className="p-3 text-sm text-gray-600">
+                    Yes, you can reschedule up to 24 hours before your appointment through the appointments page.
+                  </div>
+                </details>
+                <details className="group">
+                  <summary className="flex items-center justify-between cursor-pointer p-3 rounded-lg hover:bg-gray-50">
+                    <span className="font-medium">How is my health score calculated?</span>
+                    <svg className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div className="p-3 text-sm text-gray-600">
+                    Your health score is calculated based on various factors including vital signs, lifestyle habits, and medical history.
+                  </div>
+                </details>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'signout':
+        return (
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ArrowRightOnRectangleIcon className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Sign Out</h3>
+              <p className="text-gray-600 mb-6">Are you sure you want to sign out of your NexaCare account?</p>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={() => setActiveTab('profile')}
+                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSignOut}
+                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
     }
   };
 
-  if (loading) {
-    return (
-      <div className="p-6 space-y-6 bg-white min-h-screen animate-fade-in">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            <div className="h-64 bg-gray-200 rounded-xl"></div>
-            <div className="lg:col-span-3 h-64 bg-gray-200 rounded-xl"></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!profile) return null;
-
   return (
-    <div className="p-6 space-y-8 bg-white min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Profile Settings</h1>
-          <p className="text-lg text-gray-600">Manage your personal information, security, and preferences</p>
-        </div>
-        
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <Link href="/patient/ai-chat" className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2">
-            <SparklesIcon className="w-5 h-5" />
-            <span>Ask AI</span>
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Tab Navigation */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 h-fit animate-slide-up">
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Settings</h3>
-          <nav className="space-y-2">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                    activeTab === tab.id
-                      ? 'bg-purple-500 text-white'
-                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  <span className="text-sm font-medium">{tab.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50/30 via-purple-50/30 to-blue-50/30">
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent mb-2">
+            Profile & Settings
+          </h1>
+          <p className="text-gray-600">Manage your account, preferences, and get help</p>
         </div>
 
-        {/* Tab Content */}
-        <div className="lg:col-span-3 animate-slide-up">
-          {renderTabContent()}
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Sidebar Tabs */}
+          <div className="lg:w-64">
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <nav className="space-y-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as TabType)}
+                    className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                      activeTab === tab.id
+                        ? 'bg-gradient-to-r from-pink-50 to-purple-50 text-purple-700 border border-purple-200'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                  >
+                    <tab.icon className={`w-5 h-5 mr-3 ${
+                      activeTab === tab.id ? 'text-purple-600' : 'text-gray-400'
+                    }`} />
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex-1">
+            {renderTabContent()}
+          </div>
         </div>
       </div>
     </div>

@@ -41,7 +41,6 @@ const userNavigation: NavigationItem[] = [
   { name: 'Medications', href: '/patient/medications', icon: BeakerIcon },
   { name: 'Health Assessments', href: '/patient/assessments', icon: ClipboardDocumentCheckIcon },
   { name: 'Medical Records', href: '/patient/records-chat', icon: DocumentTextIcon },
-  { name: 'Profile', href: '/patient/profile', icon: UserIcon },
 ];
 
 interface GlobalSidebarProps {
@@ -59,11 +58,6 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
   const user = {
     full_name: 'Benaiah',
     role: 'patient'
-  };
-
-  const signOut = () => {
-    console.log('Sign out clicked');
-    // Add actual sign out logic here
   };
 
   return (
@@ -191,48 +185,21 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
             })}
           </nav>
 
-          {/* Bottom Icons */}
-          <div className="flex flex-col items-center py-4 space-y-2 border-t border-gray-100">
-            {/* Settings */}
-            <button
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-gray-50 transition-all duration-200 group relative"
-              title="Settings"
-            >
-              <CogIcon className="w-6 h-6 group-hover:filter group-hover:drop-shadow-sm" />
-              <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
-                Settings
-                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
-              </div>
-            </button>
-
-            {/* Help */}
-            <button
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-gray-50 transition-all duration-200 group relative"
-              title="Help"
-            >
-              <svg className="w-6 h-6 group-hover:filter group-hover:drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
-                Help
-                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
-              </div>
-            </button>
-
-            {/* User Profile */}
-            <button
-              onClick={signOut}
+          {/* Bottom User Profile Icon */}
+          <div className="flex flex-col items-center py-4 border-t border-gray-100">
+            <Link
+              href="/patient/profile"
               className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 flex items-center justify-center group relative shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-              title={`${user.full_name} - Sign out`}
+              title={`${user.full_name} - Profile & Settings`}
             >
               <span className="text-sm font-medium text-white">
                 {user.full_name?.charAt(0) || 'U'}
               </span>
               <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
-                Sign out
+                Profile & Settings
                 <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
