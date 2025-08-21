@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useAuth } from '@/app/providers';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ import {
   UserGroupIcon 
 } from '@heroicons/react/24/outline';
 
-export default function RegisterPage() {
+function RegisterForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -33,12 +33,12 @@ export default function RegisterPage() {
   const searchParams = useSearchParams();
 
   // Set role from URL parameter
-  useState(() => {
+  useEffect(() => {
     const roleParam = searchParams.get('role');
     if (roleParam === 'provider' || roleParam === 'patient') {
       setFormData(prev => ({ ...prev, role: roleParam }));
     }
-  });
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -320,5 +320,17 @@ export default function RegisterPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-dark-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-500"></div>
+      </div>
+    }>
+      <RegisterForm />
+    </Suspense>
   );
 } 

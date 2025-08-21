@@ -22,15 +22,16 @@ import {
   BoltIcon,
 } from '@heroicons/react/24/outline';
 import { calculateAge, formatDateTime, getHealthScoreColor } from '@/lib/utils';
-
-interface HealthMetric {
-  label: string;
-  value: string;
-  change: number;
-  trend: 'up' | 'down' | 'stable';
-  color: string;
-  unit?: string;
-}
+import {
+  getCurrentUser,
+  getPatientAppointments,
+  getPatientHealthMetrics,
+  getPatientMedicationAdherence,
+  sampleAIInsights,
+  sampleNotifications,
+  type HealthMetric,
+  type Appointment
+} from '@/data/sample-data';
 
 interface QuickAction {
   title: string;
@@ -51,101 +52,17 @@ interface Notification {
 }
 
 export default function PatientDashboard() {
-  // Enhanced mock user data for demo purposes
-  const user = {
-    full_name: 'Sarah Johnson',
-    date_of_birth: '1985-03-15',
-    email: 'sarah.johnson@email.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Health Street, Medical City, MC 12345',
-    insurance: 'BlueCross BlueShield - Premium Plan',
-    emergency_contact: 'Michael Johnson (Spouse) - +1 (555) 987-6543'
-  };
-
-  const [healthScore, setHealthScore] = useState(85);
+  // Get current user data from sample data
+  const user = getCurrentUser();
+  const [healthScore, setHealthScore] = useState(user.health_score);
   const [loading, setLoading] = useState(true);
 
-  // Enhanced health metrics with more detail
-  const healthMetrics: HealthMetric[] = [
-    { 
-      label: 'Blood Pressure', 
-      value: '120/80', 
-      change: -2, 
-      trend: 'down', 
-      color: 'text-green-400',
-      unit: 'mmHg'
-    },
-    { 
-      label: 'Heart Rate', 
-      value: '72', 
-      change: 0, 
-      trend: 'stable', 
-      color: 'text-blue-400',
-      unit: 'bpm'
-    },
-    { 
-      label: 'Weight', 
-      value: '165', 
-      change: -1.5, 
-      trend: 'down', 
-      color: 'text-green-400',
-      unit: 'lbs'
-    },
-    { 
-      label: 'BMI', 
-      value: '22.1', 
-      change: -0.3, 
-      trend: 'down', 
-      color: 'text-green-400',
-      unit: ''
-    },
-    { 
-      label: 'Sleep Quality', 
-      value: '8.2', 
-      change: 1.1, 
-      trend: 'up', 
-      color: 'text-purple-400',
-      unit: '/10'
-    },
-    { 
-      label: 'Steps Today', 
-      value: '8,450', 
-      change: 12, 
-      trend: 'up', 
-      color: 'text-orange-400',
-      unit: ''
-    },
-  ];
-
-  const upcomingAppointments = [
-    {
-      id: '1',
-      provider: 'Dr. Sarah Chen',
-      specialty: 'Cardiology',
-      date: '2024-01-15T10:00:00Z',
-      type: 'In-person',
-      location: 'Medical Center - Room 302',
-      avatar: '👩‍⚕️'
-    },
-    {
-      id: '2',
-      provider: 'Dr. Michael Rodriguez',
-      specialty: 'General Practice',
-      date: '2024-01-18T14:30:00Z',
-      type: 'Telehealth',
-      location: 'Video Call',
-      avatar: '👨‍⚕️'
-    },
-    {
-      id: '3',
-      provider: 'Dr. Emily Park',
-      specialty: 'Dermatology',
-      date: '2024-01-22T09:15:00Z',
-      type: 'In-person',
-      location: 'Dermatology Clinic',
-      avatar: '👩‍⚕️'
-    },
-  ];
+  // Get user-specific data from sample data
+  const healthMetrics = getPatientHealthMetrics(user.id);
+  const upcomingAppointments = getPatientAppointments(user.id);
+  const medicationAdherence = getPatientMedicationAdherence(user.id);
+  const aiInsights = sampleAIInsights;
+  const notifications = sampleNotifications;
 
   const quickActions: QuickAction[] = [
     {
@@ -179,101 +96,6 @@ export default function PatientDashboard() {
     },
   ];
 
-  const medicationAdherence = {
-    percentage: 94,
-    missed: 2,
-    total: 28,
-    streak: 12,
-    nextDose: '8:00 PM',
-    medications: ['Lisinopril', 'Metformin', 'Vitamin D']
-  };
-
-  const aiInsights = [
-    {
-      id: '1',
-      title: 'Excellent Blood Pressure Trend',
-      message: 'Your blood pressure has improved 5% over the last month. Your consistent exercise routine is paying off! Keep maintaining 150+ minutes of moderate activity weekly.',
-      time: '2 hours ago',
-      type: 'positive',
-      confidence: 95
-    },
-    {
-      id: '2',
-      title: 'Medication Reminder Alert',
-      message: 'You have a 12-day perfect adherence streak! Your evening Lisinopril dose is due at 8:00 PM today. Setting a phone reminder might help maintain this excellent routine.',
-      time: '4 hours ago',
-      type: 'reminder',
-      confidence: 100
-    },
-    {
-      id: '3',
-      title: 'Monthly Assessment Ready',
-      message: 'Your comprehensive cardiovascular health assessment is available. Based on your recent metrics, this will likely show continued improvement. Takes about 5 minutes.',
-      time: '1 day ago',
-      type: 'assessment',
-      confidence: 88
-    },
-    {
-      id: '4',
-      title: 'Sleep Pattern Optimization',
-      message: 'Your sleep quality has increased by 15% this week! Going to bed 30 minutes earlier seems to be working. Consider maintaining this 10:30 PM bedtime routine.',
-      time: '6 hours ago',
-      type: 'positive',
-      confidence: 92
-    },
-    {
-      id: '5',
-      title: 'Hydration Goal Achievement',
-      message: 'Congratulations! You\'ve met your daily water intake goal for 5 consecutive days. This is contributing to your improved energy levels and skin health.',
-      time: '8 hours ago',
-      type: 'positive',
-      confidence: 87
-    },
-  ];
-
-  const notifications: Notification[] = [
-    {
-      id: '1',
-      title: 'Cardiology Appointment Tomorrow',
-      message: 'Dr. Chen appointment at 10:00 AM. Bring your blood pressure log and current medications list.',
-      time: '30 minutes ago',
-      type: 'appointment',
-      urgent: false
-    },
-    {
-      id: '2',
-      title: 'Lab Results Available',
-      message: 'Your comprehensive metabolic panel results are ready for review. All values within normal ranges.',
-      time: '2 hours ago',
-      type: 'info',
-      urgent: true
-    },
-    {
-      id: '3',
-      title: 'Medication Refill Due',
-      message: 'Lisinopril prescription expires in 5 days. Order refill now to avoid interruption.',
-      time: '1 day ago',
-      type: 'medication',
-      urgent: false
-    },
-    {
-      id: '4',
-      title: 'Annual Physical Due',
-      message: 'Your annual wellness exam is due this month. Schedule with Dr. Rodriguez for comprehensive health screening.',
-      time: '3 days ago',
-      type: 'appointment',
-      urgent: false
-    },
-    {
-      id: '5',
-      title: 'Insurance Coverage Update',
-      message: 'Your insurance plan has been updated with new benefits. Review your updated coverage details.',
-      time: '1 week ago',
-      type: 'info',
-      urgent: false
-    },
-  ];
-
   useEffect(() => {
     // Simulate loading with realistic delay
     setTimeout(() => setLoading(false), 1200);
@@ -300,9 +122,9 @@ export default function PatientDashboard() {
       <div className="mb-8 animate-slide-up">
         <div className="flex items-center justify-between mb-6">
           <div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
               Welcome back, <span className="gradient-text">{user?.full_name?.split(' ')[0]}</span>! 👋
-        </h1>
+            </h1>
             <p className="text-lg text-gray-600">
               Here's your health overview for {new Date().toLocaleDateString('en-US', { 
                 weekday: 'long', 
@@ -310,7 +132,7 @@ export default function PatientDashboard() {
                 month: 'long', 
                 day: 'numeric' 
               })}
-        </p>
+            </p>
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/patient/ai-chat" className="btn-primary">
@@ -335,8 +157,8 @@ export default function PatientDashboard() {
             <div className={`text-5xl font-bold ${getHealthScoreColor(healthScore)} mb-2`}>
               {healthScore}
             </div>
-                         <div className="flex items-center justify-end text-green-600 text-sm">
-               <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
+            <div className="flex items-center justify-end text-green-600 text-sm">
+              <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
               +3 this week
             </div>
           </div>
@@ -344,12 +166,12 @@ export default function PatientDashboard() {
         
         <div className="relative mb-4">
           <div className="bg-gray-200 rounded-full h-3">
-          <div 
+            <div 
               className="h-3 rounded-full mediva-gradient transition-all duration-1000 ease-out"
-            style={{ width: `${healthScore}%` }}
-          ></div>
+              style={{ width: `${healthScore}%` }}
+            ></div>
+          </div>
         </div>
-      </div>
 
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-500 font-mono">Health Score Trend</span>
@@ -402,12 +224,12 @@ export default function PatientDashboard() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
                     <div className="text-2xl">{appointment.avatar}</div>
-                  <div>
-                      <p className="font-semibold text-gray-900">{appointment.provider}</p>
-                    <p className="text-sm text-gray-600">{appointment.specialty}</p>
-                    <p className="text-sm text-gray-500 mt-1 font-mono">
-                      {formatDateTime(appointment.date)}
-                    </p>
+                    <div>
+                      <p className="font-semibold text-gray-900">{appointment.provider_name}</p>
+                      <p className="text-sm text-gray-600">{appointment.specialty}</p>
+                      <p className="text-sm text-gray-500 mt-1 font-mono">
+                        {formatDateTime(appointment.date)}
+                      </p>
                     </div>
                   </div>
                   <span className={`px-2 py-1 text-xs rounded-full ${
@@ -451,11 +273,11 @@ export default function PatientDashboard() {
             </div>
             
             <div className="space-y-3">
-            <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm">
                 <span className="text-gray-500 font-mono">Doses taken</span>
                 <span className="text-gray-900 font-medium">
                   {medicationAdherence.total - medicationAdherence.missed} of {medicationAdherence.total}
-              </span>
+                </span>
               </div>
               
               <div className="flex justify-between text-sm">
@@ -463,12 +285,12 @@ export default function PatientDashboard() {
                 <span className="text-green-500 font-medium flex items-center">
                   <FireIcon className="w-4 h-4 mr-1" />
                   {medicationAdherence.streak} days
-              </span>
+                </span>
               </div>
               
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500 font-mono">Next dose</span>
-                <span className="text-blue-500 font-medium">{medicationAdherence.nextDose}</span>
+                <span className="text-blue-500 font-medium">{medicationAdherence.next_dose}</span>
               </div>
             </div>
           </div>
@@ -495,8 +317,8 @@ export default function PatientDashboard() {
                     {metric.value}
                     {metric.unit && <span className="text-xs ml-1">{metric.unit}</span>}
                   </span>
-                                     {metric.trend === 'up' && <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />}
-                   {metric.trend === 'down' && <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />}
+                  {metric.trend === 'up' && <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />}
+                  {metric.trend === 'down' && <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />}
                   {metric.trend === 'stable' && (
                     <div className="w-4 h-4 flex items-center justify-center">
                       <div className="w-3 h-0.5 bg-gray-500 rounded"></div>
@@ -540,7 +362,7 @@ export default function PatientDashboard() {
                   <h4 className="font-semibold text-gray-900 mb-2">{insight.title}</h4>
                   <p className="text-sm text-gray-600 mb-3 leading-relaxed">{insight.message}</p>
                   <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500 font-mono">{insight.time}</p>
+                    <p className="text-xs text-gray-500 font-mono">{insight.time}</p>
                     <span className="text-xs text-green-600 font-mono">
                       {insight.confidence}% confidence
                     </span>
