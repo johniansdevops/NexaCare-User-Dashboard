@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { formatDate, formatTime } from '@/lib/utils';
@@ -31,7 +31,7 @@ interface TimeSlot {
   available: boolean;
 }
 
-export default function BookAppointment() {
+function BookAppointmentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -93,34 +93,34 @@ export default function BookAppointment() {
         id: p.id,
         full_name: p.full_name,
         avatar_url: p.avatar_url,
-        specialty: p.providers?.specialty || p.providers?.[0]?.specialty,
-        consultation_fee: p.providers?.consultation_fee || p.providers?.[0]?.consultation_fee,
-        years_of_experience: p.providers?.years_of_experience || p.providers?.[0]?.years_of_experience,
-        languages: p.providers?.languages || p.providers?.[0]?.languages,
-        availability: p.providers?.availability || p.providers?.[0]?.availability,
+        specialty: p.providers.specialty,
+        consultation_fee: p.providers.consultation_fee,
+        years_of_experience: p.providers.years_of_experience,
+        languages: p.providers.languages,
+        availability: p.providers.availability,
       })) || [];
 
       setProviders(formattedProviders);
     } catch (error) {
       console.error('Error fetching providers:', error);
-      setError('Failed to load providers');
+      // Fallback to empty array
+      setProviders([]);
     }
   };
 
   const fetchAvailableSlots = async () => {
-    // In a real implementation, this would check existing appointments
-    // and provider availability to generate available time slots
+    // Mock available slots - in real app, this would check actual availability
     const slots: TimeSlot[] = [];
     for (let hour = 9; hour < 17; hour++) {
       slots.push({
         start: `${hour.toString().padStart(2, '0')}:00`,
         end: `${hour.toString().padStart(2, '0')}:30`,
-        available: true,
+        available: Math.random() > 0.3, // 70% chance slot is available
       });
       slots.push({
         start: `${hour.toString().padStart(2, '0')}:30`,
         end: `${(hour + 1).toString().padStart(2, '0')}:00`,
-        available: true,
+        available: Math.random() > 0.3,
       });
     }
     setAvailableSlots(slots);
@@ -260,9 +260,14 @@ export default function BookAppointment() {
                   </div>
                 </div>
                 <div className="text-sm text-secondary space-y-1">
-                  <p>{provider.years_of_experience} years experience</p>
+                  {provider.years_of_experience && (
+                    <p>{provider.years_of_experience} years experience</p>
+                  )}
                   {provider.consultation_fee && (
-                    <p className="font-semibold text-primary">${provider.consultation_fee}</p>
+                    <p>Fee: ${provider.consultation_fee}</p>
+                  )}
+                  {provider.languages && provider.languages.length > 0 && (
+                    <p>Languages: {provider.languages.join(', ')}</p>
                   )}
                 </div>
               </div>
@@ -270,140 +275,153 @@ export default function BookAppointment() {
           </div>
         </div>
 
-        {/* Step 2: Appointment Type */}
-        <div className="bg-surface-2 border border-subtle rounded-xl p-6">
-          <h2 className="text-2xl font-semibold text-primary mb-4">Appointment Type</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { value: 'in_person', label: 'In-Person', icon: '🏥' },
-              { value: 'telehealth', label: 'Telehealth', icon: '💻' },
-              { value: 'phone', label: 'Phone Call', icon: '📞' },
-            ].map((type) => (
-              <label
-                key={type.value}
-                className={`p-4 border rounded-lg cursor-pointer transition-all flex items-center gap-3 ${
-                  appointmentType === type.value
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-subtle hover:border-gray-400'
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="appointmentType"
-                  value={type.value}
-                  checked={appointmentType === type.value}
-                  onChange={(e) => setAppointmentType(e.target.value as any)}
-                  className="sr-only"
-                />
-                <span className="text-2xl">{type.icon}</span>
-                <span className="font-medium">{type.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Step 3: Select Date & Time */}
+        {/* Rest of the form - only show if provider is selected */}
         {selectedProvider && (
-          <div className="bg-surface-2 border border-subtle rounded-xl p-6">
-            <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
-              <CalendarIcon className="w-6 h-6 text-blue-500" />
-              Select Date & Time Range
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Date</label>
-                <input
-                  type="date"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  min={minDate}
-                  max={maxDate}
-                  className="input w-full"
-                  required
-                />
+          <>
+            {/* Step 2: Select Appointment Type */}
+            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+              <h2 className="text-2xl font-semibold text-primary mb-4">Appointment Type</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {['in_person', 'telehealth', 'phone'].map((type) => (
+                  <label key={type} className="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="radio"
+                      name="appointmentType"
+                      value={type}
+                      checked={appointmentType === type}
+                      onChange={(e) => setAppointmentType(e.target.value as any)}
+                      className="w-4 h-4 text-blue-600"
+                    />
+                    <span className="capitalize text-primary">{type.replace('_', ' ')}</span>
+                  </label>
+                ))}
               </div>
+            </div>
+
+            {/* Step 3: Select Date and Time */}
+            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+              <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
+                <CalendarIcon className="w-6 h-6 text-green-500" />
+                Select Date & Time
+              </h2>
               
-              {selectedDate && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-secondary mb-2">Preferred Time Range</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <input
-                      type="time"
-                      value={selectedTimeRange.start}
-                      onChange={(e) => setSelectedTimeRange({ ...selectedTimeRange, start: e.target.value })}
-                      className="input"
-                      required
-                    />
-                    <input
-                      type="time"
-                      value={selectedTimeRange.end}
-                      onChange={(e) => setSelectedTimeRange({ ...selectedTimeRange, end: e.target.value })}
-                      min={selectedTimeRange.start}
-                      className="input"
-                      required
-                    />
-                  </div>
-                  <p className="text-xs text-secondary mt-1">Provider will confirm exact time</p>
+                  <label className="block text-sm font-medium text-secondary mb-2">
+                    Select Date
+                  </label>
+                  <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    min={minDate}
+                    max={maxDate}
+                    className="input w-full"
+                    required
+                  />
                 </div>
-              )}
-            </div>
-          </div>
-        )}
 
-        {/* Step 4: Appointment Details */}
-        {selectedProvider && selectedDate && selectedTimeRange.start && (
-          <div className="bg-surface-2 border border-subtle rounded-xl p-6">
-            <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
-              <DocumentTextIcon className="w-6 h-6 text-blue-500" />
-              Appointment Details
-            </h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Reason for Visit</label>
-                <input
-                  type="text"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="e.g., Annual checkup, Follow-up consultation"
-                  className="input w-full"
-                  required
-                />
+                {selectedDate && (
+                  <div>
+                    <label className="block text-sm font-medium text-secondary mb-2">
+                      Available Time Slots
+                    </label>
+                    <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                      {availableSlots.filter(slot => slot.available).map((slot) => (
+                        <button
+                          key={`${slot.start}-${slot.end}`}
+                          type="button"
+                          onClick={() => setSelectedTimeRange({ start: slot.start, end: slot.end })}
+                          className={`p-2 text-sm border rounded transition-all ${
+                            selectedTimeRange.start === slot.start
+                              ? 'border-blue-500 bg-blue-50 text-blue-700'
+                              : 'border-gray-200 hover:border-gray-400'
+                          }`}
+                        >
+                          {formatTime(slot.start)} - {formatTime(slot.end)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+            </div>
+
+            {/* Step 4: Reason and Notes */}
+            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+              <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
+                <DocumentTextIcon className="w-6 h-6 text-purple-500" />
+                Appointment Details
+              </h2>
               
-              <div>
-                <label className="block text-sm font-medium text-secondary mb-2">Additional Notes (Optional)</label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Any specific concerns or information for the provider"
-                  rows={4}
-                  className="input w-full"
-                />
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-secondary mb-2">
+                    Reason for Appointment *
+                  </label>
+                  <input
+                    type="text"
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="e.g., Annual checkup, follow-up consultation..."
+                    className="input w-full"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-secondary mb-2">
+                    Additional Notes (Optional)
+                  </label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Any additional information you'd like to share..."
+                    rows={3}
+                    className="input w-full"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )}
 
-        {/* Submit Button */}
-        <div className="flex justify-end gap-4">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="btn-outline"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={!selectedProvider || !selectedDate || !selectedTimeRange.start || !selectedTimeRange.end || !reason || loading}
-            className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Booking...' : 'Send Booking Request'}
-          </button>
-        </div>
+            {/* Submit Button */}
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={loading || !selectedProvider || !selectedDate || !selectedTimeRange.start || !reason}
+                className="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Booking...' : 'Book Appointment'}
+              </button>
+            </div>
+          </>
+        )}
       </form>
     </div>
+  );
+}
+
+// Loading fallback component
+function BookAppointmentLoading() {
+  return (
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 bg-surface-1 min-h-screen animate-fade-in">
+      <div className="animate-pulse">
+        <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+        <div className="space-y-6">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="h-40 bg-gray-200 rounded-xl"></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main component with Suspense boundary
+export default function BookAppointment() {
+  return (
+    <Suspense fallback={<BookAppointmentLoading />}>
+      <BookAppointmentContent />
+    </Suspense>
   );
 }
