@@ -383,51 +383,9 @@ export default function PatientRecordsChat() {
         </div>
       </div>
 
-      {/* Key Insights */}
-      {insights.length > 0 && (
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 animate-slide-up">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
-                <span className="text-white font-bold">✦</span>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900">Key Health Insights</h3>
-            </div>
-            <span className="text-sm text-gray-500 font-mono">AI-generated from your records</span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {insights.map(insight => (
-              <div
-                key={insight.id}
-                className={`p-4 rounded-xl border-2 ${getSeverityColor(insight.severity)}`}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <h4 className="font-semibold text-gray-900">{insight.title}</h4>
-                  {insight.actionRequired && (
-                    <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full">
-                      Action Required
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm text-gray-600 mb-3">{insight.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">
-                    From: {documents.find(d => d.id === insight.documentId)?.name}
-                  </span>
-                  <button className="text-xs bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded-lg transition-colors">
-                    Discuss with AI
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Chat Interface */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm p-6 animate-slide-up">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Main Chat Interface - Full Width */}
+        <div className="lg:col-span-3 bg-white rounded-xl border border-gray-200 shadow-sm p-6 animate-slide-up">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-semibold text-gray-900">Chat with AI Assistant</h3>
             <div className="flex items-center space-x-2">
@@ -437,7 +395,7 @@ export default function PatientRecordsChat() {
           </div>
           
           {/* Messages */}
-          <div className="h-96 overflow-y-auto space-y-4 mb-6 pr-2 bg-gray-50 rounded-lg p-4">
+          <div className="h-[600px] overflow-y-auto space-y-4 mb-6 pr-2 bg-gray-50 rounded-lg p-4">
             {messages.map(message => (
               <div
                 key={message.id}
@@ -544,23 +502,21 @@ export default function PatientRecordsChat() {
           </div>
         </div>
 
-        {/* Documents Sidebar */}
-        <div className="space-y-6 animate-slide-up">
+        {/* Compact Documents Sidebar */}
+        <div className="lg:col-span-1 space-y-6 animate-slide-up">
           {/* Document Upload */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Upload Documents</h3>
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Upload</h3>
             
             <div
-              className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-gray-400 transition-colors"
+              className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-gray-400 transition-colors"
               onClick={() => fileInputRef.current?.click()}
             >
-              <CloudArrowUpIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-sm text-gray-600 mb-2">
-                {isUploading ? 'Uploading...' : 'Click to upload or drag files here'}
+              <CloudArrowUpIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+              <p className="text-xs text-gray-600 mb-1">
+                {isUploading ? 'Uploading...' : 'Click to upload'}
               </p>
-              <p className="text-xs text-gray-500 font-mono">
-                PDF, JPG, PNG up to 10MB
-              </p>
+              <p className="text-xs text-gray-500">PDF, JPG, PNG</p>
             </div>
             
             <input
@@ -574,43 +530,41 @@ export default function PatientRecordsChat() {
           </div>
 
           {/* Document List */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">Your Documents</h3>
-              <span className="text-sm text-gray-500 font-mono">{documents.length} files</span>
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold text-gray-900">Documents</h3>
+              <span className="text-xs text-gray-500 font-mono">{documents.length}</span>
             </div>
             
-            <div className="space-y-3 max-h-96 overflow-y-auto">
+            <div className="space-y-2 max-h-96 overflow-y-auto">
               {documents.map(doc => {
                 const DocIcon = getDocumentIcon(doc.type);
                 return (
                   <div
                     key={doc.id}
-                    className={`p-3 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-md ${
+                    className={`p-2 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-sm ${
                       selectedDocument === doc.id
                         ? 'border-purple-300 bg-purple-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                     onClick={() => setSelectedDocument(selectedDocument === doc.id ? null : doc.id)}
                   >
-                    <div className="flex items-start space-x-3">
-                      <DocIcon className={`w-5 h-5 mt-0.5 ${getDocumentColor(doc.type)}`} />
+                    <div className="flex items-start space-x-2">
+                      <DocIcon className={`w-4 h-4 mt-0.5 ${getDocumentColor(doc.type)}`} />
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-gray-900 text-sm truncate">{doc.name}</h4>
-                        <div className="flex items-center space-x-2 text-xs text-gray-500 mt-1">
+                        <h4 className="font-medium text-gray-900 text-xs truncate">{doc.name}</h4>
+                        <div className="flex items-center space-x-1 text-xs text-gray-500 mt-1">
                           <span>{doc.format}</span>
-                          <span>•</span>
-                          <span>{formatFileSize(doc.size)}</span>
                           {doc.confidenceScore && (
                             <>
                               <span>•</span>
-                              <span className="text-green-600 font-medium">{doc.confidenceScore}% AI</span>
+                              <span className="text-green-600 font-medium">{doc.confidenceScore}%</span>
                             </>
                           )}
                         </div>
                         {doc.status === 'processing' && (
                           <div className="flex items-center space-x-1 mt-1">
-                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                            <div className="w-1 h-1 bg-blue-500 rounded-full animate-pulse"></div>
                             <span className="text-xs text-blue-600">Processing...</span>
                           </div>
                         )}
@@ -618,36 +572,22 @@ export default function PatientRecordsChat() {
                     </div>
                     
                     {selectedDocument === doc.id && doc.status === 'ready' && (
-                      <div className="mt-3 pt-3 border-t border-gray-200 animate-fade-in">
+                      <div className="mt-2 pt-2 border-t border-gray-200 animate-fade-in">
                         {doc.aiSummary && (
-                          <div className="mb-3">
-                            <p className="text-xs font-semibold text-gray-900 mb-1">AI Summary</p>
-                            <p className="text-xs text-gray-600 leading-relaxed">{doc.aiSummary}</p>
+                          <div className="mb-2">
+                            <p className="text-xs font-semibold text-gray-900 mb-1">Summary</p>
+                            <p className="text-xs text-gray-600 leading-relaxed line-clamp-3">{doc.aiSummary}</p>
                           </div>
                         )}
                         
-                        {doc.keyFindings && doc.keyFindings.length > 0 && (
-                          <div className="mb-3">
-                            <p className="text-xs font-semibold text-gray-900 mb-1">Key Findings</p>
-                            <div className="space-y-1">
-                              {doc.keyFindings.map((finding, index) => (
-                                <div key={index} className="flex items-start space-x-1">
-                                  <div className="w-1 h-1 bg-blue-500 rounded-full mt-1.5 flex-shrink-0"></div>
-                                  <span className="text-xs text-gray-600">{finding}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-1">
                           <button className="text-xs bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded transition-colors flex items-center space-x-1">
                             <EyeIcon className="w-3 h-3" />
                             <span>View</span>
                           </button>
                           <button className="text-xs bg-purple-500 hover:bg-purple-600 text-white px-2 py-1 rounded transition-colors flex items-center space-x-1">
                             <ChatBubbleLeftRightIcon className="w-3 h-3" />
-                            <span>Ask AI</span>
+                            <span>Ask</span>
                           </button>
                         </div>
                       </div>
@@ -655,25 +595,6 @@ export default function PatientRecordsChat() {
                   </div>
                 );
               })}
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white text-sm p-3 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                <BoltIcon className="w-4 h-4" />
-                <span>Generate Health Summary</span>
-              </button>
-              <button className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm p-3 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                <ShareIcon className="w-4 h-4" />
-                <span>Share with Provider</span>
-              </button>
-              <button className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm p-3 rounded-lg transition-colors flex items-center justify-center space-x-2">
-                <ArrowDownTrayIcon className="w-4 h-4" />
-                <span>Export All Documents</span>
-              </button>
             </div>
           </div>
         </div>
