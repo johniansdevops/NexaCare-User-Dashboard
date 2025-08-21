@@ -99,10 +99,10 @@ export default function PatientAIChat() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showModeSelection, setShowModeSelection] = useState(true);
   const [chatHistory, setChatHistory] = useState([
-    { id: '1', title: 'Blood pressure questions...', date: '10/08/2025', type: 'General Health' },
+    { id: '1', title: 'Blood pressure management...', date: '10/08/2025', type: 'General Health' },
     { id: '2', title: 'Medication interactions...', date: '10/08/2025', type: 'Medication Guide' },
     { id: '3', title: 'Understanding lab results...', date: '10/08/2025', type: 'Lab Results' },
-    { id: '4', title: 'Symptoms assessment...', date: '08/08/2025', type: 'Symptom Checker' },
+    { id: '4', title: 'Symptom assessment help...', date: '08/08/2025', type: 'Symptom Checker' },
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
