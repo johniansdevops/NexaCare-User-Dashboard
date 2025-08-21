@@ -19,7 +19,7 @@ import {
   SparklesIcon,
 } from '@heroicons/react/24/outline';
 import { formatDateTime } from '@/lib/utils';
-import GlobalSidebar from '@/components/GlobalSidebar';
+
 
 interface Message {
   id: string;
@@ -260,9 +260,6 @@ Please remember that I'm here to provide educational information and support, bu
 
   return (
     <div className="h-screen flex bg-white relative">
-      {/* Main Dashboard Navigation Sidebar */}
-      <GlobalSidebar />
-      
       {/* Chat History Sidebar */}
       <div className={`fixed inset-y-0 left-20 z-40 w-80 bg-white border-r border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'

@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { formatDate, formatTime } from '@/lib/utils';
+import { sampleProviders } from '@/data/sample-data';
 import {
   CalendarIcon,
   ClockIcon,
@@ -71,39 +72,21 @@ function BookAppointmentContent() {
 
   const fetchProviders = async () => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(`
-          id,
-          full_name,
-          avatar_url,
-          providers!inner (
-            specialty,
-            consultation_fee,
-            years_of_experience,
-            languages,
-            availability
-          )
-        `)
-        .eq('role', 'provider');
-
-      if (error) throw error;
-
-      const formattedProviders = data?.map((p: any) => ({
-        id: p.id,
-        full_name: p.full_name,
-        avatar_url: p.avatar_url,
-        specialty: p.providers.specialty,
-        consultation_fee: p.providers.consultation_fee,
-        years_of_experience: p.providers.years_of_experience,
-        languages: p.providers.languages,
-        availability: p.providers.availability,
-      })) || [];
+      // Use sample data for now - in production this would be a real API call
+      const formattedProviders = sampleProviders.map((provider) => ({
+        id: provider.id,
+        full_name: provider.full_name,
+        specialty: provider.specialty,
+        avatar_url: provider.avatar, // Using emoji avatar from sample data
+        consultation_fee: Math.floor(Math.random() * 100) + 50, // Mock fee
+        years_of_experience: provider.years_experience,
+        languages: ['English'], // Mock languages
+        availability: provider.status === 'Available',
+      }));
 
       setProviders(formattedProviders);
     } catch (error) {
       console.error('Error fetching providers:', error);
-      // Fallback to empty array
       setProviders([]);
     }
   };
@@ -226,13 +209,42 @@ function BookAppointmentContent() {
         </div>
       )}
 
+      {/* Workflow Steps Indicator */}
+      <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-primary">Booking Steps</h2>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${!selectedProvider ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+            <span className="font-medium">1</span>
+            <span>Select Provider</span>
+            {selectedProvider && <span>✓</span>}
+          </div>
+          <div className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${selectedProvider && !selectedDate ? 'bg-blue-100 text-blue-700' : selectedProvider && selectedDate && !selectedTimeRange.start ? 'bg-blue-100 text-blue-700' : selectedProvider && selectedDate && selectedTimeRange.start ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+            <span className="font-medium">2</span>
+            <span>Pick Date & Time</span>
+            {selectedProvider && selectedDate && selectedTimeRange.start && <span>✓</span>}
+          </div>
+          <div className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${selectedProvider && selectedDate && selectedTimeRange.start && !reason ? 'bg-blue-100 text-blue-700' : selectedProvider && selectedDate && selectedTimeRange.start && reason ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+            <span className="font-medium">3</span>
+            <span>Add Details</span>
+            {selectedProvider && selectedDate && selectedTimeRange.start && reason && <span>✓</span>}
+          </div>
+          <div className={`flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-500`}>
+            <span className="font-medium">4</span>
+            <span>Book (Pending)</span>
+          </div>
+        </div>
+      </div>
+
       {/* Booking Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Step 1: Select Provider */}
-        <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+        <div className={`bg-surface-2 border rounded-xl p-6 ${!selectedProvider ? 'border-blue-500 shadow-lg' : 'border-subtle'}`}>
           <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
             <UserIcon className="w-6 h-6 text-blue-500" />
-            Select Provider
+            Step 1: Select Provider
+            {selectedProvider && <span className="text-green-500">✓</span>}
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -247,12 +259,8 @@ function BookAppointmentContent() {
                 }`}
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                    {provider.avatar_url ? (
-                      <img src={provider.avatar_url} alt={provider.full_name} className="w-full h-full rounded-full" />
-                    ) : (
-                      <UserIcon className="w-6 h-6 text-gray-500" />
-                    )}
+                  <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-2xl">
+                    {provider.avatar_url || '👨‍⚕️'}
                   </div>
                   <div>
                     <h3 className="font-semibold text-primary">{provider.full_name}</h3>
@@ -279,8 +287,12 @@ function BookAppointmentContent() {
         {selectedProvider && (
           <>
             {/* Step 2: Select Appointment Type */}
-            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
-              <h2 className="text-2xl font-semibold text-primary mb-4">Appointment Type</h2>
+            <div className={`bg-surface-2 border rounded-xl p-6 ${selectedProvider && !selectedDate ? 'border-blue-500 shadow-lg' : 'border-subtle'}`}>
+              <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
+                <ClockIcon className="w-6 h-6 text-green-500" />
+                Step 2: Appointment Type
+                {appointmentType && <span className="text-green-500">✓</span>}
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {['in_person', 'telehealth', 'phone'].map((type) => (
                   <label key={type} className="flex items-center space-x-3 cursor-pointer">
@@ -299,10 +311,11 @@ function BookAppointmentContent() {
             </div>
 
             {/* Step 3: Select Date and Time */}
-            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+            <div className={`bg-surface-2 border rounded-xl p-6 ${selectedProvider && (!selectedDate || !selectedTimeRange.start) ? 'border-blue-500 shadow-lg' : 'border-subtle'}`}>
               <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
                 <CalendarIcon className="w-6 h-6 text-green-500" />
-                Select Date & Time
+                Step 3: Pick Date & Time
+                {selectedDate && selectedTimeRange.start && <span className="text-green-500">✓</span>}
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -348,10 +361,11 @@ function BookAppointmentContent() {
             </div>
 
             {/* Step 4: Reason and Notes */}
-            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+            <div className={`bg-surface-2 border rounded-xl p-6 ${selectedProvider && selectedDate && selectedTimeRange.start && !reason ? 'border-blue-500 shadow-lg' : 'border-subtle'}`}>
               <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
                 <DocumentTextIcon className="w-6 h-6 text-purple-500" />
-                Appointment Details
+                Step 4: Add Details & Questions
+                {reason && <span className="text-green-500">✓</span>}
               </h2>
               
               <div className="space-y-4">
@@ -385,14 +399,30 @@ function BookAppointmentContent() {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={loading || !selectedProvider || !selectedDate || !selectedTimeRange.start || !reason}
-                className="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Booking...' : 'Book Appointment'}
-              </button>
+            <div className="bg-surface-2 border border-subtle rounded-xl p-6">
+              <h2 className="text-2xl font-semibold text-primary mb-4 flex items-center gap-3">
+                <CheckCircleIcon className="w-6 h-6 text-orange-500" />
+                Step 5: Confirm & Book (Pending)
+              </h2>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <h3 className="font-semibold text-blue-900 mb-2">Booking Summary:</h3>
+                <div className="text-sm text-blue-800 space-y-1">
+                  {selectedProvider && <p><strong>Provider:</strong> {selectedProvider.full_name} ({selectedProvider.specialty})</p>}
+                  {selectedDate && <p><strong>Date:</strong> {new Date(selectedDate).toLocaleDateString()}</p>}
+                  {selectedTimeRange.start && <p><strong>Time:</strong> {formatTime(selectedTimeRange.start)} - {formatTime(selectedTimeRange.end)}</p>}
+                  {appointmentType && <p><strong>Type:</strong> {appointmentType.replace('_', ' ')}</p>}
+                  {reason && <p><strong>Reason:</strong> {reason}</p>}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={loading || !selectedProvider || !selectedDate || !selectedTimeRange.start || !reason}
+                  className="btn-primary px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Sending Request...' : 'Book Appointment (Pending Approval)'}
+                </button>
+              </div>
             </div>
           </>
         )}
