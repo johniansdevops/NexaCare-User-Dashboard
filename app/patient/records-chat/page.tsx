@@ -24,6 +24,7 @@ import {
   InformationCircleIcon,
   BoltIcon,
 } from '@heroicons/react/24/outline';
+import GlobalSidebar from '@/components/GlobalSidebar';
 
 interface HealthDocument {
   id: string;
@@ -342,12 +343,17 @@ export default function PatientRecordsChat() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-mesh min-h-screen animate-fade-in">
-        <div className="animate-pulse">
-          <div className="h-8 dark-elevated rounded w-1/3 mb-6"></div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 h-96 dark-elevated rounded-xl"></div>
-            <div className="h-96 dark-elevated rounded-xl"></div>
+      <div className="h-screen flex bg-gray-50">
+        <GlobalSidebar />
+        <div className="flex-1 ml-20">
+          <div className="p-6 space-y-6 bg-mesh min-h-screen animate-fade-in">
+            <div className="animate-pulse">
+              <div className="h-8 dark-elevated rounded w-1/3 mb-6"></div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 h-96 dark-elevated rounded-xl"></div>
+                <div className="h-96 dark-elevated rounded-xl"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -355,323 +361,329 @@ export default function PatientRecordsChat() {
   }
 
   return (
-    <div className="p-6 space-y-8 bg-mesh min-h-screen">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
-        <div>
-          <h1 className="heading-large text-white mb-2">AI Health Records Chat</h1>
-          <p className="body-large">Ask questions about your medical documents and get AI-powered insights</p>
-          <div className="mt-2 mono-text text-gray-500 text-sm">
-            {documents.length} documents uploaded • AI confidence: 95%
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="btn-outline"
-            disabled={isUploading}
-          >
-            <CloudArrowUpIcon className="w-5 h-5 mr-2" />
-            {isUploading ? 'Uploading...' : 'Upload Document'}
-          </button>
-          <Link href="/patient/ai-chat" className="btn-primary">
-            <ChatBubbleLeftRightIcon className="w-5 h-5 mr-2" />
-            General AI Chat
-          </Link>
-        </div>
-      </div>
-
-      {/* Key Insights */}
-      {insights.length > 0 && (
-        <div className="card p-6 animate-slide-up">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 mediva-gradient rounded-2xl flex items-center justify-center ai-glow">
-                <span className="text-white font-bold">✦</span>
+    <div className="h-screen flex bg-gray-50">
+      <GlobalSidebar />
+      
+      <div className="flex-1 ml-20">
+        <div className="p-6 space-y-8 bg-mesh min-h-screen">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
+            <div>
+              <h1 className="heading-large text-white mb-2">AI Health Records Chat</h1>
+              <p className="body-large">Ask questions about your medical documents and get AI-powered insights</p>
+              <div className="mt-2 mono-text text-gray-500 text-sm">
+                {documents.length} documents uploaded • AI confidence: 95%
               </div>
-              <h3 className="heading-small text-white">Key Health Insights</h3>
             </div>
-            <span className="text-sm text-gray-400 mono-text">AI-generated from your records</span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {insights.map(insight => (
-              <div
-                key={insight.id}
-                className={`p-4 rounded-xl border-2 ${getSeverityColor(insight.severity)}`}
+            
+            <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="btn-outline"
+                disabled={isUploading}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <h4 className="font-semibold">{insight.title}</h4>
-                  {insight.actionRequired && (
-                    <span className="text-xs bg-red-500/20 text-red-300 px-2 py-1 rounded-full">
-                      Action Required
-                    </span>
-                  )}
-                </div>
-                <p className="text-sm opacity-90 mb-3">{insight.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs opacity-60">
-                    From: {documents.find(d => d.id === insight.documentId)?.name}
-                  </span>
-                  <button className="text-xs btn-primary px-3 py-1">
-                    Discuss with AI
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Chat Interface */}
-        <div className="lg:col-span-2 card p-6 animate-slide-up">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="heading-small text-white">Chat with AI Assistant</h3>
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-sm text-green-400 mono-text">AI Online</span>
+                <CloudArrowUpIcon className="w-5 h-5 mr-2" />
+                {isUploading ? 'Uploading...' : 'Upload Document'}
+              </button>
+              <Link href="/patient/ai-chat" className="btn-primary">
+                <ChatBubbleLeftRightIcon className="w-5 h-5 mr-2" />
+                General AI Chat
+              </Link>
             </div>
           </div>
-          
-          {/* Messages */}
-          <div className="h-96 overflow-y-auto space-y-4 mb-6 pr-2">
-            {messages.map(message => (
-              <div
-                key={message.id}
-                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] p-4 rounded-2xl ${
-                    message.type === 'user'
-                      ? 'mediva-gradient text-white'
-                      : 'glass border border-gray-600/30 text-gray-100'
-                  }`}
-                >
-                  <div className="flex items-start space-x-3">
-                    {message.type === 'ai' && (
-                      <div className="w-6 h-6 mediva-gradient rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                        <span className="text-white text-xs font-bold">✦</span>
-                      </div>
-                    )}
-                    <div className="flex-1">
-                      <p className="leading-relaxed">{message.content}</p>
-                      
-                      {message.sourceReferences && message.sourceReferences.length > 0 && (
-                        <div className="mt-3 pt-3 border-t border-gray-600/30">
-                          <p className="text-xs text-gray-400 mb-2">Sources:</p>
-                          {message.sourceReferences.map((ref, index) => (
-                            <div key={index} className="text-xs p-2 bg-black/20 rounded-lg mb-1">
-                              <div className="flex items-center justify-between">
-                                <span className="text-blue-300">
-                                  {documents.find(d => d.id === ref.documentId)?.name}
-                                </span>
-                                <span className="text-green-400">{ref.confidence}% confidence</span>
-                              </div>
-                              <p className="text-gray-300 mt-1">"{ref.excerpt}"</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      
-                      {message.followUpQuestions && message.followUpQuestions.length > 0 && (
-                        <div className="mt-3 pt-3 border-t border-gray-600/30">
-                          <p className="text-xs text-gray-400 mb-2">Suggested questions:</p>
-                          <div className="space-y-1">
-                            {message.followUpQuestions.map((question, index) => (
-                              <button
-                                key={index}
-                                onClick={() => setCurrentMessage(question)}
-                                className="block w-full text-left text-xs p-2 hover:bg-white/5 rounded transition-colors text-blue-300 hover:text-blue-200"
-                              >
-                                {question}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      
-                      <div className="text-xs text-gray-500 mt-2 mono-text">
-                        {new Date(message.timestamp).toLocaleTimeString()}
-                      </div>
-                    </div>
+
+          {/* Key Insights */}
+          {insights.length > 0 && (
+            <div className="card p-6 animate-slide-up">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 mediva-gradient rounded-2xl flex items-center justify-center ai-glow">
+                    <span className="text-white font-bold">✦</span>
                   </div>
+                  <h3 className="heading-small text-white">Key Health Insights</h3>
                 </div>
+                <span className="text-sm text-gray-400 mono-text">AI-generated from your records</span>
               </div>
-            ))}
-            
-            {isTyping && (
-              <div className="flex justify-start">
-                <div className="glass border border-gray-600/30 p-4 rounded-2xl">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-6 h-6 mediva-gradient rounded-full flex items-center justify-center">
-                      <span className="text-white text-xs font-bold">✦</span>
-                    </div>
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            <div ref={messagesEndRef} />
-          </div>
-          
-          {/* Message Input */}
-          <div className="flex items-center space-x-3">
-            <input
-              type="text"
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-              placeholder="Ask about your health records..."
-              className="flex-1 input"
-              disabled={isTyping}
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!currentMessage.trim() || isTyping}
-              className="btn-primary px-4 py-3"
-            >
-              <SparklesIcon className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Documents Sidebar */}
-        <div className="space-y-6 animate-slide-up">
-          {/* Document Upload */}
-          <div className="card p-6">
-            <h3 className="heading-small text-white mb-4">Upload Documents</h3>
-            
-            <div
-              className="border-2 border-dashed border-gray-600/50 rounded-xl p-6 text-center cursor-pointer hover:border-gray-500/50 transition-colors"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <CloudArrowUpIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-sm text-gray-300 mb-2">
-                {isUploading ? 'Uploading...' : 'Click to upload or drag files here'}
-              </p>
-              <p className="text-xs text-gray-500 mono-text">
-                PDF, JPG, PNG up to 10MB
-              </p>
-            </div>
-            
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".pdf,.jpg,.jpeg,.png"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-          </div>
-
-          {/* Document List */}
-          <div className="card p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="heading-small text-white">Your Documents</h3>
-              <span className="text-sm text-gray-400 mono-text">{documents.length} files</span>
-            </div>
-            
-            <div className="space-y-3 max-h-96 overflow-y-auto">
-              {documents.map(doc => {
-                const DocIcon = getDocumentIcon(doc.type);
-                return (
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {insights.map(insight => (
                   <div
-                    key={doc.id}
-                    className={`p-3 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                      selectedDocument === doc.id
-                        ? 'border-blue-500/50 bg-blue-500/10'
-                        : 'border-gray-600/30 hover:border-gray-500/50'
-                    }`}
-                    onClick={() => setSelectedDocument(selectedDocument === doc.id ? null : doc.id)}
+                    key={insight.id}
+                    className={`p-4 rounded-xl border-2 ${getSeverityColor(insight.severity)}`}
                   >
-                    <div className="flex items-start space-x-3">
-                      <DocIcon className={`w-5 h-5 mt-0.5 ${getDocumentColor(doc.type)}`} />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-white text-sm truncate">{doc.name}</h4>
-                        <div className="flex items-center space-x-2 text-xs text-gray-400 mt-1">
-                          <span>{doc.format}</span>
-                          <span>•</span>
-                          <span>{formatFileSize(doc.size)}</span>
-                          {doc.confidenceScore && (
-                            <>
-                              <span>•</span>
-                              <span className="text-green-400">{doc.confidenceScore}% AI</span>
-                            </>
-                          )}
-                        </div>
-                        {doc.status === 'processing' && (
-                          <div className="flex items-center space-x-1 mt-1">
-                            <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
-                            <span className="text-xs text-blue-400">Processing...</span>
-                          </div>
-                        )}
-                      </div>
+                    <div className="flex items-start justify-between mb-3">
+                      <h4 className="font-semibold">{insight.title}</h4>
+                      {insight.actionRequired && (
+                        <span className="text-xs bg-red-500/20 text-red-300 px-2 py-1 rounded-full">
+                          Action Required
+                        </span>
+                      )}
                     </div>
-                    
-                    {selectedDocument === doc.id && doc.status === 'ready' && (
-                      <div className="mt-3 pt-3 border-t border-gray-600/30 animate-fade-in">
-                        {doc.aiSummary && (
-                          <div className="mb-3">
-                            <p className="text-xs font-semibold text-white mb-1">AI Summary</p>
-                            <p className="text-xs text-gray-300 leading-relaxed">{doc.aiSummary}</p>
+                    <p className="text-sm opacity-90 mb-3">{insight.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs opacity-60">
+                        From: {documents.find(d => d.id === insight.documentId)?.name}
+                      </span>
+                      <button className="text-xs btn-primary px-3 py-1">
+                        Discuss with AI
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Chat Interface */}
+            <div className="lg:col-span-2 card p-6 animate-slide-up">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="heading-small text-white">Chat with AI Assistant</h3>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="text-sm text-green-400 mono-text">AI Online</span>
+                </div>
+              </div>
+              
+              {/* Messages */}
+              <div className="h-96 overflow-y-auto space-y-4 mb-6 pr-2">
+                {messages.map(message => (
+                  <div
+                    key={message.id}
+                    className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[80%] p-4 rounded-2xl ${
+                        message.type === 'user'
+                          ? 'mediva-gradient text-white'
+                          : 'glass border border-gray-600/30 text-gray-100'
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        {message.type === 'ai' && (
+                          <div className="w-6 h-6 mediva-gradient rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <span className="text-white text-xs font-bold">✦</span>
                           </div>
                         )}
-                        
-                        {doc.keyFindings && doc.keyFindings.length > 0 && (
-                          <div className="mb-3">
-                            <p className="text-xs font-semibold text-white mb-1">Key Findings</p>
-                            <div className="space-y-1">
-                              {doc.keyFindings.map((finding, index) => (
-                                <div key={index} className="flex items-start space-x-1">
-                                  <div className="w-1 h-1 bg-blue-400 rounded-full mt-1.5 flex-shrink-0"></div>
-                                  <span className="text-xs text-gray-300">{finding}</span>
+                        <div className="flex-1">
+                          <p className="leading-relaxed">{message.content}</p>
+                          
+                          {message.sourceReferences && message.sourceReferences.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-gray-600/30">
+                              <p className="text-xs text-gray-400 mb-2">Sources:</p>
+                              {message.sourceReferences.map((ref, index) => (
+                                <div key={index} className="text-xs p-2 bg-black/20 rounded-lg mb-1">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-blue-300">
+                                      {documents.find(d => d.id === ref.documentId)?.name}
+                                    </span>
+                                    <span className="text-green-400">{ref.confidence}% confidence</span>
+                                  </div>
+                                  <p className="text-gray-300 mt-1">"{ref.excerpt}"</p>
                                 </div>
                               ))}
                             </div>
+                          )}
+                          
+                          {message.followUpQuestions && message.followUpQuestions.length > 0 && (
+                            <div className="mt-3 pt-3 border-t border-gray-600/30">
+                              <p className="text-xs text-gray-400 mb-2">Suggested questions:</p>
+                              <div className="space-y-1">
+                                {message.followUpQuestions.map((question, index) => (
+                                  <button
+                                    key={index}
+                                    onClick={() => setCurrentMessage(question)}
+                                    className="block w-full text-left text-xs p-2 hover:bg-white/5 rounded transition-colors text-blue-300 hover:text-blue-200"
+                                  >
+                                    {question}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          
+                          <div className="text-xs text-gray-500 mt-2 mono-text">
+                            {new Date(message.timestamp).toLocaleTimeString()}
                           </div>
-                        )}
-                        
-                        <div className="flex items-center space-x-2">
-                          <button className="text-xs btn-outline px-2 py-1">
-                            <EyeIcon className="w-3 h-3 mr-1" />
-                            View
-                          </button>
-                          <button className="text-xs btn-outline px-2 py-1">
-                            <ChatBubbleLeftRightIcon className="w-3 h-3 mr-1" />
-                            Ask AI
-                          </button>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
-                );
-              })}
+                ))}
+                
+                {isTyping && (
+                  <div className="flex justify-start">
+                    <div className="glass border border-gray-600/30 p-4 rounded-2xl">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-6 h-6 mediva-gradient rounded-full flex items-center justify-center">
+                          <span className="text-white text-xs font-bold">✦</span>
+                        </div>
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                <div ref={messagesEndRef} />
+              </div>
+              
+              {/* Message Input */}
+              <div className="flex items-center space-x-3">
+                <input
+                  type="text"
+                  value={currentMessage}
+                  onChange={(e) => setCurrentMessage(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  placeholder="Ask about your health records..."
+                  className="flex-1 input"
+                  disabled={isTyping}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={!currentMessage.trim() || isTyping}
+                  className="btn-primary px-4 py-3"
+                >
+                  <SparklesIcon className="w-5 h-5" />
+                </button>
+              </div>
             </div>
-          </div>
 
-          {/* Quick Actions */}
-          <div className="card p-6">
-            <h3 className="heading-small text-white mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              <button className="w-full btn-secondary text-sm p-3">
-                <BoltIcon className="w-4 h-4 mr-2" />
-                Generate Health Summary
-              </button>
-              <button className="w-full btn-outline text-sm p-3">
-                <ShareIcon className="w-4 h-4 mr-2" />
-                Share with Provider
-              </button>
-              <button className="w-full btn-outline text-sm p-3">
-                <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-                Export All Documents
-              </button>
+            {/* Documents Sidebar */}
+            <div className="space-y-6 animate-slide-up">
+              {/* Document Upload */}
+              <div className="card p-6">
+                <h3 className="heading-small text-white mb-4">Upload Documents</h3>
+                
+                <div
+                  className="border-2 border-dashed border-gray-600/50 rounded-xl p-6 text-center cursor-pointer hover:border-gray-500/50 transition-colors"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <CloudArrowUpIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-sm text-gray-300 mb-2">
+                    {isUploading ? 'Uploading...' : 'Click to upload or drag files here'}
+                  </p>
+                  <p className="text-xs text-gray-500 mono-text">
+                    PDF, JPG, PNG up to 10MB
+                  </p>
+                </div>
+                
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </div>
+
+              {/* Document List */}
+              <div className="card p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="heading-small text-white">Your Documents</h3>
+                  <span className="text-sm text-gray-400 mono-text">{documents.length} files</span>
+                </div>
+                
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {documents.map(doc => {
+                    const DocIcon = getDocumentIcon(doc.type);
+                    return (
+                      <div
+                        key={doc.id}
+                        className={`p-3 rounded-xl border cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                          selectedDocument === doc.id
+                            ? 'border-blue-500/50 bg-blue-500/10'
+                            : 'border-gray-600/30 hover:border-gray-500/50'
+                        }`}
+                        onClick={() => setSelectedDocument(selectedDocument === doc.id ? null : doc.id)}
+                      >
+                        <div className="flex items-start space-x-3">
+                          <DocIcon className={`w-5 h-5 mt-0.5 ${getDocumentColor(doc.type)}`} />
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-white text-sm truncate">{doc.name}</h4>
+                            <div className="flex items-center space-x-2 text-xs text-gray-400 mt-1">
+                              <span>{doc.format}</span>
+                              <span>•</span>
+                              <span>{formatFileSize(doc.size)}</span>
+                              {doc.confidenceScore && (
+                                <>
+                                  <span>•</span>
+                                  <span className="text-green-400">{doc.confidenceScore}% AI</span>
+                                </>
+                              )}
+                            </div>
+                            {doc.status === 'processing' && (
+                              <div className="flex items-center space-x-1 mt-1">
+                                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+                                <span className="text-xs text-blue-400">Processing...</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {selectedDocument === doc.id && doc.status === 'ready' && (
+                          <div className="mt-3 pt-3 border-t border-gray-600/30 animate-fade-in">
+                            {doc.aiSummary && (
+                              <div className="mb-3">
+                                <p className="text-xs font-semibold text-white mb-1">AI Summary</p>
+                                <p className="text-xs text-gray-300 leading-relaxed">{doc.aiSummary}</p>
+                              </div>
+                            )}
+                            
+                            {doc.keyFindings && doc.keyFindings.length > 0 && (
+                              <div className="mb-3">
+                                <p className="text-xs font-semibold text-white mb-1">Key Findings</p>
+                                <div className="space-y-1">
+                                  {doc.keyFindings.map((finding, index) => (
+                                    <div key={index} className="flex items-start space-x-1">
+                                      <div className="w-1 h-1 bg-blue-400 rounded-full mt-1.5 flex-shrink-0"></div>
+                                      <span className="text-xs text-gray-300">{finding}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                            
+                            <div className="flex items-center space-x-2">
+                              <button className="text-xs btn-outline px-2 py-1">
+                                <EyeIcon className="w-3 h-3 mr-1" />
+                                View
+                              </button>
+                              <button className="text-xs btn-outline px-2 py-1">
+                                <ChatBubbleLeftRightIcon className="w-3 h-3 mr-1" />
+                                Ask AI
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="card p-6">
+                <h3 className="heading-small text-white mb-4">Quick Actions</h3>
+                <div className="space-y-3">
+                  <button className="w-full btn-secondary text-sm p-3">
+                    <BoltIcon className="w-4 h-4 mr-2" />
+                    Generate Health Summary
+                  </button>
+                  <button className="w-full btn-outline text-sm p-3">
+                    <ShareIcon className="w-4 h-4 mr-2" />
+                    Share with Provider
+                  </button>
+                  <button className="w-full btn-outline text-sm p-3">
+                    <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
+                    Export All Documents
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-# Mediva AI - Comprehensive Development Roadmap
+# NexaCare - Comprehensive Development Roadmap
 
 ## 🎯 Project Overview
 
@@ -10,7 +10,7 @@
 
 ## 📋 Executive Summary
 
-Mediva AI is a comprehensive healthcare platform featuring:
+NexaCare is a comprehensive healthcare platform featuring:
 - **Patient Portal**: AI-powered health assistance, appointment management, medical records
 - **Provider Dashboard**: Patient management, AI-assisted diagnostics, scheduling tools
 - **AI Engine**: Natural language processing for health queries, symptom analysis, treatment recommendations

@@ -100,7 +100,7 @@ function RegisterForm() {
             </div>
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">
-            Join Mediva AI
+            Join NexaCare
           </h2>
           <p className="text-gray-400">
             Create your account to get started

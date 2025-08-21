@@ -25,7 +25,7 @@ export default function LoginPage() {
       if (error) {
         toast.error(error);
       } else {
-        toast.success('Welcome back to Mediva AI!');
+        toast.success('Welcome back to NexaCare!');
         router.push('/');
       }
     } catch (error) {
@@ -49,7 +49,7 @@ export default function LoginPage() {
             Welcome back
           </h2>
           <p className="text-gray-400">
-            Sign in to your Mediva AI account
+                          Sign in to your NexaCare account
           </p>
         </div>
 
@@ -160,10 +160,10 @@ export default function LoginPage() {
           <h3 className="text-sm font-medium text-white mb-2">Demo Credentials</h3>
           <div className="space-y-2 text-xs text-gray-400">
             <div>
-              <strong>Patient:</strong> patient@mediva.ai / demo123
+                              <strong>Patient:</strong> patient@nexacare.com / demo123
             </div>
             <div>
-              <strong>Provider:</strong> provider@mediva.ai / demo123
+                              <strong>Provider:</strong> provider@nexacare.com / demo123
             </div>
           </div>
         </div>

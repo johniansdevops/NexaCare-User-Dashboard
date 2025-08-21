@@ -91,7 +91,7 @@ export default function PatientCalendar() {
       time: '14:30',
       duration: 30,
       provider: 'Dr. Michael Rodriguez',
-      meetingLink: 'https://meet.mediva.ai/room/abc123',
+      meetingLink: 'https://meet.nexacare.com/room/abc123',
       status: 'scheduled',
       color: eventColors.appointment,
       urgency: 'routine'

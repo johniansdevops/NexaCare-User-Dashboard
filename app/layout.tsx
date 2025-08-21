@@ -9,39 +9,39 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Mediva AI - Intelligent Healthcare Platform',
-    template: '%s | Mediva AI'
+    default: 'NexaCare - Intelligent Healthcare Platform',
+    template: '%s | NexaCare'
   },
   description: 'AI-powered healthcare platform connecting patients and providers with intelligent health management, assessments, and 24/7 AI assistance.',
   keywords: ['healthcare', 'AI', 'medical', 'telemedicine', 'health assessment', 'patient portal'],
-  authors: [{ name: 'Mediva AI Team' }],
-  creator: 'Mediva AI',
-  publisher: 'Mediva AI',
+  authors: [{ name: 'NexaCare Team' }],
+  creator: 'NexaCare',
+  publisher: 'NexaCare',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://mediva-ai.com'),
+  metadataBase: new URL('https://nexacare.com'),
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mediva-ai.com',
-    title: 'Mediva AI - Intelligent Healthcare Platform',
+    url: 'https://nexacare.com',
+    title: 'NexaCare - Intelligent Healthcare Platform',
     description: 'AI-powered healthcare platform for modern healthcare management',
-    siteName: 'Mediva AI',
+    siteName: 'NexaCare',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Mediva AI Platform',
+        alt: 'NexaCare Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mediva AI - Intelligent Healthcare Platform',
+    title: 'NexaCare - Intelligent Healthcare Platform',
     description: 'AI-powered healthcare platform for modern healthcare management',
     images: ['/og-image.png'],
   },

@@ -1,4 +1,4 @@
-# Mediva AI - Development Setup Guide
+# NexaCare - Development Setup Guide
 
 ## 🚀 Quick Start
 

@@ -1,8 +1,8 @@
-# Mediva AI - Healthcare Platform
+# NexaCare - Healthcare Platform
 
 ## 🎯 Overview
 
-Mediva AI is an AI-powered healthcare platform that bridges the gap between patients and healthcare providers through intelligent automation, seamless communication, and data-driven insights. Built with Claude Haiku 3.5 for advanced AI capabilities and modern web technologies.
+NexaCare is an AI-powered healthcare platform that bridges the gap between patients and healthcare providers through intelligent automation, seamless communication, and data-driven insights. Built with Claude Haiku 3.5 for advanced AI capabilities and modern web technologies.
 
 ## 🚀 Features
 
@@ -39,7 +39,7 @@ Mediva AI is an AI-powered healthcare platform that bridges the gap between pati
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
-cd mediva-ai
+cd nexacare
 ```
 
 2. **Install dependencies**
@@ -130,7 +130,7 @@ npm start
 ## 📁 Project Structure
 
 ```
-mediva-ai/
+nexacare/
 ├── app/                    # Next.js 14 app directory
 │   ├── auth/              # Authentication pages
 │   ├── patient/           # Patient dashboard

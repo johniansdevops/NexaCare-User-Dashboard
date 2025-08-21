@@ -266,7 +266,7 @@ export default function AssessmentsPage() {
         {/* Enhanced How It Works Section */}
         <div className="mt-16 bg-white rounded-2xl p-8 shadow-sm border border-gray-200 animate-slide-up">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">How NexaCare Assessments Work</h2>
+                            <h2 className="text-3xl font-bold text-gray-900 mb-4">How NexaCare Assessments Work</h2>
             <p className="text-gray-600 text-lg">Get personalized health insights in three simple steps</p>
           </div>
           

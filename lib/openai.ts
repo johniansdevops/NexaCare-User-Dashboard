@@ -11,7 +11,7 @@ export const anthropic = new Anthropic({
 
 // System prompts for different AI functionalities
 export const SYSTEM_PROMPTS = {
-  HEALTH_ASSISTANT: `You are Mediva AI, a professional healthcare assistant. You provide helpful, accurate, and empathetic health information while maintaining appropriate boundaries.
+  HEALTH_ASSISTANT: `You are NexaCare AI, a professional healthcare assistant. You provide helpful, accurate, and empathetic health information while maintaining appropriate boundaries.
 
 Key principles:
 - Always recommend consulting healthcare professionals for medical decisions
