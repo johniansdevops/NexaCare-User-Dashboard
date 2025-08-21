@@ -11,8 +11,6 @@ import {
   PlusIcon,
   SparklesIcon,
   BellIcon,
-  ShoppingCartIcon,
-  DocumentTextIcon,
   CalendarIcon,
   FireIcon,
   ChartBarIcon,
@@ -63,10 +61,19 @@ interface MedicationAlert {
   timestamp: string;
 }
 
+interface MedicationReminder {
+  id: string;
+  medicationId: string;
+  time: string;
+  enabled: boolean;
+  days: string[];
+}
+
 export default function PatientMedications() {
   const [medications, setMedications] = useState<Medication[]>([]);
   const [todaySchedule, setTodaySchedule] = useState<DoseSchedule[]>([]);
   const [alerts, setAlerts] = useState<MedicationAlert[]>([]);
+  const [reminders, setReminders] = useState<MedicationReminder[]>([]);
   const [adherenceStats, setAdherenceStats] = useState({
     thisWeek: 94,
     thisMonth: 91,
@@ -220,6 +227,20 @@ export default function PatientMedications() {
         ? { ...dose, taken: true, takenAt: new Date().toISOString() }
         : dose
     ));
+    
+    // Show success alert
+    const medication = getMedicationById(medicationId);
+    if (medication) {
+      setAlerts(prev => [{
+        id: `taken-${Date.now()}`,
+        type: 'adherence',
+        severity: 'info',
+        title: 'Dose Recorded',
+        message: `${medication.name} ${medication.dosage} marked as taken at ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`,
+        medications: [medication.name],
+        timestamp: new Date().toISOString(),
+      }, ...prev.slice(0, 2)]);
+    }
   };
 
   const markDoseSkipped = (medicationId: string, time: string, reason: string) => {
@@ -230,6 +251,32 @@ export default function PatientMedications() {
     ));
   };
 
+  const setMedicationReminder = (medicationId: string) => {
+    const medication = getMedicationById(medicationId);
+    if (medication) {
+      const newReminder: MedicationReminder = {
+        id: `reminder-${Date.now()}`,
+        medicationId,
+        time: medication.times[0], // Use first scheduled time
+        enabled: true,
+        days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      };
+      
+      setReminders(prev => [...prev, newReminder]);
+      
+      // Show confirmation alert
+      setAlerts(prev => [{
+        id: `reminder-${Date.now()}`,
+        type: 'timing',
+        severity: 'info',
+        title: 'Reminder Set',
+        message: `Daily reminder set for ${medication.name} at ${medication.times.join(', ')}`,
+        medications: [medication.name],
+        timestamp: new Date().toISOString(),
+      }, ...prev.slice(0, 2)]);
+    }
+  };
+
   const getMedicationById = (id: string) => {
     return medications.find(med => med.id === id);
   };
@@ -238,7 +285,7 @@ export default function PatientMedications() {
     switch (type) {
       case 'interaction': return BeakerIcon;
       case 'side_effect': return ExclamationTriangleIcon;
-      case 'refill': return ShoppingCartIcon;
+      case 'refill': return CubeIcon;
       case 'adherence': return ClockIcon;
       case 'timing': return BellIcon;
       default: return InformationCircleIcon;
@@ -508,7 +555,7 @@ export default function PatientMedications() {
           </button>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {medications.map(medication => (
             <div
               key={medication.id}
@@ -595,19 +642,27 @@ export default function PatientMedications() {
                     </div>
                   )}
                   
-                  <div className="flex items-center justify-between">
+                  <div className="space-y-3">
                     <div className="text-sm">
                       <span className="text-gray-500">Prescribed by: </span>
                       <span className="text-gray-900">{medication.prescribedBy}</span>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <button className="btn-secondary text-sm px-3 py-1">
-                        <ShoppingCartIcon className="w-4 h-4 mr-1" />
-                        Refill
+                    
+                    {/* Medication Functions */}
+                    <div className="flex gap-3">
+                      <button 
+                        className="btn-primary text-xs px-4 py-2 flex items-center justify-center hover:scale-105 transition-transform flex-1"
+                        onClick={() => markDoseTaken(medication.id, new Date().toTimeString().slice(0,5))}
+                      >
+                        <CheckCircleIcon className="w-4 h-4 mr-2" />
+                        Mark Taken
                       </button>
-                      <button className="btn-outline text-sm px-3 py-1">
-                        <DocumentTextIcon className="w-4 h-4 mr-1" />
-                        Details
+                      <button 
+                        className="btn-secondary text-xs px-4 py-2 flex items-center justify-center hover:scale-105 transition-transform flex-1"
+                        onClick={() => setMedicationReminder(medication.id)}
+                      >
+                        <BellIcon className="w-4 h-4 mr-2" />
+                        Set Reminder
                       </button>
                     </div>
                   </div>
@@ -618,31 +673,7 @@ export default function PatientMedications() {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="card-white p-6 animate-slide-up">
-        <h3 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button className="card-white-interactive p-4 text-center">
-            <BellIcon className="w-8 h-8 text-yellow-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Set Reminders</p>
-          </button>
-          
-          <button className="card-white-interactive p-4 text-center">
-            <ShoppingCartIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Order Refills</p>
-          </button>
-          
-          <Link href="/patient/ai-chat" className="card-white-interactive p-4 text-center">
-            <SparklesIcon className="w-8 h-8 text-purple-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Ask About Medications</p>
-          </Link>
-          
-          <button className="card-white-interactive p-4 text-center">
-            <DocumentTextIcon className="w-8 h-8 text-blue-500 mx-auto mb-2" />
-            <p className="text-sm font-medium text-gray-900">Medication History</p>
-          </button>
-        </div>
-      </div>
+
     </div>
   );
 } 
