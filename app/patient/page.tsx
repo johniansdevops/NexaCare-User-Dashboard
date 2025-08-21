@@ -20,6 +20,7 @@ import {
   ShieldCheckIcon,
   BeakerIcon,
   BoltIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline';
 import { calculateAge, formatDateTime, getHealthScoreColor } from '@/lib/utils';
 import {
@@ -74,6 +75,13 @@ export default function PatientDashboard() {
       gradient: true
     },
     {
+      title: 'Find Providers',
+      description: 'Browse healthcare providers',
+      href: '/patient/providers',
+      icon: UserGroupIcon,
+      color: 'bg-purple-500/20 border border-purple-500/30'
+    },
+    {
       title: 'Book Appointment',
       description: 'Schedule with provider',
       href: '/patient/appointments',
@@ -117,7 +125,7 @@ export default function PatientDashboard() {
   }
 
   return (
-    <div className="p-6 space-y-8 bg-white min-h-screen">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 bg-white min-h-screen">
       {/* Welcome Header */}
       <div className="mb-8 animate-slide-up">
         <div className="flex items-center justify-between mb-6">

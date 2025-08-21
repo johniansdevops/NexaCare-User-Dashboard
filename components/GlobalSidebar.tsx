@@ -35,6 +35,7 @@ interface NavigationItem {
 const userNavigation: NavigationItem[] = [
   { name: 'Dashboard', href: '/patient', icon: SquaresPlusIcon },
   { name: 'AI Health Chat', href: '/patient/ai-chat', icon: '✦', isAI: true },
+  { name: 'Providers', href: '/patient/providers', icon: UserGroupIcon },
   { name: 'Appointments', href: '/patient/appointments', icon: CalendarIcon },
   { name: 'Calendar', href: '/patient/calendar', icon: CalendarDaysIcon },
   { name: 'Medications', href: '/patient/medications', icon: BeakerIcon },

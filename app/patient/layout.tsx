@@ -1,5 +1,7 @@
 'use client';
 
+import GlobalSidebar from '@/components/GlobalSidebar';
+
 export default function PatientLayout({
   children,
 }: {
@@ -7,11 +9,12 @@ export default function PatientLayout({
 }) {
   return (
     <div className="min-h-screen bg-white">
+      {/* Global Sidebar */}
+      <GlobalSidebar />
+      
       {/* Page content */}
-      <main className="flex-1 bg-white min-h-screen">
-        <div className="p-4 sm:p-6 lg:p-8">
-          {children}
-        </div>
+      <main className="flex-1 bg-white min-h-screen lg:pl-20">
+        {children}
       </main>
     </div>
   );

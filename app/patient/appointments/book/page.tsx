@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { formatDate, formatTime } from '@/lib/utils';
 import {
@@ -33,6 +33,7 @@ interface TimeSlot {
 
 export default function BookAppointment() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
@@ -49,6 +50,17 @@ export default function BookAppointment() {
   useEffect(() => {
     fetchProviders();
   }, []);
+
+  // Handle pre-selected provider from URL params
+  useEffect(() => {
+    const providerId = searchParams.get('provider');
+    if (providerId && providers.length > 0) {
+      const provider = providers.find(p => p.id === providerId);
+      if (provider) {
+        setSelectedProvider(provider);
+      }
+    }
+  }, [searchParams, providers]);
 
   // Fetch available slots when provider and date are selected
   useEffect(() => {
@@ -179,7 +191,7 @@ export default function BookAppointment() {
   const maxDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   return (
-    <div className="p-6 space-y-8 bg-surface-1 min-h-screen animate-fade-in">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 bg-surface-1 min-h-screen animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

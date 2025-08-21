@@ -443,7 +443,7 @@ export default function PatientAppointments() {
   }
 
   return (
-    <div className="p-6 space-y-8 bg-surface-1 min-h-screen">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 bg-surface-1 min-h-screen">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
         <div>
