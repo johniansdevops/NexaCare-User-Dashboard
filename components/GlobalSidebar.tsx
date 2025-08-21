@@ -72,18 +72,20 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
         "fixed inset-0 z-50 lg:hidden",
         sidebarOpen ? "block" : "hidden"
       )}>
-        <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
-        <div className="fixed inset-y-0 left-0 w-64 border-r border-gray-800" style={{ backgroundColor: '#1f1f1f' }}>
-          <div className="flex items-center justify-between p-4 border-b border-gray-800">
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 shadow-xl">
+          <div className="flex items-center justify-between p-4 border-b border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 mediva-gradient rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">✦</span>
               </div>
-              <span className="text-xl font-bold gradient-text">Medi Ai</span>
+              <span className="text-xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                NexaCare
+              </span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-white hover:text-pink-400 transition-all duration-200"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-all duration-200"
             >
               <XMarkIcon className="w-6 h-6" />
             </button>
@@ -100,19 +102,31 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
                   className={cn(
                     "flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "mediva-gradient text-white shadow-lg"
-                      : "text-white hover:text-pink-400"
+                      ? "bg-gradient-to-r from-pink-50 to-purple-50 text-gray-900 border border-pink-200 shadow-sm"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                   )}
                   onClick={() => setSidebarOpen(false)}
                 >
                   {item.isAI ? (
-                    <span className={cn("text-lg font-bold", isActive ? "text-white" : "ai-text")}>
+                    <span className={cn(
+                      "text-lg font-bold transition-all duration-200",
+                      isActive 
+                        ? "bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent filter drop-shadow-sm" 
+                        : "bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent opacity-70 hover:opacity-100"
+                    )}>
                       ✦
                     </span>
                   ) : Icon ? (
-                    <Icon className="w-6 h-6" />
+                    <Icon className={cn(
+                      "w-6 h-6 transition-all duration-200",
+                      isActive
+                        ? "text-purple-600 filter drop-shadow-sm"
+                        : "text-gray-500 group-hover:text-purple-600"
+                    )} />
                   ) : null}
-                  <span className={item.isAI && !isActive ? "ai-text" : ""}>{item.name}</span>
+                  <span className={item.isAI && !isActive ? "bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent" : ""}>
+                    {item.name}
+                  </span>
                 </Link>
               );
             })}
@@ -122,10 +136,10 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
 
       {/* Desktop sidebar */}
       <div className={cn("hidden lg:fixed lg:inset-y-0 lg:flex lg:w-20 lg:flex-col", className)}>
-        <div className="flex flex-col h-full border-r border-gray-800" style={{ backgroundColor: '#1f1f1f' }}>
+        <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-sm">
           {/* Top Icon - Logo/AI */}
-          <div className="flex items-center justify-center h-16">
-            <div className="w-10 h-10 mediva-gradient rounded-xl flex items-center justify-center">
+          <div className="flex items-center justify-center h-16 border-b border-gray-100">
+            <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
               <span className="text-white font-bold text-lg">✦</span>
             </div>
           </div>
@@ -143,23 +157,33 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
                   className={cn(
                     "w-12 h-12 flex items-center justify-center transition-all duration-200 group relative rounded-xl",
                     isActive
-                      ? "text-white"
-                      : "text-white hover:text-pink-400"
+                      ? "bg-gradient-to-br from-pink-50 to-purple-50 border border-pink-200 shadow-sm"
+                      : "hover:bg-gray-50 hover:border hover:border-gray-200"
                   )}
                   title={item.name}
                 >
                   {item.isAI ? (
-                    <span className={cn("text-xl font-bold", isActive ? "text-white ai-glow" : "ai-text")}>
+                    <span className={cn(
+                      "text-xl font-bold transition-all duration-200",
+                      isActive 
+                        ? "bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent filter drop-shadow-lg animate-pulse"
+                        : "bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent opacity-70 hover:opacity-100 hover:filter hover:drop-shadow-md"
+                    )}>
                       ✦
                     </span>
                   ) : Icon ? (
-                    <Icon className={cn("w-6 h-6", isActive ? "text-white ai-glow" : "")} />
+                    <Icon className={cn(
+                      "w-6 h-6 transition-all duration-200",
+                      isActive 
+                        ? "text-purple-600 filter drop-shadow-sm"
+                        : "text-gray-500 group-hover:text-purple-600 group-hover:filter group-hover:drop-shadow-sm"
+                    )} />
                   ) : null}
                   
-                  {/* Tooltip */}
-                  <div className="absolute left-full ml-3 px-3 py-2 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-700" style={{ backgroundColor: '#1f1f1f' }}>
+                  {/* Enhanced Tooltip */}
+                  <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
                     {item.name}
-                    <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-700 transform -translate-y-1/2 -translate-x-full"></div>
+                    <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
                   </div>
                 </Link>
               );
@@ -167,45 +191,45 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
           </nav>
 
           {/* Bottom Icons */}
-          <div className="flex flex-col items-center py-4 space-y-2 border-t border-gray-800">
+          <div className="flex flex-col items-center py-4 space-y-2 border-t border-gray-100">
             {/* Settings */}
             <button
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-white hover:text-pink-400 transition-all duration-200 group relative"
+              className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-gray-50 transition-all duration-200 group relative"
               title="Settings"
             >
-              <CogIcon className="w-6 h-6" />
-              <div className="absolute left-full ml-3 px-3 py-2 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-700" style={{ backgroundColor: '#1f1f1f' }}>
+              <CogIcon className="w-6 h-6 group-hover:filter group-hover:drop-shadow-sm" />
+              <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
                 Settings
-                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-700 transform -translate-y-1/2 -translate-x-full"></div>
+                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
               </div>
             </button>
 
             {/* Help */}
             <button
-              className="w-12 h-12 rounded-xl flex items-center justify-center text-white hover:text-pink-400 transition-all duration-200 group relative"
+              className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-gray-50 transition-all duration-200 group relative"
               title="Help"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 group-hover:filter group-hover:drop-shadow-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <div className="absolute left-full ml-3 px-3 py-2 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-700" style={{ backgroundColor: '#1f1f1f' }}>
+              <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
                 Help
-                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-700 transform -translate-y-1/2 -translate-x-full"></div>
+                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
               </div>
             </button>
 
             {/* User Profile */}
             <button
               onClick={signOut}
-              className="w-12 h-12 rounded-xl mediva-gradient flex items-center justify-center group relative"
+              className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 flex items-center justify-center group relative shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
               title={`${user.full_name} - Sign out`}
             >
               <span className="text-sm font-medium text-white">
                 {user.full_name?.charAt(0) || 'U'}
               </span>
-              <div className="absolute left-full ml-3 px-3 py-2 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-700" style={{ backgroundColor: '#1f1f1f' }}>
+              <div className="absolute left-full ml-3 px-3 py-2 bg-white text-gray-900 text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 border border-gray-200 shadow-lg">
                 Sign out
-                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-700 transform -translate-y-1/2 -translate-x-full"></div>
+                <div className="absolute top-1/2 left-0 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-white transform -translate-y-1/2 -translate-x-full"></div>
               </div>
             </button>
           </div>
@@ -215,8 +239,7 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
       {/* Mobile menu button */}
       <button
         onClick={() => setSidebarOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl text-white border border-gray-800 flex items-center justify-center"
-        style={{ backgroundColor: '#1f1f1f' }}
+        className="lg:hidden fixed top-4 left-4 z-40 w-12 h-12 rounded-xl bg-white text-gray-600 border border-gray-200 flex items-center justify-center shadow-lg hover:shadow-xl hover:text-purple-600 transition-all duration-200"
       >
         <Bars3Icon className="w-6 h-6" />
       </button>
