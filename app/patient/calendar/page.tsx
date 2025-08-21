@@ -20,6 +20,7 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   EyeIcon,
+  BoltIcon,
 } from '@heroicons/react/24/outline';
 
 interface CalendarEvent {
@@ -47,16 +48,16 @@ interface MedicationSchedule {
 }
 
 const eventColors = {
-  appointment: 'bg-blue-500/20 border-blue-500/50 text-blue-300',
-  medication: 'bg-green-500/20 border-green-500/50 text-green-300',
-  assessment: 'bg-purple-500/20 border-purple-500/50 text-purple-300',
-  reminder: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300',
+  appointment: 'bg-blue-100 border-blue-300 text-blue-700',
+  medication: 'bg-green-100 border-green-300 text-green-700',
+  assessment: 'bg-purple-100 border-purple-300 text-purple-700',
+  reminder: 'bg-yellow-100 border-yellow-300 text-yellow-700',
 };
 
 const viewTypes = [
-  { id: 'month', label: 'Month', icon: '📅' },
-  { id: 'week', label: 'Week', icon: '📊' },
-  { id: 'day', label: 'Day', icon: '🗓️' },
+  { id: 'month', label: 'Month', icon: CalendarIcon, color: 'text-purple-500' },
+  { id: 'week', label: 'Week', icon: ClockIcon, color: 'text-blue-500' },
+  { id: 'day', label: 'Day', icon: DocumentTextIcon, color: 'text-green-500' },
 ];
 
 export default function PatientCalendar() {
@@ -244,10 +245,10 @@ export default function PatientCalendar() {
     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     return (
-      <div className="card p-6">
+      <div className="card-white p-6">
         <div className="grid grid-cols-7 gap-2 mb-4">
           {weekDays.map(day => (
-            <div key={day} className="text-center py-3 text-sm font-semibold text-gray-400 mono-text">
+            <div key={day} className="text-center py-3 text-sm font-semibold text-gray-600 mono-text">
               {day}
             </div>
           ))}
@@ -268,15 +269,15 @@ export default function PatientCalendar() {
                 key={day.toISOString()}
                 className={`h-24 p-2 rounded-xl border-2 transition-all duration-200 cursor-pointer hover:shadow-lg ${
                   isTodayDate 
-                    ? 'border-pink-500/50 bg-pink-500/10' 
+                    ? 'border-pink-300 bg-pink-50' 
                     : isSelectedDate
-                    ? 'border-blue-500/50 bg-blue-500/10'
-                    : 'border-gray-700/30 hover:border-gray-600/50'
+                    ? 'border-blue-300 bg-blue-50'
+                    : 'border-gray-200 hover:border-gray-300 hover:shadow-md'
                 }`}
                 onClick={() => setSelectedDate(day)}
               >
                 <div className={`text-sm font-semibold mb-1 ${
-                  isTodayDate ? 'text-pink-400' : isSelectedDate ? 'text-blue-400' : 'text-white'
+                  isTodayDate ? 'text-pink-600' : isSelectedDate ? 'text-blue-600' : 'text-gray-700'
                 }`}>
                   {day.getDate()}
                 </div>
@@ -291,7 +292,7 @@ export default function PatientCalendar() {
                     </div>
                   ))}
                   {dayEvents.length > 2 && (
-                    <div className="text-xs text-gray-400 mono-text">
+                    <div className="text-xs text-gray-500 mono-text">
                       +{dayEvents.length - 2} more
                     </div>
                   )}
@@ -309,13 +310,13 @@ export default function PatientCalendar() {
     const hours = Array.from({ length: 24 }, (_, i) => i);
 
     return (
-      <div className="card p-6">
+      <div className="card-white p-6">
         <div className="grid grid-cols-8 gap-2">
           {/* Time column */}
           <div className="space-y-12">
             <div className="h-12"></div>
             {hours.map(hour => (
-              <div key={hour} className="h-12 text-xs text-gray-400 mono-text">
+              <div key={hour} className="h-12 text-xs text-gray-500 mono-text">
                 {hour.toString().padStart(2, '0')}:00
               </div>
             ))}
@@ -329,7 +330,7 @@ export default function PatientCalendar() {
             return (
               <div key={day.toISOString()} className="space-y-1">
                 <div className={`text-center p-3 rounded-xl ${
-                  isTodayDate ? 'bg-pink-500/20 text-pink-400' : 'text-gray-300'
+                  isTodayDate ? 'bg-pink-50 text-pink-600 border border-pink-200' : 'text-gray-600'
                 }`}>
                   <div className="text-xs mono-text">
                     {day.toLocaleDateString('en', { weekday: 'short' })}
@@ -369,8 +370,8 @@ export default function PatientCalendar() {
     return (
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Day Schedule */}
-        <div className="lg:col-span-2 card p-6">
-          <h3 className="heading-small text-white mb-6">
+        <div className="lg:col-span-2 card-white p-6">
+          <h3 className="heading-small text-gray-900 mb-6">
             {formatDate(selectedDate)}
           </h3>
           
@@ -382,7 +383,7 @@ export default function PatientCalendar() {
               
               return (
                 <div key={hour} className="flex items-start space-x-4 min-h-[48px]">
-                  <div className="w-16 text-sm text-gray-400 mono-text mt-2">
+                  <div className="w-16 text-sm text-gray-500 mono-text mt-2">
                     {hour.toString().padStart(2, '0')}:00
                   </div>
                   <div className="flex-1 space-y-2">
@@ -411,26 +412,26 @@ export default function PatientCalendar() {
         </div>
 
         {/* Medication Schedule */}
-        <div className="card p-6">
-          <h3 className="heading-small text-white mb-6">Today's Medications</h3>
+        <div className="card-white p-6">
+          <h3 className="heading-small text-gray-900 mb-6">Today's Medications</h3>
           
           <div className="space-y-4">
             {medicationSchedule.map(med => (
-              <div key={med.id} className="p-4 glass rounded-xl">
+              <div key={med.id} className="p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="flex items-center justify-between mb-3">
-                  <h4 className="font-semibold text-white">{med.name}</h4>
-                  <span className="text-sm text-gray-400 mono-text">{med.dosage}</span>
+                  <h4 className="font-semibold text-gray-900">{med.name}</h4>
+                  <span className="text-sm text-gray-600 mono-text">{med.dosage}</span>
                 </div>
                 
                 <div className="space-y-2">
                   {med.times.map((time, index) => (
                     <div key={time} className="flex items-center justify-between">
-                      <span className="text-sm text-gray-300 mono-text">{time}</span>
+                      <span className="text-sm text-gray-600 mono-text">{time}</span>
                       <button
                         className={`w-6 h-6 rounded-full border-2 transition-colors ${
                           med.taken[index]
                             ? 'bg-green-500 border-green-500'
-                            : 'border-gray-500 hover:border-green-400'
+                            : 'border-gray-400 hover:border-green-400'
                         }`}
                       >
                         {med.taken[index] && (
@@ -450,56 +451,57 @@ export default function PatientCalendar() {
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6 bg-mesh min-h-screen animate-fade-in">
+      <div className="p-6 space-y-6 bg-white min-h-screen animate-fade-in">
         <div className="animate-pulse">
-          <div className="h-8 dark-elevated rounded w-1/3 mb-6"></div>
-          <div className="h-96 dark-elevated rounded-xl"></div>
+          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-96 bg-gray-200 rounded-xl"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 space-y-8 bg-mesh min-h-screen">
-      {/* Header */}
+    <div className="p-6 space-y-8 bg-gradient-light min-h-screen">
+      {/* Enhanced Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between animate-slide-up">
         <div>
-          <h1 className="heading-large text-white mb-2">Calendar</h1>
-          <p className="body-large">Manage appointments, medications, and health activities</p>
+          <h1 className="heading-large text-gray-900 mb-2">Calendar</h1>
+          <p className="body-large text-gray-600">Manage appointments, medications, and health activities</p>
         </div>
         
         <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-          <Link href="/patient/ai-chat" className="btn-outline">
-            <SparklesIcon className="w-5 h-5 mr-2" />
+          <Link href="/patient/ai-chat" className="btn-outline flex items-center">
+            <SparklesIcon className="w-5 h-5 mr-2 text-purple-500" />
             Ask AI
           </Link>
-          <Link href="/patient/appointments/book" className="btn-primary">
+          <Link href="/patient/appointments/book" className="btn-primary flex items-center">
             <PlusIcon className="w-5 h-5 mr-2" />
             Book Appointment
           </Link>
         </div>
       </div>
 
-      {/* Calendar Controls */}
+      {/* Enhanced Calendar Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 animate-slide-up">
-        {/* View Type Selector */}
+        {/* Enhanced View Type Selector with Colored Icons */}
         <div className="flex items-center space-x-2">
           {viewTypes.map(type => (
             <button
               key={type.id}
               onClick={() => setViewType(type.id)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 flex items-center space-x-2 ${
                 viewType === type.id
-                  ? 'mediva-gradient text-white'
-                  : 'glass text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white shadow-lg'
+                  : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
               }`}
             >
-              {type.icon} {type.label}
+              <type.icon className={`w-4 h-4 ${viewType === type.id ? 'text-white' : type.color}`} />
+              <span>{type.label}</span>
             </button>
           ))}
         </div>
 
-        {/* Navigation */}
+        {/* Enhanced Navigation */}
         <div className="flex items-center space-x-4">
           <button
             onClick={() => {
@@ -507,12 +509,12 @@ export default function PatientCalendar() {
               else if (viewType === 'week') navigateWeek('prev');
               else navigateDay('prev');
             }}
-            className="btn-ghost p-2"
+            className="p-3 rounded-xl bg-white border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all duration-200"
           >
             <ChevronLeftIcon className="w-5 h-5" />
           </button>
           
-          <h2 className="heading-small text-white min-w-[200px] text-center">
+          <h2 className="heading-small text-gray-900 min-w-[200px] text-center">
             {viewType === 'month' && formatMonthYear(currentDate)}
             {viewType === 'week' && `Week of ${currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
             {viewType === 'day' && formatDate(selectedDate)}
@@ -524,20 +526,20 @@ export default function PatientCalendar() {
               else if (viewType === 'week') navigateWeek('next');
               else navigateDay('next');
             }}
-            className="btn-ghost p-2"
+            className="p-3 rounded-xl bg-white border border-gray-200 text-gray-600 hover:text-purple-600 hover:border-purple-200 transition-all duration-200"
           >
             <ChevronRightIcon className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Today Button */}
+        {/* Enhanced Today Button */}
         <button
           onClick={() => {
             const today = new Date();
             setCurrentDate(today);
             setSelectedDate(today);
           }}
-          className="btn-secondary px-4 py-2"
+          className="btn-secondary px-4 py-3"
         >
           Today
         </button>
@@ -550,51 +552,65 @@ export default function PatientCalendar() {
         {viewType === 'day' && renderDayView()}
       </div>
 
-      {/* Event Legend */}
-      <div className="card p-6 animate-slide-up">
-        <h3 className="heading-small text-white mb-4">Event Types</h3>
+      {/* Enhanced Event Legend */}
+      <div className="card-white p-6 animate-slide-up">
+        <h3 className="heading-small text-gray-900 mb-4 flex items-center">
+          <EyeIcon className="w-5 h-5 mr-2 text-gray-500" />
+          Event Types
+        </h3>
         <div className="flex flex-wrap gap-4">
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-blue-500/20 border border-blue-500/50 rounded"></div>
-            <span className="text-sm text-gray-300">Appointments</span>
+            <CalendarIcon className="w-4 h-4 text-blue-500" />
+            <span className="text-sm text-gray-700">Appointments</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-green-500/20 border border-green-500/50 rounded"></div>
-            <span className="text-sm text-gray-300">Medications</span>
+            <CubeIcon className="w-4 h-4 text-green-500" />
+            <span className="text-sm text-gray-700">Medications</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-purple-500/20 border border-purple-500/50 rounded"></div>
-            <span className="text-sm text-gray-300">Assessments</span>
+            <DocumentTextIcon className="w-4 h-4 text-purple-500" />
+            <span className="text-sm text-gray-700">Assessments</span>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 bg-yellow-500/20 border border-yellow-500/50 rounded"></div>
-            <span className="text-sm text-gray-300">Reminders</span>
+            <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500" />
+            <span className="text-sm text-gray-700">Reminders</span>
           </div>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="card p-6 animate-slide-up">
-        <h3 className="heading-small text-white mb-4">Quick Actions</h3>
+      {/* Enhanced Quick Actions with Colored Icons */}
+      <div className="card-white p-6 animate-slide-up">
+        <h3 className="heading-small text-gray-900 mb-4 flex items-center">
+          <BoltIcon className="w-5 h-5 mr-2 text-purple-500" />
+          Quick Actions
+        </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Link href="/patient/appointments/book" className="card-interactive p-4 text-center">
-            <CalendarIcon className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-white">Book Appointment</p>
+          <Link href="/patient/appointments/book" className="card-white-interactive p-4 text-center group">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200">
+              <CalendarIcon className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Book Appointment</p>
           </Link>
           
-          <Link href="/patient/medications" className="card-interactive p-4 text-center">
-            <CubeIcon className="w-8 h-8 text-green-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-white">Manage Medications</p>
+          <Link href="/patient/medications" className="card-white-interactive p-4 text-center group">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200">
+              <CubeIcon className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Manage Medications</p>
           </Link>
           
-          <Link href="/patient/assessments" className="card-interactive p-4 text-center">
-            <DocumentTextIcon className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-white">Take Assessment</p>
+          <Link href="/patient/assessments" className="card-white-interactive p-4 text-center group">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-purple-500 to-violet-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200">
+              <DocumentTextIcon className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Take Assessment</p>
           </Link>
           
-          <button className="card-interactive p-4 text-center">
-            <HeartIcon className="w-8 h-8 text-red-400 mx-auto mb-2" />
-            <p className="text-sm font-medium text-white">Log Symptoms</p>
+          <button className="card-white-interactive p-4 text-center group">
+            <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200">
+              <HeartIcon className="w-6 h-6 text-white" />
+            </div>
+            <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Log Symptoms</p>
           </button>
         </div>
       </div>

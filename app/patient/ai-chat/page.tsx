@@ -37,6 +37,7 @@ const chatModes = [
     icon: HeartIcon,
     description: 'General health questions and guidance',
     gradient: 'from-pink-500 to-rose-500',
+    iconColor: 'text-pink-500',
   },
   {
     id: 'symptom',
@@ -44,6 +45,7 @@ const chatModes = [
     icon: ExclamationTriangleIcon,
     description: 'Analyze symptoms and get triage guidance',
     gradient: 'from-red-500 to-orange-500',
+    iconColor: 'text-red-500',
   },
   {
     id: 'medication',
@@ -51,6 +53,7 @@ const chatModes = [
     icon: CubeIcon,
     description: 'Medication information and interactions',
     gradient: 'from-blue-500 to-cyan-500',
+    iconColor: 'text-blue-500',
   },
   {
     id: 'lab',
@@ -58,6 +61,7 @@ const chatModes = [
     icon: BeakerIcon,
     description: 'Help understand your lab results',
     gradient: 'from-green-500 to-emerald-500',
+    iconColor: 'text-green-500',
   },
   {
     id: 'prevention',
@@ -65,6 +69,7 @@ const chatModes = [
     icon: ShieldCheckIcon,
     description: 'Preventive health tips and screenings',
     gradient: 'from-purple-500 to-violet-500',
+    iconColor: 'text-purple-500',
   },
 ];
 
@@ -102,7 +107,7 @@ Please remember that I'm here to provide educational information and support, bu
   const [inputMessage, setInputMessage] = useState('');
   const [selectedMode, setSelectedMode] = useState('general');
   const [isTyping, setIsTyping] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Show sidebar by default
   const [chatHistory, setChatHistory] = useState([
     { id: '1', title: 'Blood pressure questions', date: '2 days ago', messages: 5 },
     { id: '2', title: 'Medication interactions', date: '1 week ago', messages: 8 },
@@ -253,9 +258,9 @@ Please remember that I'm here to provide educational information and support, bu
   };
 
   return (
-    <div className="h-screen flex bg-gradient-light relative">
-      {/* Enhanced Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 shadow-xl transform transition-transform duration-300 ease-in-out ${
+    <div className="h-screen flex bg-white relative">
+      {/* Enhanced Sidebar - Always visible on desktop */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-gray-200 shadow-xl transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
@@ -272,7 +277,7 @@ Please remember that I'm here to provide educational information and support, bu
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-2 rounded-xl hover:bg-white hover:shadow-sm transition-all duration-200 text-gray-500 hover:text-gray-700"
+              className="p-2 rounded-xl hover:bg-white hover:shadow-sm transition-all duration-200 text-gray-500 hover:text-gray-700 lg:hidden"
             >
               <XMarkIcon className="w-5 h-5" />
             </button>
@@ -289,7 +294,7 @@ Please remember that I'm here to provide educational information and support, bu
             </button>
           </div>
 
-          {/* Enhanced AI Modes */}
+          {/* Enhanced AI Modes with Colored Icons */}
           <div className="p-6 border-b border-gray-100">
             <h3 className="text-sm font-semibold text-gray-700 mb-4 flex items-center">
               <SparklesIcon className="w-4 h-4 mr-2 text-purple-500" />
@@ -346,19 +351,19 @@ Please remember that I'm here to provide educational information and support, bu
       {/* Enhanced Backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Enhanced Main chat area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col lg:ml-80">
         {/* Enhanced Chat header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white shadow-sm">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-2 rounded-xl hover:bg-gray-100 transition-all duration-200 text-gray-600 hover:text-purple-600"
+              className="p-2 rounded-xl hover:bg-gray-100 transition-all duration-200 text-gray-600 hover:text-purple-600 lg:hidden"
             >
               <Bars3Icon className="w-6 h-6" />
             </button>
@@ -383,7 +388,7 @@ Please remember that I'm here to provide educational information and support, bu
         </div>
 
         {/* Enhanced Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-subtle">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-br from-white to-gray-50">
           {messages.map((message) => (
             <div
               key={message.id}
