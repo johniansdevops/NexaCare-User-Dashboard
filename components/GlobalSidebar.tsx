@@ -56,7 +56,7 @@ export default function GlobalSidebar({ className }: GlobalSidebarProps) {
 
   // Mock user data - in real app this would come from auth context
   const user = {
-    full_name: 'John Doe',
+    full_name: 'Benaiah',
     role: 'patient'
   };
 

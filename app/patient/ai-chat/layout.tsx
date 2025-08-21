@@ -6,7 +6,7 @@ export default function AIChatLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen w-screen bg-gradient-light fixed inset-0 z-50">
+    <div className="h-screen w-screen bg-white fixed inset-0 z-30">
       {children}
     </div>
   );
